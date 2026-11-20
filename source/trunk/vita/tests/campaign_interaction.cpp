@@ -7,11 +7,11 @@ constexpr unsigned SCE_CTRL_CIRCLE=1,SCE_CTRL_CROSS=2;
 void* g_boot_log=nullptr;
 void write_boot_log(void*,const char*){}
 struct Movement{void cancel_input(){}}movement;
-struct UI{bool ready=true,campaign_road=false;bool set_campaign_page(const char*,const std::string&){return ready;}}trader_ui;
+struct UI{bool ready=true,campaign_road=false,campaign_information=false;bool set_campaign_page(const char*,const std::string&){return ready;}}trader_ui;
 struct Inventory{struct State{int equipment=1;};State state(){return {};}}inventory;
 const char*campaign_name(){return "Sidorovitch";}
 unsigned pressed=0,campaign_page=0,campaign_story=0,g_zone=0,trader_choice=0;
-bool campaign_open=false,campaign_cleared_dialog=false,campaign_focused=true,campaign_is_road=false,road_focused=false;
+bool campaign_open=false,campaign_cleared_dialog=false,campaign_focused=true,campaign_is_stash=false,campaign_is_road=false,road_focused=false;
 struct Road{unsigned flags=0;}road_encounter;
 bool any_dialog=false,menu_consumed_input=false,diagnostic_toggle=false,interact_pressed=true;
 bool farm_cleared=true,dialog_consumed_input=false,trader_dialog_open=false,trader_confirmed=false;

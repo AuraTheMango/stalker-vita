@@ -1,8 +1,10 @@
 #pragma once
 
 #include "vita_gl_program.h"
+#include "vita_campaign.h"
 #include "vita_gl_texture.h"
 #include "vita_ui_canvas.h"
+#include "vita_ui_page_cache.h"
 
 #include <array>
 #include <string>
@@ -44,8 +46,11 @@ public:
     void draw_campaign_objective()const;
     void draw_campaign_target()const;
     void draw_zone_exit(unsigned exit,bool allowed)const;
+    bool prepare_zone_confirmation();
+    void draw_zone_confirmation(unsigned destination)const;
+    void draw_stash_prompt(unsigned action)const;
     VitaGLTexture campaign_face,road_face;
-    bool campaign_road=false;
+    bool campaign_road=false,campaign_information=false;
 
     bool show_prompts=false;
     VitaGLTexture talk_art;
@@ -58,8 +63,12 @@ private:
 	void draw_panel(GLuint texture, int height, float top, float bottom, bool confirmed, bool alpha_only, float prompt_y = 456.f) const;
 	VitaUiCanvas m_canvas;
     mutable bool m_campaign_active=false;
-    std::array<GLuint,4> m_zone_prompts{};
-    GLuint m_zone_locked=0;
+    std::array<GLuint,vita_zone_exits.size()> m_zone_prompts{};
+    std::array<GLuint,3> m_stash_prompts{};
+    GLuint m_zone_locked=0,m_zone_white=0,m_zone_title=0,m_zone_choices=0;
+    std::array<GLuint,vita_zone_count> m_zone_questions{};
+    VitaUiPageCache<4> m_campaign_page_cache;
+    VitaUiPageCache<4> m_campaign_objective_cache;
     GLuint m_campaign_dialog=0,m_campaign_name=0,m_campaign_objective=0,m_campaign_prompt=0;
     GLuint m_trade_dialog=0,m_continue=0,m_leave=0,m_actor_name=0;
     std::array<GLuint,6> m_target_names{};

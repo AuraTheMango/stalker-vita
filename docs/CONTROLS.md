@@ -19,3 +19,7 @@ Inventory: Square uses/equips, Triangle drops.
 Trade: Square proposes, X withdraws, Triangle confirms.
 Options → Game contains HUD size (75–150%) and interaction hints.
 The in-game Controls tab has a control chart. Diagnostic combinations remain in this development build.
+
+
+Area transitions: tap Square at an unlocked passage to open the destination prompt, X to confirm and start loading, Circle to cancel. Movement and combat wait for the answer; held buttons cannot confirm automatically.
+Strelok's stash ladder currently uses a contextual Square interaction between verified landings.

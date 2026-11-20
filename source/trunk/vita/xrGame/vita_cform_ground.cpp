@@ -165,6 +165,36 @@ bool VitaCformGround::load(Read read, void* source, std::size_t size, float cent
         }
     };
     fill_cells(ground.m_faces,true);fill_cells(ground.m_walls,false);
+    // Conservative 3D bounds over contiguous groups retain the exact original face order.
+    // In stacked underground corridors, reject whole groups outside the player's floor.
+    const auto build_bounds=[&](bool walkable){
+        const auto&faces=walkable?ground.m_faces:ground.m_walls;
+        const auto&refs=walkable?ground.m_ground_refs:ground.m_wall_refs;
+        auto&boxes=walkable?ground.m_ground_bounds:ground.m_wall_bounds;
+        size_t total=0;
+        for(const auto&c:ground.m_cells)total+=((walkable?c.ground_count:c.wall_count)+bounds_group-1)/bounds_group;
+        boxes.reserve(total);
+        for(auto&c:ground.m_cells){
+            (walkable?c.ground_bounds:c.wall_bounds)=static_cast<uint32_t>(boxes.size());
+            const auto first=walkable?c.ground_first:c.wall_first,count=walkable?c.ground_count:c.wall_count;
+            for(uint32_t i=0;i<count;i+=bounds_group){
+                const auto&v=ground.m_vertices[faces[refs[first+i]].vertex[0]];
+                Bounds box{v,v};
+                for(uint32_t j=i;j<std::min(count,i+bounds_group);++j)for(auto id:faces[refs[first+j]].vertex){
+                    const auto&p=ground.m_vertices[id];
+                    box.minimum.x=std::min(box.minimum.x,p.x);box.maximum.x=std::max(box.maximum.x,p.x);
+                    box.minimum.y=std::min(box.minimum.y,p.y);box.maximum.y=std::max(box.maximum.y,p.y);
+                    box.minimum.z=std::min(box.minimum.z,p.z);box.maximum.z=std::max(box.maximum.z,p.z);
+                }
+                // Include barycentric edge tolerance used by height_at, including sloped faces.
+                const float pad=.001f+2e-5f*std::max({1.f,box.maximum.x-box.minimum.x,box.maximum.y-box.minimum.y,box.maximum.z-box.minimum.z});
+                box.minimum.x-=pad;box.minimum.y-=pad;box.minimum.z-=pad;
+                box.maximum.x+=pad;box.maximum.y+=pad;box.maximum.z+=pad;
+                boxes.push_back(box);
+            }
+        }
+    };
+    build_bounds(true);build_bounds(false);
 	*this = std::move(ground);
 	return true;
 }
@@ -178,8 +208,12 @@ bool VitaCformGround::height_at(float x, float z, float reference_y, float rise,
 	float closest = std::max(rise, drop);
 	bool found = false;
 	const auto& list=m_cells[row*m_columns+column];
+    const Vertex query_min{x,reference_y-drop,z},query_max{x,reference_y+rise,z};
     for(std::uint32_t entry=0;entry<list.ground_count;++entry)
     {
+        if(entry%bounds_group==0&&m_ground_bounds[list.ground_bounds+entry/bounds_group].outside(query_min,query_max)){
+            entry+=bounds_group-1;continue;
+        }
         const auto index=m_ground_refs[list.ground_first+entry];
 		const Face& face = m_faces[index];
 		const Vertex& a = m_vertices[face.vertex[0]];
@@ -350,8 +384,12 @@ bool VitaCformGround::slide_move(float x, float z, float ground_y, float& target
 			for (std::size_t column = x0; column <= x1; ++column)
 			{
 				const auto& list=m_cells[row*m_columns+column];
+                const Vertex query_min{min_x,bottom,min_z},query_max{max_x,top,max_z};
                 for(std::uint32_t entry=0;entry<list.wall_count;++entry)
                 {
+                    if(entry%bounds_group==0&&m_wall_bounds[list.wall_bounds+entry/bounds_group].outside(query_min,query_max)){
+                        entry+=bounds_group-1;continue;
+                    }
                     const auto index=m_wall_refs[list.wall_first+entry];
 					const Face& wall = m_walls[index];
 					const Vertex &a = m_vertices[wall.vertex[0]], &b = m_vertices[wall.vertex[1]], &c = m_vertices[wall.vertex[2]];
@@ -399,9 +437,13 @@ bool VitaCformGround::support_at(float x,float z,float reference_y,float rise,fl
  const auto x0=cell(x-radius,m_min_x,m_columns),x1=cell(x+radius,m_min_x,m_columns);
  const auto z0=cell(z-radius,m_min_z,m_rows),z1=cell(z+radius,m_min_z,m_rows);
  bool found=false;float best=reference_y;
+ const Vertex query_min{x-radius,reference_y-drop,z-radius},query_max{x+radius,reference_y+rise,z+radius};
  for(std::size_t row=z0;row<=z1;++row)for(std::size_t column=x0;column<=x1;++column){
   const auto&list=m_cells[row*m_columns+column];
   for(std::uint32_t entry=0;entry<list.ground_count;++entry){
+   if(entry%bounds_group==0&&m_ground_bounds[list.ground_bounds+entry/bounds_group].outside(query_min,query_max)){
+    entry+=bounds_group-1;continue;
+   }
    const auto&face=m_faces[m_ground_refs[list.ground_first+entry]];
    const Vertex&a=m_vertices[face.vertex[0]],&b=m_vertices[face.vertex[1]],&c=m_vertices[face.vertex[2]];
    if(std::max({a.x,b.x,c.x})<x-radius||std::min({a.x,b.x,c.x})>x+radius||
@@ -501,6 +543,9 @@ bool VitaCformGround::blocks_ray(const float origin[3], const float direction[3]
 	};
 	const auto end_x = origin[0] + direction[0] * length;
 	const auto end_z = origin[2] + direction[2] * length;
+    const float end_y=origin[1]+direction[1]*length;
+    const Vertex query_min{std::min(origin[0],end_x),std::min(origin[1],end_y),std::min(origin[2],end_z)};
+    const Vertex query_max{std::max(origin[0],end_x),std::max(origin[1],end_y),std::max(origin[2],end_z)};
 	const auto x0 = cell(std::min(origin[0], end_x), m_min_x, m_columns);
 	const auto z0 = cell(std::min(origin[2], end_z), m_min_z, m_rows);
 	const auto x1 = cell(std::max(origin[0], end_x), m_min_x, m_columns);
@@ -509,12 +554,19 @@ bool VitaCformGround::blocks_ray(const float origin[3], const float direction[3]
 		for (std::size_t x = x0; x <= x1; ++x)
 		{
 			const auto& cell = m_cells[z * m_columns + x];
-			for(std::uint32_t i=0;i<cell.wall_count;++i)
-				if (intersects(m_walls[m_wall_refs[cell.wall_first+i]]))
-					return true;
-			for(std::uint32_t i=0;i<cell.ground_count;++i)
-				if (intersects(m_faces[m_ground_refs[cell.ground_first+i]]))
-					return true;
+
+            for(std::uint32_t i=0;i<cell.wall_count;++i){
+                if(i%bounds_group==0&&m_wall_bounds[cell.wall_bounds+i/bounds_group].outside(query_min,query_max)){
+                    i+=bounds_group-1;continue;
+                }
+                if(intersects(m_walls[m_wall_refs[cell.wall_first+i]]))return true;
+            }
+            for(std::uint32_t i=0;i<cell.ground_count;++i){
+                if(i%bounds_group==0&&m_ground_bounds[cell.ground_bounds+i/bounds_group].outside(query_min,query_max)){
+                    i+=bounds_group-1;continue;
+                }
+                if(intersects(m_faces[m_ground_refs[cell.ground_first+i]]))return true;
+            }
 		}
 	return false;
 }
@@ -522,5 +574,6 @@ bool VitaCformGround::blocks_ray(const float origin[3], const float direction[3]
 
 std::size_t VitaCformGround::memory_bytes()const{
  return m_vertices.capacity()*sizeof(Vertex)+(m_faces.capacity()+m_walls.capacity())*sizeof(Face)+
+  (m_ground_bounds.capacity()+m_wall_bounds.capacity())*sizeof(Bounds)+
   m_cells.capacity()*sizeof(Cell)+(m_ground_refs.capacity()+m_wall_refs.capacity())*sizeof(std::uint32_t);
 }

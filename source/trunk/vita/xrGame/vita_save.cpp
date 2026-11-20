@@ -16,8 +16,10 @@
 namespace
 {
 	constexpr uint32_t magic = 0x53565453; // STVS
-	constexpr uint32_t version = 7;
-	constexpr size_t record_bytes = 18600;
+	constexpr uint32_t version = 8;
+	constexpr size_t record_bytes = 23232;
+ constexpr size_t version7_bytes=18600;
+ constexpr unsigned base_item_count=23;
  constexpr size_t version6_bytes=18532;
  constexpr size_t version5_bytes=4628;
  constexpr size_t version4_bytes=4224;
@@ -77,7 +79,7 @@ namespace
    if(state.garbage_road.health[i]>(i?2u:100u))return false;
    for(float v:state.garbage_road.position[i])if(!coordinate(v))return false;
   }
-  if(state.zone>=vita_zone_count||state.story>5||(state.story&&state.inventory.flash!=2))return false;
+  if(state.zone>=vita_zone_count||state.story>7||(state.story&&state.inventory.flash!=2))return false;
   for(const auto& memory:state.worlds)if(!memory.empty()){
    VitaSaveState decoded;uint64_t generation=0;
    if(memory.size()!=version5_bytes||!decode_record(memory,decoded,generation,true))return false;
@@ -104,7 +106,7 @@ namespace
 		VitaInventory normalized;normalized.restore(state.inventory);
  const auto item = normalized.state();
 		for (unsigned value : {item.equipment, item.equipped, item.weapon, item.loaded,
-			item.reserve, item.flash, item.selected, state.stance})
+			item.reserve, item.flash, item.selected<base_item_count?item.selected:0u, state.stance})
 			word(value);
 		real(state.endurance);
 		for (float value : state.eye) real(value);
@@ -116,15 +118,15 @@ namespace
 			for (float value : matrix) real(value);
 		for(const auto& pos:state.guard_positions)for(float value:pos)real(value);
 		for(unsigned health:state.scout_health)word(health);
-  for(unsigned n:item.items)word(n);
+  for(unsigned i=0;i<base_item_count;++i)word(item.items[i]);
   word(item.cash);word(item.outfit);word(item.food);word(item.bleeding);
   for(unsigned condition:item.outfit_conditions)word(condition);
-  for(unsigned n:state.trader.items)word(n);word(state.trader.cash);
+  for(unsigned i=0;i<base_item_count;++i)word(state.trader.items[i]);word(state.trader.cash);
   for(const auto& container:state.loot.containers)
   {
    word(container.kind);word(container.cash);
    for(float value:container.position)real(value);
-   for(unsigned n:container.items)word(n);
+   for(unsigned i=0;i<base_item_count;++i)word(container.items[i]);
   }
   word(item.primary);word(item.addons);word(item.grenade_type);
   for(unsigned n:item.primary_loaded)word(n);for(unsigned n:item.ammo_modes)word(n);
@@ -144,7 +146,7 @@ namespace
  std::vector<uint8_t> encode(const VitaSaveState& state,uint64_t generation){
   auto bytes=encode_base(state,generation);bytes.resize(version5_bytes-4);
   const auto word=[&](uint32_t n){for(unsigned shift=0;shift<32;shift+=8)bytes.push_back(uint8_t(n>>shift));};
-  bytes[4]=7;for(unsigned i=0;i<4;++i)bytes[16+i]=uint8_t(record_bytes>>(i*8));
+  bytes[4]=8;for(unsigned i=0;i<4;++i)bytes[16+i]=uint8_t(record_bytes>>(i*8));
   word(state.zone|(state.needs_landing?256u:0u));word(state.story);
   for(const auto&memory:state.worlds){
    word(memory.empty()?0:1);
@@ -158,7 +160,7 @@ namespace
  bool decode_record(const std::vector<uint8_t>& input,VitaSaveState& state,uint64_t& generation,bool memory)
  {
   const size_t count=input.size();
-  if(!(count==record_bytes||count==version6_bytes||count==version5_bytes||count==version4_bytes||count==version3_bytes||count==version2_bytes||count==legacy_bytes))return false;
+  if(!(count==record_bytes||count==version7_bytes||count==version6_bytes||count==version5_bytes||count==version4_bytes||count==version3_bytes||count==version2_bytes||count==legacy_bytes))return false;
   auto bytes=input;
 		size_t offset = 0;
 		const auto word = [&]() {
@@ -175,7 +177,7 @@ namespace
 		};
 		if (word() != magic) return false;
 		const unsigned format=word();
-		if(!((format==version&&count==record_bytes)||(format==6&&count==version6_bytes)||(format==5&&count==version5_bytes)||(format==4&&count==version4_bytes)||(format==3&&count==version3_bytes)||(format==2&&count==version2_bytes)||(format==1&&count==legacy_bytes)))return false;
+		if(!((format==version&&count==record_bytes)||(format==7&&count==version7_bytes)||(format==6&&count==version6_bytes)||(format==5&&count==version5_bytes)||(format==4&&count==version4_bytes)||(format==3&&count==version3_bytes)||(format==2&&count==version2_bytes)||(format==1&&count==legacy_bytes)))return false;
 		if(memory&&format!=5)return false;
         const uint64_t low = word(), high = word();
 		generation = low | (high << 32);
@@ -201,16 +203,16 @@ namespace
   item.extended=0;
   if(format>=3)
   {
-   item.items={};for(unsigned i=0;i<(format==3?12:vita_item_count);++i)item.items[i]=word();
+   item.items={};for(unsigned i=0;i<(format==3?12:base_item_count);++i)item.items[i]=word();
    item.cash=word();item.outfit=word();item.food=word();item.bleeding=word();
    for(auto& condition:item.outfit_conditions)condition=word();
    item.extended=1;
-   state.trader.items=VitaTraderStock{}.items;for(unsigned i=0;i<(format==3?12:vita_item_count);++i)state.trader.items[i]=word();state.trader.cash=word();
+   state.trader.items=VitaTraderStock{}.items;for(unsigned i=0;i<(format==3?12:base_item_count);++i)state.trader.items[i]=word();state.trader.cash=word();
    for(auto& container:state.loot.containers)
    {
     container.kind=word();container.cash=word();
     for(float& value:container.position)value=real();
-    for(unsigned i=0;i<(format==3?12:vita_item_count);++i)container.items[i]=word();
+    for(unsigned i=0;i<(format==3?12:base_item_count);++i)container.items[i]=word();
    }
   }
   item.primary=item.addons=item.grenade_type=0;item.primary_loaded={};item.ammo_modes={};
@@ -234,7 +236,8 @@ namespace
   if(format>=6){
    const unsigned zone=word();if(zone&~0x1ffu)return false;
    state.zone=zone&255;state.needs_landing=zone&256;state.story=word();
-   for(auto&snapshot:state.worlds){
+   for(unsigned i=0;i<(format>=8?vita_zone_count:3u);++i){
+    auto&snapshot=state.worlds[i];
     const unsigned present=word();if(present>1)return false;
     if(present)snapshot.assign(bytes.begin()+offset,bytes.begin()+offset+version5_bytes);
     else if(std::any_of(bytes.begin()+offset,bytes.begin()+offset+version5_bytes,[](uint8_t b){return b!=0;}))return false;
@@ -243,6 +246,7 @@ namespace
   }
   state.garbage_road={};
   if(format>=7){state.garbage_road.flags=word();for(unsigned i=0;i<4;++i){state.garbage_road.health[i]=word();for(float&f:state.garbage_road.position[i])f=real();}}
+  if(format>=8)item.items[23]=state.story>=7?1:0;
   if(offset+4!=count)return false;
   const uint32_t expected = word();
 		bytes.resize(count - 4);
@@ -385,6 +389,7 @@ bool change_vita_zone(const VitaSaveState& source,const VitaZoneExit& exit,VitaS
   if(exit.to==0)return false; // Cordon is always visited before the other maps.
   next.flags=SaveSurface|SaveDoorUnlocked|SaveDoorOpen|SaveTraderConfirmed|SaveWolfMission|
    SaveScoutMet|SaveGroup|SaveScoutsArrived|SaveTraderIntro;
+  if(exit.to==3){next.flags&=~SaveGroup;next.scout_health.fill(0);}
   next.guards.fill(2);next.npc_positions=true;
   next.guard_positions=vita_campaign_zones[exit.to].enemies;
   for(unsigned i=0;i<3;++i){

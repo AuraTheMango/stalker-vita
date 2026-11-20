@@ -64,7 +64,7 @@ int main(int argc,char**argv){
  VitaSaveState back;assert(change_vita_zone(agro,vita_zone_exits[3],back)&&back.zone==1&&back.guards[0]==0);
  VitaSaveState home;assert(change_vita_zone(back,vita_zone_exits[1],home)&&home.zone==0&&home.guards[0]==0);
  assert(home.loot.containers[0].kind==1&&home.loot.containers[0].cash==0&&home.trader.cash==12345);
- auto record=encode(home,1);assert(record.size()==18600);
+ auto record=encode(home,1);assert(record.size()==23232);
  auto old=encode_base(cordon,1);VitaSaveState legacy;uint64_t gen=0;
  assert(decode_record(old,legacy,gen)&&legacy.zone==0&&legacy.story==0&&legacy.worlds[0].empty());
  // Nested worlds cannot be corrupt or contain recursive v6 records.

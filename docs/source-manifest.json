@@ -6,8 +6,8 @@
   },
   {
     "path": "source/trunk/vita/tests/README.md",
-    "source_sha256": "dd0fd17719ecce8d0d1816d161ee549ac27cec173953fc2a5f8e750b69221995",
-    "export_sha256": "dd0fd17719ecce8d0d1816d161ee549ac27cec173953fc2a5f8e750b69221995"
+    "source_sha256": "62ec37a6aba19bfa2f5306f860352f74fdbd4267d42143b90eb9e54e90e015cf",
+    "export_sha256": "62ec37a6aba19bfa2f5306f860352f74fdbd4267d42143b90eb9e54e90e015cf"
   },
   {
     "path": "source/trunk/vita/tests/assault_advance.cpp",
@@ -46,8 +46,8 @@
   },
   {
     "path": "source/trunk/vita/tests/campaign.cpp",
-    "source_sha256": "f5212a372ac3e61b461982081dac936a7a6f09fb0b85e25dbac8568b49e71d7c",
-    "export_sha256": "f5212a372ac3e61b461982081dac936a7a6f09fb0b85e25dbac8568b49e71d7c"
+    "source_sha256": "7685a5b8ddfda1baf1115d05c288ff7816e9dc3707898a44ae103bd74cd8c982",
+    "export_sha256": "7685a5b8ddfda1baf1115d05c288ff7816e9dc3707898a44ae103bd74cd8c982"
   },
   {
     "path": "source/trunk/vita/tests/campaign_assets.py",
@@ -61,8 +61,8 @@
   },
   {
     "path": "source/trunk/vita/tests/campaign_interaction.cpp",
-    "source_sha256": "0ecfe7f0fa9764c1f660873e18b4addb1e95878ba32446f6ac4e19a4adc7ab8a",
-    "export_sha256": "0ecfe7f0fa9764c1f660873e18b4addb1e95878ba32446f6ac4e19a4adc7ab8a"
+    "source_sha256": "6933c1128daff8ffbfb91c410760c32adf09e700ee4226bba062e939abe4c159",
+    "export_sha256": "6933c1128daff8ffbfb91c410760c32adf09e700ee4226bba062e939abe4c159"
   },
   {
     "path": "source/trunk/vita/tests/campaign_maps.cpp",
@@ -73,6 +73,11 @@
     "path": "source/trunk/vita/tests/campaign_models.cpp",
     "source_sha256": "31d53abc5853d194b474d11e3520918d8ceb5494177992bc72bf2dd0868a35b9",
     "export_sha256": "31d53abc5853d194b474d11e3520918d8ceb5494177992bc72bf2dd0868a35b9"
+  },
+  {
+    "path": "source/trunk/vita/tests/campaign_ui_cache.cpp",
+    "source_sha256": "4f57dfb5c4223629c12a90c1a49a1dcb7c2d4f5c1e89b644985333b92f6cb6b0",
+    "export_sha256": "4f57dfb5c4223629c12a90c1a49a1dcb7c2d4f5c1e89b644985333b92f6cb6b0"
   },
   {
     "path": "source/trunk/vita/tests/collision_storage.cpp",
@@ -86,8 +91,8 @@
   },
   {
     "path": "source/trunk/vita/tests/dialogue_ui.cpp",
-    "source_sha256": "984462ed3af02c57ba4c979908d51f2596395938ba462c90df953c70ec9c9da4",
-    "export_sha256": "984462ed3af02c57ba4c979908d51f2596395938ba462c90df953c70ec9c9da4"
+    "source_sha256": "0e2d3d04538f4a9ad753ca914e9dd045bf4995b1d80c0f266548915220308f88",
+    "export_sha256": "0e2d3d04538f4a9ad753ca914e9dd045bf4995b1d80c0f266548915220308f88"
   },
   {
     "path": "source/trunk/vita/tests/economy.cpp",
@@ -101,8 +106,8 @@
   },
   {
     "path": "source/trunk/vita/tests/gameplay.cpp",
-    "source_sha256": "c8183cd6cad3bbdd85823fdcb885d9c8d93fdd068654441208645ce100d2cbbc",
-    "export_sha256": "c8183cd6cad3bbdd85823fdcb885d9c8d93fdd068654441208645ce100d2cbbc"
+    "source_sha256": "d2045e23a85119cb1588f95498706d298b47120ad38ad2e7be2295dc5ae49832",
+    "export_sha256": "d2045e23a85119cb1588f95498706d298b47120ad38ad2e7be2295dc5ae49832"
   },
   {
     "path": "source/trunk/vita/tests/garbage_road.cpp",
@@ -121,8 +126,8 @@
   },
   {
     "path": "source/trunk/vita/tests/inventory_ui.cpp",
-    "source_sha256": "da07115d3ab8a00007f06fac754371f15c470e03fa50c3b401a14004c321c204",
-    "export_sha256": "da07115d3ab8a00007f06fac754371f15c470e03fa50c3b401a14004c321c204"
+    "source_sha256": "9a518468efce01f729b3035d9c81c40288f3bd8a22b2138c09cc1a0be7e0073c",
+    "export_sha256": "9a518468efce01f729b3035d9c81c40288f3bd8a22b2138c09cc1a0be7e0073c"
   },
   {
     "path": "source/trunk/vita/tests/item_crops.cpp",
@@ -145,9 +150,19 @@
     "export_sha256": "7ad2aae388e19ea334c57ff4ec7e836108734809fa869524baab1055643a78bd"
   },
   {
+    "path": "source/trunk/vita/tests/pause_cache.cpp",
+    "source_sha256": "11f1466ff22380eda4b14093e814af631ef3626099a89a525d129976c0309022",
+    "export_sha256": "11f1466ff22380eda4b14093e814af631ef3626099a89a525d129976c0309022"
+  },
+  {
     "path": "source/trunk/vita/tests/player_weapons.cpp",
     "source_sha256": "8879e309d3193193d3e9f7846645fbf4410347ab1846cd853f210b9620893b30",
     "export_sha256": "8879e309d3193193d3e9f7846645fbf4410347ab1846cd853f210b9620893b30"
+  },
+  {
+    "path": "source/trunk/vita/tests/prepare_campaign_cache_fixture.py",
+    "source_sha256": "2a10e2756a5ffa07714a913b1baedc3b9d179ae68d41e5de7bbbcb6240ce9962",
+    "export_sha256": "2a10e2756a5ffa07714a913b1baedc3b9d179ae68d41e5de7bbbcb6240ce9962"
   },
   {
     "path": "source/trunk/vita/tests/prepare_campaign_fixture.py",
@@ -180,9 +195,24 @@
     "export_sha256": "e7b3f8bbb8aaebc178afe00d571438999bd73923d4cd3fc33b6509fc5d339f17"
   },
   {
+    "path": "source/trunk/vita/tests/prepare_save_browser_fixture.py",
+    "source_sha256": "23277a15acb7edad5bc889848948f5e5535f2a78bfb66b7efc5c90fb06518e0b",
+    "export_sha256": "23277a15acb7edad5bc889848948f5e5535f2a78bfb66b7efc5c90fb06518e0b"
+  },
+  {
     "path": "source/trunk/vita/tests/prepare_save_fixture.py",
     "source_sha256": "57ccb5b1144f4b8ba1fbad2020fb435fe53be8dd03761dad0dda45bf809bad0a",
     "export_sha256": "57ccb5b1144f4b8ba1fbad2020fb435fe53be8dd03761dad0dda45bf809bad0a"
+  },
+  {
+    "path": "source/trunk/vita/tests/prepare_zone_confirmation_fixture.py",
+    "source_sha256": "67248ecc6972a46db9cd674b9e62e4b09fecc9d9ee61d433c59d082a4a59a512",
+    "export_sha256": "67248ecc6972a46db9cd674b9e62e4b09fecc9d9ee61d433c59d082a4a59a512"
+  },
+  {
+    "path": "source/trunk/vita/tests/save_browser.cpp",
+    "source_sha256": "d45ff4d7be9e7c968caefa815b0d6f5884a53df002ed3c4d0da1b023a67da1c5",
+    "export_sha256": "d45ff4d7be9e7c968caefa815b0d6f5884a53df002ed3c4d0da1b023a67da1c5"
   },
   {
     "path": "source/trunk/vita/tests/save_migration19.cpp",
@@ -218,6 +248,21 @@
     "path": "source/trunk/vita/tests/stairs.cpp",
     "source_sha256": "018525275b96b8fec2b791121dfbe7123f177c62d88269150bfd6ce2cd9eba62",
     "export_sha256": "018525275b96b8fec2b791121dfbe7123f177c62d88269150bfd6ce2cd9eba62"
+  },
+  {
+    "path": "source/trunk/vita/tests/strelok.cpp",
+    "source_sha256": "445abaaeaec71993a1fbad4b04aae4260278a16bb427707af2c6d7f78cdb5822",
+    "export_sha256": "445abaaeaec71993a1fbad4b04aae4260278a16bb427707af2c6d7f78cdb5822"
+  },
+  {
+    "path": "source/trunk/vita/tests/zone_confirmation.cpp",
+    "source_sha256": "b873943504bfb2b18424b9f3f8fdd734cc71534beaccfe61aac9126cc1c02495",
+    "export_sha256": "b873943504bfb2b18424b9f3f8fdd734cc71534beaccfe61aac9126cc1c02495"
+  },
+  {
+    "path": "source/trunk/vita/tests/zone_confirmation_ui.cpp",
+    "source_sha256": "87272bb4b909cf99192d2614216d5fb907dc3a5a3dcf5652d13f559b3424fb96",
+    "export_sha256": "87272bb4b909cf99192d2614216d5fb907dc3a5a3dcf5652d13f559b3424fb96"
   },
   {
     "path": "source/trunk/vita/tests/zone_textures.cpp",
@@ -326,13 +371,13 @@
   },
   {
     "path": "source/trunk/vita/xrGame/CMakeLists.txt",
-    "source_sha256": "693a63a334994e8539cf8a46f3443d62385e8077167279b9820ae4cb38a387e4",
-    "export_sha256": "097123739002ee4f21229bbf263a1089fd89d7129ea316ffed64ef2c6f391679"
+    "source_sha256": "19e2abbe9ab182dce8b823380176711ee0036c58eadcb079ee990a2692414a2a",
+    "export_sha256": "0fb7d2e9b271ff31ffebb6e160f78fd907fc54632e1eb36d9f65ba771b455344"
   },
   {
     "path": "source/trunk/vita/xrGame/main.cpp",
-    "source_sha256": "7bbf1bdd165f042f8f1b792fdc935ba09f876f1ca8f6cbe415b4c051ffa42455",
-    "export_sha256": "7bbf1bdd165f042f8f1b792fdc935ba09f876f1ca8f6cbe415b4c051ffa42455"
+    "source_sha256": "fe81c5b5666f4ed87e19ef12e5f4d5c1de15d75ef4153c5fe27e8da02a7ecf52",
+    "export_sha256": "fe81c5b5666f4ed87e19ef12e5f4d5c1de15d75ef4153c5fe27e8da02a7ecf52"
   },
   {
     "path": "source/trunk/vita/xrGame/sce_sys/livearea/contents/template.xml",
@@ -356,23 +401,23 @@
   },
   {
     "path": "source/trunk/vita/xrGame/vita_campaign.h",
-    "source_sha256": "06d64fd4d1eeaa5a0323a34f49e36e0a6677dcb881b9c3068b1f22e9b4a61ae6",
-    "export_sha256": "06d64fd4d1eeaa5a0323a34f49e36e0a6677dcb881b9c3068b1f22e9b4a61ae6"
+    "source_sha256": "832806a6dd4310630975c6820aa18d66bdbb87e8e4b5fb46ae9d3a80db0e27a8",
+    "export_sha256": "832806a6dd4310630975c6820aa18d66bdbb87e8e4b5fb46ae9d3a80db0e27a8"
   },
   {
     "path": "source/trunk/vita/xrGame/vita_campaign_dialogue.h",
-    "source_sha256": "053a6e8ed1b74fb27785ad4388139f089880da5541af74a5744e2888822a302d",
-    "export_sha256": "053a6e8ed1b74fb27785ad4388139f089880da5541af74a5744e2888822a302d"
+    "source_sha256": "d6461d84b71aeb4aae86c09efa6f458e7554160bc99ab8eec1a00498ea4ee8b0",
+    "export_sha256": "d6461d84b71aeb4aae86c09efa6f458e7554160bc99ab8eec1a00498ea4ee8b0"
   },
   {
     "path": "source/trunk/vita/xrGame/vita_cform_ground.cpp",
-    "source_sha256": "6e2502f45f95c1e7ff6d69b6c0180e9d111c3f5172a66a6aa4bb87ba9822859f",
-    "export_sha256": "6e2502f45f95c1e7ff6d69b6c0180e9d111c3f5172a66a6aa4bb87ba9822859f"
+    "source_sha256": "068590ecfdddaf3ad3d725c40bf1f4ffc3409387b575b97dab2c8f9d5f97e984",
+    "export_sha256": "068590ecfdddaf3ad3d725c40bf1f4ffc3409387b575b97dab2c8f9d5f97e984"
   },
   {
     "path": "source/trunk/vita/xrGame/vita_cform_ground.h",
-    "source_sha256": "689b17c42cd5d349a293d68a7745f7902e5afe99026313310b393ff2565e4fab",
-    "export_sha256": "689b17c42cd5d349a293d68a7745f7902e5afe99026313310b393ff2565e4fab"
+    "source_sha256": "6d4ce0e4ba5b377fc4a702a213ce9e5909c24d1eeb0c71bcf744b1d99b11ee3b",
+    "export_sha256": "6d4ce0e4ba5b377fc4a702a213ce9e5909c24d1eeb0c71bcf744b1d99b11ee3b"
   },
   {
     "path": "source/trunk/vita/xrGame/vita_game_audio.cpp",
@@ -416,8 +461,8 @@
   },
   {
     "path": "source/trunk/vita/xrGame/vita_inventory.h",
-    "source_sha256": "489bbc37b25ed93ea1f3e1e86c69bf60284a7e099b29f10801831490e6acf688",
-    "export_sha256": "489bbc37b25ed93ea1f3e1e86c69bf60284a7e099b29f10801831490e6acf688"
+    "source_sha256": "e474a4bf9f8c52c884317d38f89f80e4ba0bc245b2c62e3321b0f01b55e3e026",
+    "export_sha256": "e474a4bf9f8c52c884317d38f89f80e4ba0bc245b2c62e3321b0f01b55e3e026"
   },
   {
     "path": "source/trunk/vita/xrGame/vita_inventory_ui.h",
@@ -426,8 +471,8 @@
   },
   {
     "path": "source/trunk/vita/xrGame/vita_item_catalog.h",
-    "source_sha256": "93ef4f2bb353dc21bd7eb5a5fd93d3e11bf579c9debc81786bcc92cb635bbed5",
-    "export_sha256": "93ef4f2bb353dc21bd7eb5a5fd93d3e11bf579c9debc81786bcc92cb635bbed5"
+    "source_sha256": "acd3fe28ed1347ef1250ec4f6348caf13013bfa451a5bfdb5b15f753357db43f",
+    "export_sha256": "acd3fe28ed1347ef1250ec4f6348caf13013bfa451a5bfdb5b15f753357db43f"
   },
   {
     "path": "source/trunk/vita/xrGame/vita_loading_screen.h",
@@ -481,18 +526,23 @@
   },
   {
     "path": "source/trunk/vita/xrGame/vita_save.cpp",
-    "source_sha256": "513c880c18233309b5f993274d76574dee4f5e92301be9968895e570dc8c2072",
-    "export_sha256": "513c880c18233309b5f993274d76574dee4f5e92301be9968895e570dc8c2072"
+    "source_sha256": "64aad2867516d1e5f946095bc595f9d653175edb842c9b4004749ffd660d935b",
+    "export_sha256": "64aad2867516d1e5f946095bc595f9d653175edb842c9b4004749ffd660d935b"
   },
   {
     "path": "source/trunk/vita/xrGame/vita_save.h",
-    "source_sha256": "55919cb399d025d81f1a54da86a68347f7f8dbddfe3b3580387a976dac1789e6",
-    "export_sha256": "55919cb399d025d81f1a54da86a68347f7f8dbddfe3b3580387a976dac1789e6"
+    "source_sha256": "9e6359b4d617923f53ee0bd39709143180eb844efc016b23f2a7685d3a10bf09",
+    "export_sha256": "9e6359b4d617923f53ee0bd39709143180eb844efc016b23f2a7685d3a10bf09"
   },
   {
     "path": "source/trunk/vita/xrGame/vita_save_ui.h",
-    "source_sha256": "c1bee9f0e5d09d8a4976206cba9b0780040ad993fdf31b8d27e18a5ad21ea17d",
-    "export_sha256": "c1bee9f0e5d09d8a4976206cba9b0780040ad993fdf31b8d27e18a5ad21ea17d"
+    "source_sha256": "33d3ad4a549c5acbf72d0c366ad4d67beff2c726b684ec05802aabaf6ffe2537",
+    "export_sha256": "33d3ad4a549c5acbf72d0c366ad4d67beff2c726b684ec05802aabaf6ffe2537"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_sce_gap.ld",
+    "source_sha256": "f3ba09908a37bb270b287574d09fd6c16ec23283baf2a611f8c646bc869922f6",
+    "export_sha256": "f3ba09908a37bb270b287574d09fd6c16ec23283baf2a611f8c646bc869922f6"
   },
   {
     "path": "source/trunk/vita/xrGame/vita_settings.h",
@@ -516,18 +566,28 @@
   },
   {
     "path": "source/trunk/vita/xrGame/vita_trader_ui.cpp",
-    "source_sha256": "35e19062854155b9cd463a10f6e35b9024b5395990de9be843848fc458acc6e6",
-    "export_sha256": "35e19062854155b9cd463a10f6e35b9024b5395990de9be843848fc458acc6e6"
+    "source_sha256": "2c37f51ac40e876166291d3139fc56c517c1d5b9d6fffc414e1701cbf180c871",
+    "export_sha256": "2c37f51ac40e876166291d3139fc56c517c1d5b9d6fffc414e1701cbf180c871"
   },
   {
     "path": "source/trunk/vita/xrGame/vita_trader_ui.h",
-    "source_sha256": "f4ebb6230116568051c89f0c8d8cf9e25c5e6f36f02899c6d9cbf3f7f36015b2",
-    "export_sha256": "f4ebb6230116568051c89f0c8d8cf9e25c5e6f36f02899c6d9cbf3f7f36015b2"
+    "source_sha256": "01bdc0bc6b861d1d1f01540f63c0d359974098ebbabd9023ea76759ce96c22a5",
+    "export_sha256": "01bdc0bc6b861d1d1f01540f63c0d359974098ebbabd9023ea76759ce96c22a5"
   },
   {
     "path": "source/trunk/vita/xrGame/vita_ui_canvas.h",
     "source_sha256": "908b86e040cce29ea029247b42c8ff6f8e0afa18b33b91a4243dfa60e45d15d7",
     "export_sha256": "908b86e040cce29ea029247b42c8ff6f8e0afa18b33b91a4243dfa60e45d15d7"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_ui_page_cache.h",
+    "source_sha256": "c7c48c3fb8e74ef7ee74885ffcfc03faee7902c775818e1ac692bcbde9793e32",
+    "export_sha256": "c7c48c3fb8e74ef7ee74885ffcfc03faee7902c775818e1ac692bcbde9793e32"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_zone_confirmation.h",
+    "source_sha256": "508e2db2cc1024dd9d9e5f7fdab8ec107ab3ac2eb94144b7c3d6506417159f5b",
+    "export_sha256": "508e2db2cc1024dd9d9e5f7fdab8ec107ab3ac2eb94144b7c3d6506417159f5b"
   },
   {
     "path": "source/trunk/vita/xrRender/CMakeLists.txt",

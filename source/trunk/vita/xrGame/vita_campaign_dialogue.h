@@ -58,3 +58,13 @@ inline std::vector<std::string> read_vita_road_pages(const std::string& xml){
   if(!text.empty())pages.push_back(text);
  }return pages;
 }
+
+inline std::vector<std::string> paginate_vita_campaign_text(std::string text){
+ std::vector<std::string> pages;
+ while(text.size()>600){
+  size_t split=text.rfind(' ',600);if(split==std::string::npos||split<200)split=600;
+  pages.push_back(text.substr(0,split));text.erase(0,split+(text[split]==' '?1:0));
+ }
+ if(!text.empty())pages.push_back(std::move(text));
+ return pages;
+}

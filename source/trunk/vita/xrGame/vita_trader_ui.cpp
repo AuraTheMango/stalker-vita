@@ -417,6 +417,13 @@ void VitaTraderUI::draw_panel(GLuint texture, int height, float top, float botto
             q(talk_art.handle(),205,y+(questions?64:50),562,h-(questions?84:70),{2.f/1024,444.f/1024,600.f/1024,96.f/1024},white);
             q(talk_art.handle(),205,y+h-20,562,20,{2.f/1024,540.f/1024,600.f/1024,40.f/1024},white);
         };
+        if(m_campaign_active&&campaign_information){
+            panel(28,480,false);
+            q(m_campaign_name,226,42,250,28,uv,gold,1);
+            q(texture,226,90,520,312,uv,white,alpha_only?1:0);
+            q(m_continue,228,430,520,28,uv,gold,1);q(m_leave,230,476,520,24,uv,white,1);
+            m_canvas.end();return;
+        }
         panel(28,310,false);panel(340,180,true);
         const VitaProfileLayout actor_card{14,24,180},npc_card{774,24,180};
         const auto profile_quad=[&](GLuint id,const std::array<float,4>&r,const float(&u)[4],const float(&c)[4],float mask=0){
@@ -470,9 +477,13 @@ void VitaTraderUI::draw_target(unsigned name)const
 
 void VitaTraderUI::release()
 {
- road_face.release();campaign_face.release();glDeleteTextures(m_zone_prompts.size(),m_zone_prompts.data());m_zone_prompts.fill(0);
+ glDeleteTextures(m_zone_questions.size(),m_zone_questions.data());m_zone_questions.fill(0);
+ for(GLuint*t:{&m_zone_white,&m_zone_title,&m_zone_choices}){if(*t)glDeleteTextures(1,t);*t=0;}
+ road_face.release();campaign_face.release();glDeleteTextures(m_stash_prompts.size(),m_stash_prompts.data());m_stash_prompts.fill(0);glDeleteTextures(m_zone_prompts.size(),m_zone_prompts.data());m_zone_prompts.fill(0);
  if(m_zone_locked)glDeleteTextures(1,&m_zone_locked);m_zone_locked=0;
- for(GLuint*t:{&m_campaign_dialog,&m_campaign_name,&m_campaign_objective,&m_campaign_prompt}){if(*t)glDeleteTextures(1,t);*t=0;}
+ const auto free_page=[](const std::array<unsigned,3>&ids){glDeleteTextures(ids.size(),ids.data());};
+ m_campaign_page_cache.clear(free_page);m_campaign_objective_cache.clear(free_page);
+ m_campaign_dialog=m_campaign_name=m_campaign_objective=m_campaign_prompt=0;
 
     m_canvas.release();talk_art.release();for(auto& face:faces)face.release();
     glDeleteTextures(m_target_names.size(),m_target_names.data());m_target_names.fill(0);
@@ -1356,38 +1367,57 @@ void VitaOptionsMenu::release()
 
 bool VitaSaveUI::initialize(bool saving)
 {
- m_saving=saving;if(!m_canvas.initialize())return false;
+ m_saving=saving;
+ if(m_initialized){m_title=m_titles[saving];m_buttons[0]=m_actions[saving];return true;}
+ release();m_saving=saving;
+ int pgf=sceSysmoduleIsLoaded(SCE_SYSMODULE_PGF);
+ if(pgf<0)pgf=sceSysmoduleLoadModule(SCE_SYSMODULE_PGF);
+ if(pgf<0||!m_canvas.initialize())return false;
  SceFontLibHandle library{};const auto font=open_ui_font(library);if(!font)return false;
- m_title=upload_centered_label(font,saving?vita_text("Sauvegarder la partie","Save game"):vita_text("Charger une partie","Load game"),500);
+ m_titles[0]=upload_centered_label(font,vita_text("Charger une partie","Load game"),500);
+ m_titles[1]=upload_centered_label(font,vita_text("Sauvegarder la partie","Save game"),500);
+ m_actions[0]=upload_centered_label(font,vita_text("Charger","Load"),200);
+ m_actions[1]=upload_centered_label(font,vita_text("Sauvegarder","Save"),200);
  m_hint=upload_centered_label(font,vita_text("Directions : choisir    Croix : valider    Carr\xe9 : supprimer    Rond : retour",
  "Directions: choose    X: confirm    Square: delete    Circle: back"),1000);
  m_overwrite=upload_centered_label(font,vita_text("Remplacer ? Croix : confirmer / Rond : annuler","Overwrite? X: confirm / Circle: cancel"),650);
  m_delete=upload_centered_label(font,vita_text("Supprimer ? Croix : confirmer / Rond : annuler","Delete? X: confirm / Circle: cancel"),650);
  m_invalid=upload_centered_label(font,vita_text("Sauvegarde illisible","Invalid save"),500);
  m_empty=upload_centered_label(font,vita_text("Emplacement vide","Empty slot"),500);
- const char*buttons[]={saving?vita_text("Sauvegarder","Save"):vita_text("Charger","Load"),vita_text("Supprimer","Delete"),vita_text("Annuler","Cancel")};
- for(unsigned i=0;i<3;++i)m_buttons[i]=upload_centered_label(font,buttons[i],200);
+ m_buttons[1]=upload_centered_label(font,vita_text("Supprimer","Delete"),200);
+ m_buttons[2]=upload_centered_label(font,vita_text("Annuler","Cancel"),200);
+ for(unsigned i=0;i<vita_save_slots;++i){
+  char slot_name[40];std::snprintf(slot_name,sizeof(slot_name),"%s %02u",i<vita_manual_slots?vita_text("Manuelle","Manual"):vita_text("Auto","Auto"),
+   i<vita_manual_slots?i+1:i-vita_manual_slots+1);
+  m_slot_names[i]=upload_centered_label(font,slot_name,257);
+ }
  sceFontClose(font);sceFontDoneLib(library);
- return m_title&&m_hint&&m_empty&&m_overwrite&&m_delete&&m_invalid&&m_buttons[0]&&m_buttons[1]&&m_buttons[2];
+ m_title=m_titles[saving];m_buttons[0]=m_actions[saving];
+ const auto loaded=[](GLuint id){return id!=0;};
+ m_initialized=m_hint&&m_empty&&m_overwrite&&m_delete&&m_invalid&&
+  std::all_of(m_titles.begin(),m_titles.end(),loaded)&&std::all_of(m_actions.begin(),m_actions.end(),loaded)&&
+  std::all_of(m_buttons.begin(),m_buttons.end(),loaded)&&std::all_of(m_slot_names.begin(),m_slot_names.end(),loaded);
+ return m_initialized;
 }
 bool VitaSaveUI::refresh(const std::array<VitaSaveEntry,vita_save_slots>& entries)
 {
+ m_refreshed_slots=0;
+ bool changed=false;
+ for(unsigned i=0;i<entries.size();++i)changed|=!m_entry_ready[i]||!vita_save_entry_equal(m_entries[i],entries[i]);
+ if(!changed)return true;
  SceFontLibHandle library{};const auto font=open_ui_font(library);if(!font)return false;
- glDeleteTextures(m_rows.size(),m_rows.data());m_rows.fill(0);
- glDeleteTextures(m_details.size(),m_details.data());m_details.fill(0);
- glDeleteTextures(m_slot_names.size(),m_slot_names.data());m_slot_names.fill(0);
  for(unsigned i=0;i<entries.size();++i){
+  if(m_entry_ready[i]&&vita_save_entry_equal(m_entries[i],entries[i]))continue;
   const auto&e=entries[i];char text[200],date[40]="";
   if(e.valid){const time_t stamp=time_t(e.saved_at);const auto*calendar=std::localtime(&stamp);
    if(calendar)std::strftime(date,sizeof(date),"%d/%m/%Y %H:%M",calendar);}
   std::snprintf(text,sizeof(text),"%s %02u   %s",i<vita_manual_slots?vita_text("Manuelle","Manual"):vita_text("Auto","Auto"),
    i<vita_manual_slots?i+1:i-vita_manual_slots+1,e.valid?date:e.exists?vita_text("Illisible","Invalid"):vita_text("Vide","Empty"));
-  char slot_name[40];std::snprintf(slot_name,sizeof(slot_name),"%s %02u",i<vita_manual_slots?vita_text("Manuelle","Manual"):vita_text("Auto","Auto"),
-   i<vita_manual_slots?i+1:i-vita_manual_slots+1);
-  m_slot_names[i]=upload_centered_label(font,slot_name,257);
-  TextImage row(640,32);row.line(font,text,2,24,635);m_rows[i]=row.upload(true);
-  const char*objective=e.story?(e.zone==0?vita_text("Rejoindre la D\xe9" "charge","Reach the Garbage"):
+  TextImage row(640,32);row.line(font,text,2,24,635);const GLuint next_row=row.upload(true);
+  const char*objective=e.story>=7?vita_text("Trouver Spectre","Find Ghost"):e.story?(e.zone==0?vita_text("Rejoindre la D\xe9" "charge","Reach the Garbage"):
    e.zone==1?(e.story>=3?vita_text("Rejoindre Agroprom","Reach Agroprom"):e.story>=2?vita_text("Parler \xe0 Seriy","Talk to Seriy"):vita_text("Aider Seriy","Help Seriy")):
+   e.story>=7?vita_text("Trouver Spectre","Find Ghost"):
+   e.story>=6?vita_text("Trouver les informations de Strelok","Find Strelok's information"):
    e.story>=5?vita_text("Trouver la planque de Strelok","Find Strelok\'s stash"):e.story>=4?vita_text("Parler \xe0 la Taupe","Talk to Mole"):vita_text("Aider la Taupe","Help Mole")):e.flash==2?vita_text("Retour chez Sidorovitch termin\xe9","Returned to Sidorovich"):
    e.flags&SaveFarmCleared?vita_text("Ramener la cl\xe9 USB","Return the flash drive"):
    e.flags&SaveScoutMet?vita_text("Aider Allegro","Help Nimble"):
@@ -1400,7 +1430,14 @@ bool VitaSaveUI::refresh(const std::array<VitaSaveEntry,vita_save_slots>& entrie
    std::snprintf(text,sizeof(text),"%s %u h %02u min",vita_text("Dur\xe9" "e :","Played:"),e.play_seconds/3600,(e.play_seconds/60)%60);
    details.line(font,text,6,120,328);
   }
-  m_details[i]=details.upload(true);
+  const GLuint next_details=details.upload(true);
+  if(!next_row||!next_details){
+   if(next_row)glDeleteTextures(1,&next_row);if(next_details)glDeleteTextures(1,&next_details);
+   sceFontClose(font);sceFontDoneLib(library);return false;
+  }
+  if(m_rows[i])glDeleteTextures(1,&m_rows[i]);
+  if(m_details[i])glDeleteTextures(1,&m_details[i]);
+  m_rows[i]=next_row;m_details[i]=next_details;m_entries[i]=e;m_entry_ready[i]=true;++m_refreshed_slots;
  }
  sceFontClose(font);sceFontDoneLib(library);
  return std::all_of(m_slot_names.begin(),m_slot_names.end(),[](GLuint t){return t!=0;})&&
@@ -1429,7 +1466,9 @@ void VitaSaveUI::draw(VitaGLDevice& graphics,const VitaMainMenu& menu,unsigned s
  if(!m_saving){
   q(artwork.handle(),462,223,497,171,{0,.75f,497.f/1024,171.f/1024},white);
   // Original picture rectangle: a fixed Cordon overview, not a fabricated save screenshot.
-  if(preview.handle())q(preview.handle(),520,257,128,96,uv,white);
+  const unsigned zone=m_entries[selected].zone<previews.size()?m_entries[selected].zone:0;
+  const GLuint preview=previews[zone].handle()?previews[zone].handle():previews[0].handle();
+  if(preview)q(preview,520,257,128,96,uv,white);
   q(m_details[selected],701,235,244,132,uv,gold,1);
  }
  const unsigned rows=m_saving?vita_manual_slots:vita_save_slots;
@@ -1450,17 +1489,21 @@ void VitaSaveUI::release()
  glDeleteTextures(m_rows.size(),m_rows.data());m_rows.fill(0);
  glDeleteTextures(m_details.size(),m_details.data());m_details.fill(0);
  glDeleteTextures(m_slot_names.size(),m_slot_names.data());m_slot_names.fill(0);
- glDeleteTextures(m_buttons.size(),m_buttons.data());m_buttons.fill(0);
- for(GLuint*t:{&m_title,&m_hint,&m_empty,&m_overwrite,&m_delete,&m_invalid}){if(*t)glDeleteTextures(1,t);*t=0;}
- artwork.release();common.release();preview.release();m_canvas.release();
+ glDeleteTextures(m_titles.size(),m_titles.data());m_titles.fill(0);
+ glDeleteTextures(m_actions.size(),m_actions.data());m_actions.fill(0);
+ for(GLuint*t:{&m_buttons[1],&m_buttons[2],&m_hint,&m_empty,&m_overwrite,&m_delete,&m_invalid}){if(*t)glDeleteTextures(1,t);*t=0;}
+ m_title=m_buttons[0]=0;
+ artwork.release();common.release();for(auto&preview:previews)preview.release();m_canvas.release();
+ m_initialized=false;m_entry_ready.fill(false);m_entries={};m_refreshed_slots=0;
 }
 
 bool VitaTraderUI::set_campaign_page(const std::string&name,const std::string&text)
 {
+ const auto bind=[&](const auto&page){m_campaign_dialog=page.textures[0];m_campaign_name=page.textures[1];m_campaign_prompt=page.textures[2];};
+ if(const auto*page=m_campaign_page_cache.find(name,text)){bind(*page);return true;}
  SceFontLibHandle library{};const auto font=open_ui_font(library);if(!font)return false;
- for(GLuint*t:{&m_campaign_dialog,&m_campaign_name,&m_campaign_prompt}){if(*t)glDeleteTextures(1,t);*t=0;}
  if(!m_zone_prompts[0]){
-  for(unsigned i=0;i<4;++i){
+  for(unsigned i=0;i<vita_zone_exits.size();++i){
    const auto&zone=vita_campaign_zones[vita_zone_exits[i].to];
    const std::string prompt=std::string(vita_text("Carr\xe9 : aller vers ","Square: travel to "))+vita_text(zone.french,zone.english);
    TextImage label(prompt_width,prompt_height);label.line(font,prompt,12,28,380);m_zone_prompts[i]=label.upload(true);
@@ -1468,18 +1511,33 @@ bool VitaTraderUI::set_campaign_page(const std::string&name,const std::string&te
   TextImage locked(prompt_width,prompt_height);locked.line(font,vita_text("Terminez votre objectif actuel.","Complete your current objective."),12,28,380);
   m_zone_locked=locked.upload(true);
  }
- TextImage body(800,360);body.line(font,text,16,32,780);m_campaign_dialog=body.upload(true);
- m_campaign_name=upload_centered_label(font,name.c_str(),250);
+
+ if(!m_stash_prompts[0]){
+  const char*labels[]={vita_text("Carr\xe9 : monter vers la planque","Square: climb to the stash"),
+   vita_text("Carr\xe9 : redescendre","Square: climb down"),
+   vita_text("Carr\xe9 : prendre la cl\xe9 USB","Square: take the USB drive")};
+  for(unsigned i=0;i<3;++i){TextImage label(prompt_width,prompt_height);label.line(font,labels[i],12,28,380);m_stash_prompts[i]=label.upload(true);}
+ }
+ TextImage body(800,360);body.line(font,text,16,32,780);
+ VitaUiPageCache<4>::Page page;page.name=name;page.text=text;
+ page.textures[0]=body.upload(true);page.textures[1]=upload_centered_label(font,name.c_str(),250);
  TextImage prompt(prompt_width,prompt_height);prompt.line(font,vita_text("Carr\xe9 : parler","Square: talk"),19,28,374);
- m_campaign_prompt=prompt.upload(true);
- sceFontClose(font);sceFontDoneLib(library);return m_campaign_dialog&&m_campaign_name&&m_campaign_prompt;
+ page.textures[2]=prompt.upload(true);
+ sceFontClose(font);sceFontDoneLib(library);
+ const auto free_page=[](const std::array<unsigned,3>&ids){glDeleteTextures(ids.size(),ids.data());};
+ if(!page.textures[0]||!page.textures[1]||!page.textures[2]){free_page(page.textures);return false;}
+ bind(m_campaign_page_cache.insert(std::move(page),free_page));return true;
 }
 bool VitaTraderUI::set_campaign_objective(const char*text)
 {
+ if(const auto*page=m_campaign_objective_cache.find("",text)){m_campaign_objective=page->textures[0];return true;}
  SceFontLibHandle library{};const auto font=open_ui_font(library);if(!font)return false;
- if(m_campaign_objective)glDeleteTextures(1,&m_campaign_objective);
- TextImage title(prompt_width,prompt_height);title.line(font,text,19,28,374);m_campaign_objective=title.upload(true);
- sceFontClose(font);sceFontDoneLib(library);return m_campaign_objective!=0;
+ TextImage title(prompt_width,prompt_height);title.line(font,text,19,28,374);
+ VitaUiPageCache<4>::Page page;page.text=text;page.textures[0]=title.upload(true);
+ sceFontClose(font);sceFontDoneLib(library);if(!page.textures[0])return false;
+ m_campaign_objective=m_campaign_objective_cache.insert(std::move(page),
+  [](const std::array<unsigned,3>&ids){glDeleteTextures(ids.size(),ids.data());}).textures[0];
+ return true;
 }
 void VitaTraderUI::draw_campaign(bool open)const
 {
@@ -1498,4 +1556,43 @@ void VitaTraderUI::draw_zone_exit(unsigned exit,bool allowed)const{
 void VitaTraderUI::draw_campaign_target()const{
  const float uv[]={0,0,1,1},green[]={.55f,1,.3f,1};
  m_canvas.begin();m_canvas.quad(m_campaign_name,{.41f,.55f,.18f,.045f},uv,green,1);m_canvas.end();
+}
+
+void VitaTraderUI::draw_stash_prompt(unsigned action)const{if(action<m_stash_prompts.size())draw_panel(m_stash_prompts[action],0,-1,-1,false,true,398.f);}
+
+bool VitaTraderUI::prepare_zone_confirmation(){
+ SceFontLibHandle library{};const auto font=open_ui_font(library);if(!font)return false;
+ m_zone_title=upload_centered_label(font,vita_text("Changer de zone","Change area"),520);
+ for(unsigned i=0;i<vita_zone_count;++i){
+  const auto&zone=vita_campaign_zones[i];
+  const std::string question=std::string(vita_text("Voulez-vous aller vers ","Do you want to travel to "))+
+    vita_text(zone.french,zone.english)+" ?";
+  TextImage text(800,100);text.line(font,question,16,32,780);m_zone_questions[i]=text.upload(true);
+ }
+ TextImage choices(700,40);choices.line(font,vita_text("Croix : confirmer    Rond : annuler","X: confirm    Circle: cancel"),12,28,680);
+ m_zone_choices=choices.upload(true);sceFontClose(font);sceFontDoneLib(library);
+ const unsigned char white[]={255,255,255,255};
+ glGenTextures(1,&m_zone_white);glBindTexture(GL_TEXTURE_2D,m_zone_white);
+ glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,1,1,0,GL_RGBA,GL_UNSIGNED_BYTE,white);
+ glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+ return m_zone_white&&m_zone_title&&m_zone_choices&&std::all_of(m_zone_questions.begin(),m_zone_questions.end(),[](GLuint id){return id!=0;});
+}
+void VitaTraderUI::draw_zone_confirmation(unsigned destination)const{
+ if(destination>=m_zone_questions.size()||!m_zone_questions[destination]||!m_zone_white)return;
+ const float uv[]={0,0,1,1},white[]={1,1,1,1},gold[]={.94f,.79f,.52f,1},dim[]={0,0,0,.65f},dark[]={.025f,.028f,.025f,.98f};
+ m_canvas.begin();
+ m_canvas.quad(m_zone_white,{0,0,1,1},uv,dim);
+ const auto q=[&](GLuint id,float x,float y,float w,float h,const float(&source)[4],const float(&color)[4],float mask=0){
+  m_canvas.quad(id,{x/960,y/544,w/960,h/544},source,color,mask);
+ };
+ q(m_zone_white,190,160,580,220,uv,dark);
+ if(talk_art.handle()){
+  q(talk_art.handle(),190,160,580,48,{0,369.f/1024,600.f/1024,75.f/1024},white);
+  q(talk_art.handle(),190,208,580,150,{2.f/1024,444.f/1024,600.f/1024,96.f/1024},white);
+  q(talk_art.handle(),190,358,580,22,{2.f/1024,540.f/1024,600.f/1024,40.f/1024},white);
+ }
+ q(m_zone_title,220,174,520,32,uv,gold,1);
+ q(m_zone_questions[destination],220,226,520,65,uv,white,1);
+ q(m_zone_choices,220,322,520,30,uv,gold,1);
+ m_canvas.end();
 }

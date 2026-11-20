@@ -70,6 +70,10 @@ struct VitaSaveEntry
  uint64_t saved_at=0;
  unsigned play_seconds=0, flags=0, flash=0, zone=0,story=0;
 };
+inline bool vita_save_entry_equal(const VitaSaveEntry&a,const VitaSaveEntry&b){
+ return a.exists==b.exists&&a.valid==b.valid&&a.saved_at==b.saved_at&&a.play_seconds==b.play_seconds&&
+  a.flags==b.flags&&a.flash==b.flash&&a.zone==b.zone&&a.story==b.story;
+}
 std::array<VitaSaveEntry,vita_save_slots> list_vita_saves(const char* directory);
 bool read_vita_slot(const char* directory,unsigned slot,VitaSaveState& state);
 bool write_vita_slot(const char* directory,unsigned slot,const VitaSaveState& state);

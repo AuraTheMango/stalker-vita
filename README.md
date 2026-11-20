@@ -4,8 +4,8 @@ Unofficial, work-in-progress PlayStation Vita port of S.T.A.L.K.E.R.: Shadow of 
 
 [Documentation française](README.fr.md)
 
-**Current source snapshot: 0.0.25. This is an incomplete prototype, not a full-game release.**
-The current route covers parts of the Cordon, Garbage and Agroprom, with a limited set of encounters. The performance target is 30 FPS; performance and stability still depend on location and Vita hardware testing.
+**Current source snapshot: 0.0.28. This is an incomplete prototype, not a full-game release.**
+The current route covers parts of the Cordon, Garbage, Agroprom and Agroprom Underground, including Strelok's stash, with a limited set of encounters. The performance target is 30 FPS; performance and stability still depend on location and Vita hardware testing.
 
 ## Included
 - Vita rendering, collision/movement, controls and audio code.
@@ -25,6 +25,7 @@ These checks need no retail assets. Collision/model/map tests additionally requi
 ## Documentation
 - [Controls](docs/CONTROLS.md)
 - [Status and limitations](docs/STATUS.md)
+- [Changes through 0.0.28](docs/CHANGELOG.md)
 - [Portable development handoff](HANDOFF_WSL.md)
 - [Host tests](source/trunk/vita/tests/README.md)
 

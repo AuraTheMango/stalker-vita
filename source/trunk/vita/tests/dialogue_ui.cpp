@@ -16,7 +16,7 @@ constexpr int panel_height=300;
 class VitaTraderUI{
  public:
  void draw_panel(GLuint,int,float,float,bool,bool,float=456)const;
- bool show_prompts=false,m_campaign_active=false,campaign_road=false;Texture campaign_face{605},road_face{606};GLuint m_campaign_name=616;Texture talk_art{600};GLuint profiles=98,actor_portrait=97;
+ bool show_prompts=false,m_campaign_active=false,campaign_road=false,campaign_information=false;Texture campaign_face{605},road_face{606};GLuint m_campaign_name=616;Texture talk_art{600};GLuint profiles=98,actor_portrait=97;
  std::array<Texture,4>faces{Texture{601},Texture{602},Texture{603},Texture{604}};
  std::array<GLuint,6>m_target_names{610,611,612,613,614,615};
  GLuint m_actor_name=620,m_continue=621,m_leave=622,m_history=0;unsigned m_face=0;Canvas m_canvas;
@@ -48,5 +48,7 @@ int main(int argc,char**argv){
  assert(face&&name);
  std::ofstream campaign(std::string(argv[1])+"/campaign-dialogue.csv");
  for(auto&q:ui.m_canvas.quads){campaign<<q.id;for(float v:q.d)campaign<<","<<v;for(float v:q.u)campaign<<","<<v;for(float v:q.c)campaign<<","<<v;campaign<<"\n";}
+ ui.campaign_information=true;ui.draw_panel(631,360,-1,-1,false,true);
+ for(const auto&q:ui.m_canvas.quads){assert(q.id!=97&&q.id!=605&&q.id!=601);assert(q.d[0]+q.d[2]<=1.001&&q.d[1]+q.d[3]<=1.001);}
  puts("Original dialogue frames: actor/NPC portraits, history, answers, selected answer and UV/bounds passed");
 }

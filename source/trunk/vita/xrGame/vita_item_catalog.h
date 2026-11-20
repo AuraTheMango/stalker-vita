@@ -25,5 +25,6 @@ inline constexpr VitaItemArt vita_item_art[]={
 {9,9,1,1,"grenade-f1","enc_weapons1_grenade-f1","F1","F1"},
 {18,1,1,1,"wpn-addon-silencer","enc_weapons1_wpn-addon-silencer","Silencieux (PM)","Silencer (PM)"},
 {18,2,2,1,"wpn-addon-scope","enc_weapons1_wpn-addon-scope","Lunette (AK-74)","Scope (AK-74)"},
+{15,7,1,1,"item_flash_gslinger_agro_name","item_flash_gslinger_agro_desc","Cle USB de Strelok","Strelok USB drive"},
 };
 static_assert(sizeof(vita_item_art)/sizeof(vita_item_art[0])==vita_item_count);

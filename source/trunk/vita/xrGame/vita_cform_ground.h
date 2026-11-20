@@ -33,10 +33,18 @@ public:
 private:
 	struct Vertex { float x, y, z; };
 	struct Face { std::uint32_t vertex[3]; };
-	struct Cell
+	struct Bounds {
+        Vertex minimum,maximum;
+        bool outside(const Vertex& lo,const Vertex& hi) const {
+            return maximum.x<lo.x||minimum.x>hi.x||maximum.y<lo.y||minimum.y>hi.y||maximum.z<lo.z||minimum.z>hi.z;
+        }
+    };
+    static constexpr std::uint32_t bounds_group=64;
+    struct Cell
 	{
         std::uint32_t ground_first=0, ground_count=0;
         std::uint32_t wall_first=0, wall_count=0;
+        std::uint32_t ground_bounds=0,wall_bounds=0;
 	};
 
 	std::size_t cell(float coordinate, float origin, std::size_t count) const;
@@ -46,6 +54,7 @@ private:
 	std::vector<Face> m_faces;
 	std::vector<Face> m_walls;
 	std::vector<Cell> m_cells;
+    std::vector<Bounds> m_ground_bounds,m_wall_bounds;
 	float m_min_x = 0.f, m_min_z = 0.f, m_max_x = 0.f, m_max_z = 0.f;
 	float m_cell_width = 8.f;
 	std::size_t m_columns = 0, m_rows = 0;

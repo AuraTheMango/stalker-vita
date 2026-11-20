@@ -6,7 +6,7 @@
 
 enum class VitaWeapon { Holstered, Pistol, Knife, Shotgun, Rifle, Grenade };
 enum class VitaInventoryItem { Pistol, Ammunition, Knife, FlashDrive, Medkit, Bandage, Bread, Sausage,
- CannedFood, EnergyDrink, NoviceOutfit, BanditOutfit, Shotgun, Rifle, Buckshot, Slug, RifleFMJ, RifleAP, PistolPBP, RGD5, F1, Silencer, Scope, Count };
+ CannedFood, EnergyDrink, NoviceOutfit, BanditOutfit, Shotgun, Rifle, Buckshot, Slug, RifleFMJ, RifleAP, PistolPBP, RGD5, F1, Silencer, Scope, StrelokFlash, Count };
 enum class VitaFlashStatus { Find, Carrying, Delivered };
 constexpr size_t vita_item_count=static_cast<size_t>(VitaInventoryItem::Count);
 using VitaItemStacks=std::array<unsigned,vita_item_count>;
@@ -61,17 +61,17 @@ public:
  }
  static unsigned grams(VitaInventoryItem item)
  {
-  constexpr unsigned weights[]={730,10,0,0,300,100,300,500,500,300,3000,3000,1900,3300,45,50,11,11,10,350,630,100,200};
+  constexpr unsigned weights[]={730,10,0,0,300,100,300,500,500,300,3000,3000,1900,3300,45,50,11,11,10,350,630,100,200,100};
   return vita_item_index(item)<vita_item_count?weights[vita_item_index(item)]:0;
  }
  static unsigned base_cost(VitaInventoryItem item)
  {
-  constexpr unsigned costs[]={280,70,70,0,150,20,20,50,100,75,1000,3000,400,2000,50,60,200,250,100,100,210,100,200};
+  constexpr unsigned costs[]={280,70,70,0,150,20,20,50,100,75,1000,3000,400,2000,50,60,200,250,100,100,210,100,200,0};
   return vita_item_index(item)<vita_item_count?costs[vita_item_index(item)]:0;
  }
  static bool ammunition(VitaInventoryItem item){const auto i=vita_item_index(item);return i==1||(i>=14&&i<=18);}
  static unsigned lot(VitaInventoryItem item){const auto i=vita_item_index(item);return i==1||i==18?20:i==14||i==15?10:i==16||i==17?30:1;}
- static unsigned limit(VitaInventoryItem item){return ammunition(item)?max_ammo:item==VitaInventoryItem::Pistol||item==VitaInventoryItem::Shotgun||item==VitaInventoryItem::Rifle||item==VitaInventoryItem::NoviceOutfit||item==VitaInventoryItem::BanditOutfit?16:64;}
+ static unsigned limit(VitaInventoryItem item){return item==VitaInventoryItem::StrelokFlash?1:ammunition(item)?max_ammo:item==VitaInventoryItem::Pistol||item==VitaInventoryItem::Shotgun||item==VitaInventoryItem::Rifle||item==VitaInventoryItem::NoviceOutfit||item==VitaInventoryItem::BanditOutfit?16:64;}
  static unsigned stack_grams(VitaInventoryItem item,unsigned n){return item==VitaInventoryItem::RifleFMJ||item==VitaInventoryItem::RifleAP?(n*320+15)/30:n*grams(item);}
  static VitaInventoryItem ammo_item(unsigned slot,unsigned mode){constexpr unsigned types[3][2]={{1,18},{14,15},{16,17}};return static_cast<VitaInventoryItem>(types[slot][mode]);}
  static unsigned capacity(unsigned slot){return slot==0?8:slot==1?2:30;}
@@ -105,7 +105,7 @@ public:
  VitaInventoryItem grenade()const{return m.grenade_type?VitaInventoryItem::F1:VitaInventoryItem::RGD5;}
  bool throw_grenade(){if(m.weapon!=5||!contains(grenade()))return false;--m.items[vita_item_index(grenade())];normalize();repair_selection();return true;}
  static bool tradable(VitaInventoryItem item)
- {return vita_item_index(item)<vita_item_count&&item!=VitaInventoryItem::Knife&&item!=VitaInventoryItem::FlashDrive;}
+ {return vita_item_index(item)<vita_item_count&&item!=VitaInventoryItem::Knife&&item!=VitaInventoryItem::FlashDrive&&item!=VitaInventoryItem::StrelokFlash;}
  unsigned count(VitaInventoryItem item)const{return vita_item_index(item)<vita_item_count?m.items[vita_item_index(item)]:0;}
  bool contains(VitaInventoryItem item)const{return count(item)>0;}
  bool has_items()const{return std::any_of(m.items.begin(),m.items.end(),[](unsigned n){return n!=0;});}
@@ -129,7 +129,7 @@ public:
  float carry_speed()const{return overweight()?.60f:1.f;}
  bool add(VitaInventoryItem item,unsigned amount)
  {
-  if(!amount||vita_item_index(item)>=vita_item_count||item==VitaInventoryItem::FlashDrive||item==VitaInventoryItem::Knife)return false;
+  if(!amount||vita_item_index(item)>=vita_item_count||item==VitaInventoryItem::FlashDrive||item==VitaInventoryItem::StrelokFlash||item==VitaInventoryItem::Knife)return false;
   const auto index=vita_item_index(item);
   const unsigned maximum=limit(item);
   if(amount>maximum-m.items[index])return false;
@@ -163,6 +163,7 @@ public:
  }
  VitaFlashStatus flash_status()const{return static_cast<VitaFlashStatus>(m.flash);}
  bool receive_flash(){if(!m.equipment||m.flash)return false;m.flash=1;m.items[3]=1;return true;}
+ bool receive_strelok_flash(){if(m.items[23]||weight_grams()+100>hard_weight)return false;m.items[23]=1;return true;}
  bool deliver_flash()
  {
   if(m.flash!=1||!give_money(flash_reward))return false;

@@ -15,6 +15,7 @@
 #include "vita_grenades.h"
 #include "vita_item_catalog.h"
 #include "vita_save.h"
+#include "vita_zone_confirmation.h"
 #include "vita_save_ui.h"
 #include "vita_main_menu.h"
 #include "vita_button_gesture.h"
@@ -2400,9 +2401,23 @@ static bool read_flash_lines(const std::string& xml, VitaFlashLines& lines)
 		read_dialog_line(xml, "escape_trader_start_dialog_5212111", lines.trader[1]);
 }
 
+static std::string read_strelok_information()
+{
+ string_path path;
+ const auto file=std::string("gamedata\\config\\text\\")+vita_text("fra\\","eng\\")+"stable_storyline_info_agroprom.xml";
+ const auto*asset=FS.exist(path,"$fs_root$",file.c_str());
+ IReader*r=asset&&asset->size_real<1024u*1024u?FS.r_open(path):nullptr;
+ std::string text;
+ if(r){const std::string xml(static_cast<const char*>(r->pointer()),r->length());
+  read_dialog_line(xml,"storyline_gunslinger_flash_info",text,8192);FS.r_close(r);}
+ size_t offset=0;while((offset=text.find("\\n",offset))!=std::string::npos)text.replace(offset,2," ");
+ return text.empty()?vita_text("Informations de Strelok. Prochain objectif : trouver Spectre.",
+  "Strelok's information. Next objective: find Ghost."):text;
+}
+
 static void load_inventory_text(VitaInventoryUI& ui)
 {
-	const char* const files[] = {"string_table_enc_weapons.xml", "string_table_general.xml", "string_table_items.xml", "string_table_enc_equipment.xml", "string_table_outfit.xml"};
+	const char* const files[] = {"string_table_enc_weapons.xml", "string_table_general.xml", "string_table_items.xml", "string_table_enc_equipment.xml", "string_table_outfit.xml", "string_table_quest_items.xml"};
 	unsigned names_loaded = 0, details_loaded = 0;
     for(unsigned i=0;i<vita_item_count;++i){
         ui.item_names[i]=vita_text(vita_item_art[i].french,vita_item_art[i].english);
@@ -2437,6 +2452,7 @@ static void load_inventory_text(VitaInventoryUI& ui)
 			}
 		}
 	}
+	ui.item_details[23]=read_strelok_information();
 	char line[96];
 	snprintf(line, sizeof(line), "debug_inventory_text names=%u descriptions=%u source=fra\n",
 		names_loaded, details_loaded);
@@ -2525,6 +2541,7 @@ static void edit_options(VitaGLDevice& graphics,VitaMainMenu& menu,VitaGameAudio
 
 static std::vector<std::string> read_campaign_pages(unsigned zone,bool cleared,bool road=false)
 {
+ if(zone>2)return {};
  const char* files[]={"escape","garbage","agroprom"};
  const std::string path_name=std::string("gamedata\\config\\text\\")+(vita_language?"eng":"fra")+"\\stable_dialogs_"+files[zone]+".xml";
  string_path path;const auto*asset=FS.exist(path,"$fs_root$",path_name.c_str());
@@ -2556,17 +2573,46 @@ static bool relaunch_vita_state(VitaGLDevice& graphics,const VitaSaveState& stat
  return false;
 }
 
-// Modal original save/load dialog. Returns a slot; writes are committed by the caller.
-static int browse_vita_saves(VitaGLDevice& graphics,VitaMainMenu& menu,bool saving)
+// The browser owns a bounded set of reusable UI resources. File entries are still
+// checked on every opening; only changed rows need font work.
+static bool prepare_vita_save_browser(VitaSaveUI& ui)
 {
- VitaSaveUI ui;if(!ui.initialize(saving))return -1;
- bool found=false;
- load_level_dds_texture("ui\\ui_common",ui.common,1024u*1024u*4,found,1024);
- load_level_dds_texture("ui\\ui_static_mm_back_04",ui.artwork,1024u*1024u*4,found,1024);
- load_level_dds_texture("intro\\intro_l01_escape",ui.preview,256u*128u*4,found,256);
- if(!ui.common.handle()||!ui.artwork.handle())return -1;
- auto entries=list_vita_saves("ux0:data/stalker");if(!ui.refresh(entries))return -1;
- unsigned selected=0,confirmation=0,preview_zone=~0u;
+ const auto begin=sceKernelGetProcessTimeWide();
+ if(!ui.initialize(false))return false;
+ const auto initialized=sceKernelGetProcessTimeWide();bool found=false;
+ if(!ui.common.handle())load_level_dds_texture("ui\\ui_common",ui.common,512u*512u*4,found,512);
+ if(!ui.artwork.handle())load_level_dds_texture("ui\\ui_static_mm_back_04",ui.artwork,512u*512u*4,found,512);
+ const auto artwork_loaded=sceKernelGetProcessTimeWide();
+ for(unsigned zone=0;zone<vita_zone_count;++zone)if(!ui.previews[zone].handle())
+  load_level_dds_texture(std::string("intro\\intro_")+vita_campaign_zones[zone].directory,
+   ui.previews[zone],256u*128u*4,found,256);
+ const auto previews_loaded=sceKernelGetProcessTimeWide();
+ const auto entries=list_vita_saves("ux0:data/stalker");
+ const auto scanned=sceKernelGetProcessTimeWide();
+ const bool refreshed=ui.refresh(entries);
+ char log[240];snprintf(log,sizeof(log),"debug_save_browser_cache init_us=%llu artwork_us=%llu previews_us=%llu scan_us=%llu refresh_us=%llu changed_slots=%u ready=%u\n",
+  static_cast<unsigned long long>(initialized-begin),static_cast<unsigned long long>(artwork_loaded-initialized),
+  static_cast<unsigned long long>(previews_loaded-artwork_loaded),static_cast<unsigned long long>(scanned-previews_loaded),
+  static_cast<unsigned long long>(sceKernelGetProcessTimeWide()-scanned),ui.refreshed_slots(),unsigned(refreshed));
+ write_boot_log(g_boot_log,log);
+ return refreshed&&ui.common.handle()&&ui.artwork.handle();
+}
+
+// Modal original save/load dialog. Returns a slot; writes are committed by the caller.
+static int browse_vita_saves(VitaGLDevice& graphics,VitaMainMenu& menu,VitaSaveUI& ui,bool saving,SceUInt64* modal_us=nullptr)
+{
+ const auto prepare_started=sceKernelGetProcessTimeWide();
+ if(!prepare_vita_save_browser(ui)||!ui.initialize(saving))return -1;
+ auto entries=ui.entries();
+
+ char preparation[120];snprintf(preparation,sizeof(preparation),"debug_save_browser saving=%u prepare_us=%llu\n",
+  unsigned(saving),static_cast<unsigned long long>(sceKernelGetProcessTimeWide()-prepare_started));write_boot_log(g_boot_log,preparation);
+ struct ModalTime {
+  SceUInt64*elapsed;SceUInt64 start=sceKernelGetProcessTimeWide();
+  ~ModalTime(){const auto duration=sceKernelGetProcessTimeWide()-start;if(elapsed)*elapsed+=duration;
+   char log[100];snprintf(log,sizeof(log),"debug_save_browser modal_us=%llu\n",static_cast<unsigned long long>(duration));write_boot_log(g_boot_log,log);}
+ } modal_time{modal_us};
+ unsigned selected=0,confirmation=0;
  const unsigned count=saving?vita_manual_slots:vita_save_slots;
  SceCtrlData pad{};sceCtrlPeekBufferPositive(0,&pad,1);u32 previous=pad.buttons;
  for(;;){
@@ -2579,17 +2625,12 @@ static int browse_vita_saves(VitaGLDevice& graphics,VitaMainMenu& menu,bool savi
    if(confirmation==2){
     const bool removed=delete_vita_slot("ux0:data/stalker",selected);
     write_boot_log(g_boot_log,removed?"debug_save deleted=1\n":"debug_save deleted=0\n");
-    entries=list_vita_saves("ux0:data/stalker");ui.refresh(entries);confirmation=removed?0:3;
+    entries=list_vita_saves("ux0:data/stalker");const bool refreshed=ui.refresh(entries);confirmation=removed&&refreshed?0:3;
    }else if(saving){
     if(entries[selected].exists&&confirmation!=1)confirmation=1;
     else return int(selected);
    }else if(entries[selected].valid)return int(selected);
    else confirmation=3;
-  }
-  if(entries[selected].zone!=preview_zone){
-   preview_zone=entries[selected].zone;ui.preview.release();
-   load_level_dds_texture(std::string("intro\\intro_")+vita_campaign_zones[preview_zone].directory,
-    ui.preview,256u*128u*4,found,256);
   }
   ui.draw(graphics,menu,selected,confirmation);
  }
@@ -2673,14 +2714,17 @@ int main(int argc,char**argv)
 			write_boot_log(g_boot_log, line);
 		}
 	}
+	VitaSaveUI save_browser;
 	bool startup_load_requested = transition_resume;
  int startup_slot=-1;
 	if (has_game_data && !transition_resume && !force_new_game)
 	{
+		prepare_vita_save_browser(save_browser);
 		VitaMainMenu main_menu;
 		if (!main_menu.initialize())
 		{
 			write_boot_log(g_boot_log, "debug_main_menu ready=0\n");
+			save_browser.release();
 			loading.release();
 			if (g_boot_log >= 0) sceIoClose(g_boot_log);
 			Core._destroy();
@@ -2731,7 +2775,7 @@ int main(int argc,char**argv)
 					if (choice == 0 || choice == 2)
 					{
 						if(choice==2){
-                            startup_slot=browse_vita_saves(graphics,main_menu,false);
+                            startup_slot=browse_vita_saves(graphics,main_menu,save_browser,false);
                             sceCtrlPeekBufferPositive(0,&initial_menu_pad,1);menu_previous_buttons=initial_menu_pad.buttons;
                             if(startup_slot<0){can_continue=latest_vita_slot("ux0:data/stalker")>=0;continue;}
                         }else startup_slot=latest_vita_slot("ux0:data/stalker");
@@ -2768,6 +2812,7 @@ int main(int argc,char**argv)
 		if (quit_menu)
 		{
 			write_boot_log(g_boot_log, "debug_main_menu action=quit\n");
+			save_browser.release();
 			loading.release();
 			if (g_boot_log >= 0) sceIoClose(g_boot_log);
 			Core._destroy();
@@ -3244,7 +3289,7 @@ int main(int argc,char**argv)
 	float scout_floor = scout_positions[0][1];
 	Fvector scout_target;
 	scout_target.set(scout_positions[0][0], scout_floor + 1.5f, scout_positions[0][2]);
-	if (scout_waypoints && ground_ready)
+	if (scout_waypoints && ground_ready && g_zone!=3)
 	{
 		const char* const models[] = {
 			"gamedata\\meshes\\actors\\novice\\green_stalker_8.ogf",
@@ -3382,6 +3427,10 @@ int main(int argc,char**argv)
 		"gamedata\\meshes\\weapons\\pm\\wpn_pm_hud.ogf", true, pm_hud, pm_clips,0,true);
 	const bool knife_hud_ready = has_game_data && load_weapon_hud(debug_renderer,
 		"gamedata\\meshes\\weapons\\knife\\wpn_knife_hud.ogf", false, knife_hud, knife_clips);
+    StalkerVisual strelok_item[2];
+    const bool strelok_item_ready=g_zone==3&&load_npc_weapon(debug_renderer,
+      "gamedata\\meshes\\equipments\\item_datchik2.ogf",strelok_item);
+    if(g_zone==3)write_boot_log(g_boot_log,strelok_item_ready?"debug_strelok item_model=1\n":"debug_strelok item_model=0\n");
     StalkerVisual grenade_world[2][2];
     bool grenade_world_ready[2]={
         has_game_data&&load_npc_weapon(debug_renderer,"gamedata\\meshes\\weapons\\grenade\\wpn_rgd_5.ogf",grenade_world[0]),
@@ -4468,16 +4517,29 @@ int main(int argc,char**argv)
 	bool farm_fight_started = false, scout_attack_called = false, scout_victory_called = false;
  unsigned campaign_story=startup_load_requested?startup_state.story:0;
  std::array<std::vector<uint8_t>,vita_zone_count> campaign_worlds=startup_load_requested?startup_state.worlds:decltype(campaign_worlds){};
- bool campaign_open=false,campaign_cleared_dialog=false,campaign_is_road=false;
+ bool campaign_open=false,campaign_cleared_dialog=false,campaign_is_road=false,campaign_is_stash=false;
  unsigned campaign_page=0,last_campaign_key=~0u;
  uint64_t campaign_visible_until=0,transition_retry_after=0;
+ VitaZoneConfirmation zone_confirmation;
+ const bool zone_confirmation_ui_ready=trader_ui_ready&&trader_ui.prepare_zone_confirmation();
+ write_boot_log(g_boot_log,zone_confirmation_ui_ready?"debug_zone_confirmation ui_ready=1\n":"debug_zone_confirmation ui_ready=0\n");
+
  std::vector<std::string> campaign_pages;
  auto road_pages=g_zone==1?read_campaign_pages(1,true,true):std::vector<std::string>{};
+ const auto strelok_pages=paginate_vita_campaign_text(inventory_ui.item_details[23].empty()?read_strelok_information():inventory_ui.item_details[23]);
  auto north_pages=read_campaign_pages(g_zone,true);
  auto attack_pages=read_campaign_pages(g_zone,false);
  {char log[128];snprintf(log,sizeof(log),"debug_campaign zone=%u north_pages=%u attack_pages=%u\n",
      g_zone,unsigned(north_pages.size()),unsigned(attack_pages.size()));write_boot_log(g_boot_log,log);}
- const auto campaign_name=[&](){return campaign_is_road?vita_text("Yourik","Yurik"):g_zone==2?vita_text("La Taupe","Mole"):vita_campaign_zones[g_zone].leader;};
+ const auto campaign_name=[&](){return campaign_is_stash?"PDA":campaign_is_road?vita_text("Yourik","Yurik"):g_zone==2?vita_text("La Taupe","Mole"):vita_campaign_zones[g_zone].leader;};
+ if(trader_ui_ready&&g_zone==3){
+  const auto begin=sceKernelGetProcessTimeWide();unsigned cached=0;
+  for(const auto&page:strelok_pages)cached+=trader_ui.set_campaign_page("PDA",page);
+  for(const char*caption:{vita_text("Trouver la planque de Strelok","Find Strelok's stash"),
+   vita_text("Trouver les informations de Strelok","Find Strelok's information"),vita_text("Trouver Spectre","Find Ghost")})
+   trader_ui.set_campaign_objective(caption);
+  char line[120];snprintf(line,sizeof(line),"debug_strelok ui_prepared_pages=%u prepare_us=%llu\n",cached,static_cast<unsigned long long>(sceKernelGetProcessTimeWide()-begin));write_boot_log(g_boot_log,line);
+ }
  if(trader_ui_ready&&!north_pages.empty())trader_ui.set_campaign_page(campaign_name(),north_pages[0]);
  if(g_zone==1){bool found=false;const VitaDDSRegion face{1024,825,324,165,108,2048};
   load_level_dds_texture("ui\\ui_npc_unique",trader_ui.road_face,165*108*4,found,2048,nullptr,&face);}
@@ -4765,7 +4827,7 @@ int main(int argc,char**argv)
 	};
 	write_boot_log(g_boot_log, "debug_player_dynamic_selection interval_ms=100 move_m=1 angle_rad=0.07 extra_texture_bytes=2097152\n");
 
-	write_boot_log(g_boot_log, "debug_player_frame_profile version=6 long_frame_us=50000 dds_toggle=LR_down boot_log=buffered present=gxm_calls vsync_default=0 vsync_toggle=orbit_start\n");
+	write_boot_log(g_boot_log, "debug_player_frame_profile version=7 modal_browser_separate=1 long_frame_us=50000 dds_toggle=LR_down boot_log=buffered present=gxm_calls vsync_default=0 vsync_toggle=orbit_start\n");
 	g_boot_log_buffering.store(true);
 	MobileDDSJob mobile_dds;
 	SceUID mobile_dds_worker = -1;
@@ -4794,6 +4856,23 @@ int main(int argc,char**argv)
 	bool pause_resources_active = false, quit_from_menu = false;
 	VitaMainMenu pause_menu;
 	VitaGameAudio pause_music;
+ bool pause_resources_ready=false,pause_music_ready=false;
+ const auto prepare_pause_resources=[&](){
+  if(pause_resources_ready)return true;
+  const auto started=sceKernelGetProcessTimeWide();
+  const bool ui_ready=pause_menu.initialize();bool found=false,background_ready=false,artwork_ready=false;
+  if(ui_ready){
+   background_ready=load_level_dds_texture("ui\\ui_static_main_menu_background",pause_menu.background,512u*512u*4,found,512);
+   artwork_ready=load_level_dds_texture("ui\\ui_mainmenu",pause_menu.atlas,512u*512u*4,found,512);
+  }
+  apply_audio_settings(pause_music,settings);pause_music_ready=ui_ready&&pause_music.initialize(true);
+  pause_music.set_radio(0.f);
+  pause_resources_ready=ui_ready;
+  char log[180];snprintf(log,sizeof(log),"debug_pause_menu prepared=%u background=%u artwork=%u music=%u prepare_us=%llu texture_limit=512\n",
+   unsigned(ui_ready),unsigned(background_ready),unsigned(artwork_ready),unsigned(pause_music_ready),static_cast<unsigned long long>(sceKernelGetProcessTimeWide()-started));
+  write_boot_log(g_boot_log,log);return ui_ready;
+ };
+
 	unsigned save_choice = 0;
 	VitaSaveMessage save_message = VitaSaveMessage::None;
 	SceUInt64 pause_started = 0;
@@ -4894,7 +4973,7 @@ int main(int argc,char**argv)
         if(g_zone==1&&!restored_road.restore(state.garbage_road,player_ground))return false;
         // Commit only after all checks pass.
         road_saved=state.garbage_road;if(g_zone==1)road_encounter=restored_road;
-        campaign_story=state.story;campaign_worlds=state.worlds;campaign_open=false;campaign_is_road=false;last_campaign_key=~0u;
+        zone_confirmation.reset();campaign_story=state.story;campaign_worlds=state.worlds;campaign_open=false;campaign_is_road=false;campaign_is_stash=false;trader_ui.campaign_information=false;last_campaign_key=~0u;
 		inventory = restored_inventory;
         loot_world=state.loot;trader_stock=state.trader;seed_supplies();
         trade_open=false;loot_open=-1;trade_basket={};survival_seconds=state.survival_seconds;
@@ -5012,6 +5091,9 @@ int main(int argc,char**argv)
 	}
 	write_boot_log(g_boot_log, trader_ui_ready ? "debug_save menu_ready=1 style=main_menu\n" : "debug_save menu_ready=0\n");
 	write_boot_log(g_boot_log, "debug_save controls=start_tap_menu start_hold_objective files=save_a.bin,save_b.bin\n");
+	loading.draw(graphics, LoadStage::Ready, .95f);
+    prepare_pause_resources();
+    prepare_vita_save_browser(save_browser);
 	loading.draw(graphics, LoadStage::Ready, 1.f);
 	loading.release();
 	write_boot_log(g_boot_log, "debug_loading_screen completed=1\n");
@@ -5042,6 +5124,7 @@ int main(int argc,char**argv)
 		const MobileTextureProfile texture_profile{++frame_number};
 		SceUInt64 frame_selection_us = 0;
 		SceUInt64 frame_load_us = 0;
+        SceUInt64 frame_modal_us=0;
 		SceCtrlData pad{};
 		const bool has_input = sceCtrlPeekBufferPositive(0, &pad, 1) > 0;
 		if (!has_input)
@@ -5068,8 +5151,11 @@ int main(int argc,char**argv)
 		}
 		const bool sprint_pressed = (pressed & SCE_CTRL_L3) || (rear_sprint && !rear_sprint_held);
 		rear_sprint_held = rear_sprint;
+        const bool zone_dialog_active=zone_confirmation.active();
+        const unsigned zone_exit_choice=zone_dialog_active?zone_confirmation.exit():0;
+        bool zone_transition_confirmed=false;
 		const bool save_dialog_active = trader_dialog_open || wolf_dialog_open || scout_dialog_open ||
-			allegro_dialog_open || flash_dialog_open || campaign_open || exchange_open();
+			allegro_dialog_open || flash_dialog_open || campaign_open || exchange_open() || zone_dialog_active;
 		const bool start_chord = quit_requested ||
 			(pad.buttons & (SCE_CTRL_TRIANGLE | SCE_CTRL_START)) == (SCE_CTRL_TRIANGLE | SCE_CTRL_START);
 		const bool save_start_down = (pad.buttons & SCE_CTRL_START) != 0;
@@ -5112,10 +5198,16 @@ int main(int argc,char**argv)
 						save_message = VitaSaveMessage::Unsafe;
 					else
 					{
-						const int slot=browse_vita_saves(graphics,pause_menu,true);
+						const int slot=browse_vita_saves(graphics,pause_menu,save_browser,true,&frame_modal_us);
+                        previous_frame=now+frame_modal_us;previous_present_end+=frame_modal_us;
                         sceCtrlPeekBufferPositive(0,&pad,1);previous_buttons=pad.buttons;
                         if(slot<0)continue;
-                        const bool saved = write_vita_slot(save_directory,unsigned(slot),capture_save());
+                        const auto write_started=sceKernelGetProcessTimeWide();
+                        const auto captured=capture_save();
+                        const auto captured_at=sceKernelGetProcessTimeWide();
+                        const bool saved = write_vita_slot(save_directory,unsigned(slot),captured);
+                        char timing[160];snprintf(timing,sizeof(timing),"debug_save_io operation=write capture_us=%llu io_us=%llu written=%u\n",
+                            static_cast<unsigned long long>(captured_at-write_started),static_cast<unsigned long long>(sceKernelGetProcessTimeWide()-captured_at),unsigned(saved));write_boot_log(g_boot_log,timing);
 						save_message = saved ? VitaSaveMessage::Saved : VitaSaveMessage::SaveFailed;
 						write_boot_log(g_boot_log, saved ? "debug_save written=1\n" : "debug_save written=0\n");
 					}
@@ -5123,10 +5215,14 @@ int main(int argc,char**argv)
 				else if (save_choice == 2)
 				{
 					VitaSaveState state;
-					const int slot=browse_vita_saves(graphics,pause_menu,false);
+					const int slot=browse_vita_saves(graphics,pause_menu,save_browser,false,&frame_modal_us);
+                    previous_frame=now+frame_modal_us;previous_present_end+=frame_modal_us;
                         sceCtrlPeekBufferPositive(0,&pad,1);previous_buttons=pad.buttons;
                     if(slot<0)continue;
+                    const auto read_started=sceKernelGetProcessTimeWide();
                     const bool read=read_vita_slot(save_directory,unsigned(slot),state);
+                    char read_timing[120];snprintf(read_timing,sizeof(read_timing),"debug_save_io operation=read io_us=%llu loaded=%u\n",
+                        static_cast<unsigned long long>(sceKernelGetProcessTimeWide()-read_started),unsigned(read));write_boot_log(g_boot_log,read_timing);
                     if(read&&state.zone!=g_zone){relaunch_vita_state(graphics,state);save_message=VitaSaveMessage::LoadFailed;continue;}
                     const bool loaded = read && apply_save(state);
 					save_message = loaded ? VitaSaveMessage::None : VitaSaveMessage::LoadFailed;
@@ -5160,45 +5256,22 @@ int main(int argc,char**argv)
 				}
 			}
 		}
-		if (save_menu_open && !pause_resources_active)
-		{
-			pause_resources_active = true;
-			const bool ui_ready = pause_menu.initialize();
-			bool source_found = false;
-			bool background_ready = false, artwork_ready = false;
-			if (ui_ready)
-			{
-				background_ready = load_level_dds_texture("ui\\ui_static_main_menu_background",
-					pause_menu.background, 1024u * 1024u * 4u, source_found, 1024);
-				artwork_ready = load_level_dds_texture("ui\\ui_mainmenu",
-					pause_menu.atlas, 1024u * 1024u * 4u, source_found, 1024);
-				if (!background_ready)
-					background_ready = load_level_dds_texture("ui\\ui_static_main_menu_background",
-						pause_menu.background, 512u * 512u * 4u, source_found, 512);
-				if (!artwork_ready)
-					artwork_ready = load_level_dds_texture("ui\\ui_mainmenu",
-						pause_menu.atlas, 512u * 512u * 4u, source_found, 512);
-			}
-			game_audio.stop_speech();
-			apply_audio_settings(pause_music,settings);
-			game_audio.set_ambience(false);
-			const bool music_ready = ui_ready && pause_music.initialize(true);
-			if (music_ready) pause_music.set_radio(0.70f);
-			char line[144];
-			snprintf(line, sizeof(line), "debug_pause_menu ready=%u background=%u artwork=%u music=%u\n",
-				static_cast<unsigned>(ui_ready), static_cast<unsigned>(background_ready),
-				static_cast<unsigned>(artwork_ready), static_cast<unsigned>(music_ready && pause_music.radio_ready()));
-			write_boot_log(g_boot_log, line);
-			if (!ui_ready) save_menu_open = false;
-		}
-		if (!save_menu_open && pause_resources_active)
-		{
-			pause_music.release();
-			pause_menu.release();
-			pause_resources_active = false;
-			write_boot_log(g_boot_log, "debug_pause_menu closed=1\n");
-		}
-		if (!save_menu_open && pause_started)
+        if(save_menu_open&&!pause_resources_active){
+            const auto started=sceKernelGetProcessTimeWide();
+            pause_resources_active=true;
+            const bool ready=prepare_pause_resources();
+            game_audio.stop_speech();game_audio.set_ambience(false);
+            apply_audio_settings(pause_music,settings);
+            if(pause_music_ready)pause_music.set_radio(.70f);
+            char log[120];snprintf(log,sizeof(log),"debug_pause_menu opened=%u open_us=%llu cached=%u\n",
+                unsigned(ready),static_cast<unsigned long long>(sceKernelGetProcessTimeWide()-started),unsigned(pause_resources_ready));write_boot_log(g_boot_log,log);
+            if(!ready)save_menu_open=false;
+        }
+        if(!save_menu_open&&pause_resources_active){
+            pause_music.set_radio(0.f);pause_resources_active=false;
+            write_boot_log(g_boot_log,"debug_pause_menu closed=1 cached=1\n");
+        }
+		if (!save_menu_open && pause_started && !zone_dialog_active)
 		{
 			const SceUInt64 paused = now - pause_started;
 			if (door_open_start) door_open_start += paused;
@@ -5230,7 +5303,10 @@ int main(int argc,char**argv)
             (!door_open_start||door_open_logged)&&(!farm_fight_started||farm_cleared)&&
             std::none_of(grenades.bodies.begin(),grenades.bodies.end(),[](const VitaGrenadeBody&g){return g.active;})){
             const unsigned slot=next_vita_auto_slot(save_directory);
-            const bool saved=write_vita_slot(save_directory,slot,capture_save());
+            const auto captured=capture_save();const auto write_started=sceKernelGetProcessTimeWide();
+            const bool saved=write_vita_slot(save_directory,slot,captured);
+            char timing[120];snprintf(timing,sizeof(timing),"debug_save_io operation=auto io_us=%llu written=%u\n",
+                static_cast<unsigned long long>(sceKernelGetProcessTimeWide()-write_started),unsigned(saved));write_boot_log(g_boot_log,timing);
             auto_retry_after=played_seconds+(saved?15:30);
             if(saved){auto_played=played_seconds;auto_flags=checkpoint_flags;}
             char log[128];snprintf(log,sizeof(log),"debug_autosave slot=%u written=%u played=%u\n",
@@ -5263,13 +5339,13 @@ int main(int argc,char**argv)
 			hypotf(moving_player_eye[0] - wolf_target.x, moving_player_eye[2] - wolf_target.z) < 3.f &&
 			is_looking_at(moving_player_eye, view_yaw, view_pitch, wolf_target);
 		const float scout_distance = hypotf(moving_player_eye[0] - scout_target.x, moving_player_eye[2] - scout_target.z);
-		const bool scouts_visible = wolf_mission_accepted && scout_waypoints && player_view && (!bunker_view || bunker_surface);
+		const bool scouts_visible = g_zone!=3 && wolf_mission_accepted && scout_waypoints && player_view && (!bunker_view || bunker_surface);
 		const bool scout_focused = scouts_visible && scout_ui_ready && !scout_met && grounded && scout_distance < 3.f &&
 			fabsf(ground_y - scout_floor) < 1.f && is_looking_at(moving_player_eye, view_yaw, view_pitch, scout_target);
  Fvector campaign_target;
         if(g_zone){campaign_target=scout_transforms[0].c;campaign_target.y+=1.45f;}else campaign_target=trader_target;
         const float campaign_distance=hypotf(campaign_target.x-moving_player_eye[0],campaign_target.z-moving_player_eye[2]);
-        const bool campaign_focused=trader_ui_ready&&grounded&&player_view&&player_health&&
+        const bool campaign_focused=g_zone!=3&&trader_ui_ready&&grounded&&player_view&&player_health&&
             (g_zone?(scout_ready[0]&&campaign_distance<3.2f):(inventory.flash_status()==VitaFlashStatus::Delivered&&!campaign_story&&!north_pages.empty()&&trader_focused))&&
             is_looking_at(moving_player_eye,view_yaw,view_pitch,campaign_target);
 		const auto flash_status = inventory.flash_status();
@@ -5307,12 +5383,12 @@ int main(int argc,char**argv)
         const bool road_focused=g_zone==1&&road_encounter.ready&&road_encounter.cleared()&&!road_pages.empty()&&
             player_health&&player_view&&grounded&&std::hypot(moving_player_eye[0]-road_target.x,moving_player_eye[2]-road_target.z)<3.f&&
             is_looking_at(moving_player_eye,view_yaw,view_pitch,road_target);
-		const bool any_dialog = scout_dialog_open || wolf_dialog_open || trader_dialog_open || allegro_dialog_open || flash_dialog_open || campaign_open || exchange_open();
+		const bool any_dialog = zone_dialog_active || scout_dialog_open || wolf_dialog_open || trader_dialog_open || allegro_dialog_open || flash_dialog_open || campaign_open || exchange_open();
 		const auto select_action = select_gesture.update((pad.buttons & SCE_CTRL_SELECT) != 0,
 			has_input && player_view && player_health && !any_dialog && !quit_requested && !save_consumed_input, now);
 		const bool toggle_inventory = inventory_ready && select_action == VitaButtonAction::Hold;
 		const bool toggle_pda = pda_ready && select_action == VitaButtonAction::Tap;
-		const bool menu_consumed_input = exchange_open() || inventory_open || pda_open || toggle_inventory || toggle_pda || save_consumed_input;
+		const bool menu_consumed_input = zone_dialog_active || exchange_open() || inventory_open || pda_open || toggle_inventory || toggle_pda || save_consumed_input;
 		const SquareContext square_context = menu_consumed_input || any_dialog ? SquareContext::Menu :
 			player_view ? SquareContext::World : SquareContext::Orbit;
 		const bool square_down = (pad.buttons & SCE_CTRL_SQUARE) != 0;
@@ -5323,29 +5399,77 @@ int main(int argc,char**argv)
 		previous_square_context = square_context;
 		const bool interact_pressed = square_action == VitaButtonAction::Tap;
 		const bool reload_held = square_context == SquareContext::World && square_action == VitaButtonAction::Hold;
+
+        const std::array<float,3> stash_feet={moving_player_eye[0],ground_y,moving_player_eye[2]};
+        const bool stash_context=g_zone==3&&player_view&&player_health&&grounded&&!jump.active()&&!any_dialog&&!menu_consumed_input;
+        int stash_action=-1;
+        if(stash_context){
+         Fvector flash_target;flash_target.set(vita_strelok_flash[0],vita_strelok_flash[1],vita_strelok_flash[2]);
+         if(campaign_story<7&&vita_stash_near(stash_feet,vita_strelok_flash,2.4f,2.f)&&
+             is_looking_at(moving_player_eye,view_yaw,view_pitch,flash_target)){
+          const float dx=flash_target.x-moving_player_eye[0],dy=flash_target.y-moving_player_eye[1],dz=flash_target.z-moving_player_eye[2];
+          const float length=std::sqrt(dx*dx+dy*dy+dz*dz);
+          const float ray[]={dx/std::max(length,.01f),dy/std::max(length,.01f),dz/std::max(length,.01f)};
+          if(!player_ground.blocks_ray(moving_player_eye,ray,std::max(0.f,length-.15f)))stash_action=2;
+         }
+         if(stash_action<0&&vita_stash_near(stash_feet,vita_strelok_ladder_bottom,2.8f,5.5f))stash_action=0;
+         else if(stash_action<0&&vita_stash_near(stash_feet,vita_strelok_ladder_top,1.65f,1.2f))stash_action=1;
+        }
 		bool dialog_consumed_input = menu_consumed_input;
-		if (save_consumed_input)
-			dialog_consumed_input = true;
+        if(zone_dialog_active){
+            dialog_consumed_input=true;movement.cancel_input();
+            const bool released=(pad.buttons&(SCE_CTRL_CROSS|SCE_CTRL_CIRCLE|SCE_CTRL_SQUARE|SCE_CTRL_START))==0;
+            const auto action=zone_confirmation.update((pressed&SCE_CTRL_CROSS)!=0,(pressed&SCE_CTRL_CIRCLE)!=0,released);
+            zone_transition_confirmed=action==VitaZoneConfirmation::Action::Confirm;
+            if(action==VitaZoneConfirmation::Action::Cancel)write_boot_log(g_boot_log,"debug_zone_confirmation cancelled=1\n");
+            if(zone_transition_confirmed)write_boot_log(g_boot_log,"debug_zone_confirmation confirmed=1\n");
+        }
+        else if (save_consumed_input)
+            dialog_consumed_input = true;
+        else if(stash_action>=0&&interact_pressed&&!diagnostic_toggle){
+            dialog_consumed_input=true;movement.cancel_input();
+            if(stash_action==2){
+                if(inventory.receive_strelok_flash()){
+                    campaign_story=7;campaign_page=0;campaign_is_stash=true;trader_ui.campaign_information=true;campaign_is_road=false;trader_ui.campaign_road=false;
+                    campaign_pages=strelok_pages;
+                    campaign_open=!campaign_pages.empty()&&trader_ui.set_campaign_page("PDA",campaign_pages[0]);
+                    write_boot_log(g_boot_log,"debug_strelok flash_taken=1 next=find_ghost\n");
+                }
+            }else{
+                // Contextual ladder traversal. Both landings must support the player with headroom.
+                const auto&landing=stash_action==0?vita_strelok_ladder_top:vita_strelok_ladder_bottom;
+                float floor=landing[1];const float up[]={0,1,0};
+                if(ground_ready&&player_ground.height_at(landing[0],landing[2],floor,.25f,.25f,floor)){
+                    const float base[]={landing[0],floor+.05f,landing[2]};
+                    if(!player_ground.blocks_ray(base,up,movement.body_height())){
+                        moving_player_eye[0]=landing[0];moving_player_eye[2]=landing[2];
+                        ground_y=floor;moving_player_eye[1]=floor+movement.eye_height();grounded=true;
+                        write_boot_log(g_boot_log,stash_action==0?"debug_strelok ladder_up=1\n":"debug_strelok ladder_down=1\n");
+                    }
+                }
+            }
+        }
         else if(campaign_open){
             dialog_consumed_input=true;movement.cancel_input();
             if(pressed&SCE_CTRL_CIRCLE){campaign_open=false;}
             else if(interact_pressed||(pressed&SCE_CTRL_CROSS)){
                 if(++campaign_page>=campaign_pages.size()){
                     campaign_open=false;
-                    if(campaign_is_road)road_encounter.flags|=4;
+                    if(campaign_is_stash){}
+                    else if(campaign_is_road)road_encounter.flags|=4;
                     else if(!g_zone)campaign_story=std::max(campaign_story,1u);
-                    else if(campaign_cleared_dialog)campaign_story=std::max(campaign_story,g_zone==1?3u:5u);
+                    else if(!campaign_is_stash&&campaign_cleared_dialog)campaign_story=std::max(campaign_story,g_zone==1?3u:5u);
                     write_boot_log(g_boot_log,"debug_campaign dialogue_completed=1\n");
                 }else trader_ui.set_campaign_page(campaign_name(),campaign_pages[campaign_page]);
             }
         }
         else if(road_focused&&!any_dialog&&!menu_consumed_input&&!diagnostic_toggle&&interact_pressed){
-            dialog_consumed_input=true;movement.cancel_input();campaign_page=0;campaign_is_road=true;trader_ui.campaign_road=true;
+            dialog_consumed_input=true;movement.cancel_input();campaign_page=0;campaign_is_stash=false;trader_ui.campaign_information=false;campaign_is_road=true;trader_ui.campaign_road=true;
             campaign_pages=road_pages;campaign_open=trader_ui.set_campaign_page(campaign_name(),campaign_pages[0]);
             write_boot_log(g_boot_log,"debug_garbage_road dialogue_opened=1\n");
         }
         else if(campaign_focused&&!any_dialog&&!menu_consumed_input&&!diagnostic_toggle&&interact_pressed){
-            dialog_consumed_input=true;movement.cancel_input();campaign_page=0;campaign_is_road=false;trader_ui.campaign_road=false;
+            dialog_consumed_input=true;movement.cancel_input();campaign_page=0;campaign_is_stash=false;trader_ui.campaign_information=false;campaign_is_road=false;trader_ui.campaign_road=false;
             campaign_cleared_dialog=!g_zone||farm_cleared;
             campaign_pages=campaign_cleared_dialog?north_pages:attack_pages;
             if(!campaign_pages.empty())campaign_open=trader_ui.set_campaign_page(campaign_name(),campaign_pages[0]);
@@ -5938,9 +6062,9 @@ int main(int argc,char**argv)
 		const bool outdoor_player = player_view && !isolate_terrain && (!bunker_view ||
 			(bunker_surface && !at_bunker_stairs(moving_player_eye[0], moving_player_eye[2])));
 		const bool menu_open = pda_open || save_menu_open;
-		const bool sky_visible = outdoor_player || (player_view && !isolate_terrain && bunker_view &&
+		const bool sky_visible = g_zone!=3 && (outdoor_player || (player_view && !isolate_terrain && bunker_view &&
 			door_open_logged && at_bunker_stairs(moving_player_eye[0], moving_player_eye[2]) &&
-			moving_player_eye[1] > bunker_ground_y + 2.5f);
+			moving_player_eye[1] > bunker_ground_y + 2.5f));
 		const bool weapon_input = player_view && player_health && !dialog_consumed_input && !isolate_terrain && !diagnostic_toggle && !quit_requested;
 		if (weapon_input && !grenade_pending && (pressed & SCE_CTRL_TRIANGLE))
 		{
@@ -6000,7 +6124,7 @@ int main(int argc,char**argv)
 			return false;
 		};
 		// scripts\\magnitofon\\magnitofon_2 in l01_escape/level.snd_static.
-		const bool outside_audio=outdoor_player&&!menu_consumed_input&&!any_dialog&&!quit_requested&&player_health;
+		const bool outside_audio=g_zone!=3&&outdoor_player&&!menu_consumed_input&&!any_dialog&&!quit_requested&&player_health;
 		game_audio.set_ambience(outside_audio);
 		if(outside_audio&&now>=next_ambient)
 		{
@@ -6149,7 +6273,7 @@ int main(int argc,char**argv)
 			logged_aim = aiming;
 		}
 		std::array<bool, 3> scout_walking{};
-		if(g_zone&&campaign_distance<80&&!farm_cleared)farm_fight_started=true;
+		if(g_zone&&((g_zone==3)||campaign_distance<80)&&!farm_cleared)farm_fight_started=true;
         if (outdoor_player && assault_with_group && !menu_consumed_input && player_health && (!g_zone||farm_fight_started))
 		{
 			assault_elapsed += frame_seconds;
@@ -6648,6 +6772,14 @@ int main(int argc,char**argv)
 					npc_weapon_draw_logged[kind] = true;
 				}
 			};
+
+            if(g_zone==3&&campaign_story<7&&strelok_item_ready){
+                Fmatrix item;item.setXYZ(-.003072292f,0.f,0.f);item.c.set(vita_strelok_flash[0],vita_strelok_flash[1],vita_strelok_flash[2]);
+                set_render_view(item.m[0]);
+                for(const auto&part:strelok_item)if(part.indices.index_count())
+                    debug_renderer.draw_geometry_range(part.vertices,part.indices,0,part.vertices.vertex_count(),0,part.indices.index_count(),use_textures?part.texture.handle():0);
+                set_render_view(nullptr);
+            }
 			const bool use_lightmaps = use_textures && (player_view || (pad.buttons & SCE_CTRL_CROSS) == 0);
 			const bool use_detail = use_lightmaps && !(isolate_terrain && (pad.buttons & SCE_CTRL_UP));
 			const bool use_mobile_selection = player_view && !isolate_terrain && mobile_active;
@@ -7145,22 +7277,33 @@ int main(int argc,char**argv)
             while(survival_seconds>=4.f){inventory.survival_tick(player_health);survival_seconds-=4.f;}
         }
 
-        if(g_zone&&farm_cleared)campaign_story=std::max(campaign_story,g_zone==1?2u:4u);
+        if((g_zone==1||g_zone==2)&&farm_cleared)campaign_story=std::max(campaign_story,g_zone==1?2u:4u);
+
+        campaign_story=vita_stash_progress(g_zone,campaign_story,{moving_player_eye[0],ground_y,moving_player_eye[2]});
         const VitaZoneExit*near_exit=nullptr;
         for(const auto&exit:vita_zone_exits)
             if(vita_exit_near(exit,g_zone,{moving_player_eye[0],ground_y,moving_player_eye[2]}))near_exit=&exit;
         if(near_exit&&interact_pressed&&!dialog_consumed_input&&!any_dialog&&grounded&&!jump.active()&&
-            !reload_deadline&&!grenade_pending&&now>=transition_retry_after&&
-            std::none_of(grenades.bodies.begin(),grenades.bodies.end(),[](const VitaGrenadeBody&g){return g.active;})){
+            !reload_deadline&&!grenade_pending&&now>=transition_retry_after&&zone_confirmation_ui_ready&&
+            std::none_of(grenades.bodies.begin(),grenades.bodies.end(),[](const VitaGrenadeBody&g){return g.active;})&&
+            vita_exit_allowed(*near_exit,campaign_story)){
+            if(zone_confirmation.open(unsigned(near_exit-vita_zone_exits.data()))){
+                pause_started=now;movement.cancel_input();
+                char log[100];snprintf(log,sizeof(log),"debug_zone_confirmation opened=1 from=%u to=%u\n",near_exit->from,near_exit->to);write_boot_log(g_boot_log,log);
+            }
+        }
+        if(zone_transition_confirmed&&zone_exit_choice<vita_zone_exits.size()){
+            const auto&exit=vita_zone_exits[zone_exit_choice];
             transition_retry_after=now+2000000;
             VitaSaveState destination;
-            if(vita_exit_allowed(*near_exit,campaign_story)&&change_vita_zone(capture_save(),*near_exit,destination)){
+            if(vita_exit_near(exit,g_zone,{moving_player_eye[0],ground_y,moving_player_eye[2]})&&
+                vita_exit_allowed(exit,campaign_story)&&change_vita_zone(capture_save(),exit,destination)){
                 game_audio.stop_speech();
-                // Present the loading screen on the real framebuffer, including FXAA/DOF modes.
+                // A confirmed transition retains the original checkpoint and loading screen.
                 postprocess.finish();
                 relaunch_vita_state(graphics,destination);
-                save_menu_open=true;pause_started=now;save_message=VitaSaveMessage::LoadFailed;
-            }
+                save_menu_open=true;save_message=VitaSaveMessage::LoadFailed;
+            }else write_boot_log(g_boot_log,"debug_zone_confirmation invalidated=1\n");
         }
 
         if(loot_visual_ready&&player_view&&!menu_open&&!isolate_terrain)
@@ -7210,7 +7353,7 @@ int main(int argc,char**argv)
             };
             if(wolf_visible)offer(wolf_spawn_transform.c,1,1);
             if(scouts_visible)for(unsigned i=0;i<3;++i)if(scout_ready[i]&&battle.scouts[i].health)offer(scout_transforms[i].c,1,i?5:2);
-            if(allegro_model_ready&&scout_met)offer(allegro_transform.c,1,3);
+            if(!g_zone&&allegro_model_ready&&scout_met)offer(allegro_transform.c,1,3);
             if(trader_nearby)offer(trader_transform.c,1,0);
             if(outdoor_player&&scout_met)for(unsigned i=0;i<6;++i)if(guards_placed[i]&&guard_health[i])offer(guard_transforms[i].c,-1,4);
             if(g_zone==1&&road_encounter.ready)for(unsigned i=0;i<4;++i){
@@ -7221,7 +7364,7 @@ int main(int argc,char**argv)
         }
 		const auto current_flash = inventory.flash_status();
 		postprocess.finish();
-		const bool dialog_open = trader_dialog_open || wolf_dialog_open || scout_dialog_open || allegro_dialog_open || flash_dialog_open || campaign_open || exchange_open();
+		const bool dialog_open = zone_dialog_active || trader_dialog_open || wolf_dialog_open || scout_dialog_open || allegro_dialog_open || flash_dialog_open || campaign_open || exchange_open();
 		if (!inventory_open && !save_menu_open && player_view && !isolate_terrain && !dialog_open)
 		{
 			const auto draw_weapon = [&](auto& parts, size_t frame, const float center[3]) {
@@ -7326,15 +7469,21 @@ int main(int argc,char**argv)
 			}
             if(campaign_story||g_zone){
                 objective=VitaHudObjective::None;marker=nullptr;
-                if(g_zone==0)marker=vita_zone_exits[0].center.data();
+                if(campaign_story>=7){if(g_zone==3)marker=vita_zone_exits[5].center.data();}
+                else if(g_zone==0)marker=vita_zone_exits[0].center.data();
                 else if(g_zone==1&&campaign_story>=3)marker=vita_zone_exits[2].center.data();
+                else if(g_zone==2&&campaign_story>=5)marker=vita_zone_exits[4].center.data();
+                else if(g_zone==3)marker=campaign_story>=7?vita_zone_exits[5].center.data():
+                    campaign_story>=6?vita_strelok_flash.data():vita_strelok_ladder_bottom.data();
                 else if(farm_cleared)marker=&scout_transforms[0].c.x;
                 else for(unsigned i=0;i<6;++i)if(guard_health[i]){marker=&guard_transforms[i].c.x;break;}
                 const unsigned key=g_zone*16+campaign_story+(farm_cleared?8:0);
                 if(key!=last_campaign_key){
-                    const char*caption=!g_zone?vita_text("Rejoindre la D\xe9" "charge","Reach the Garbage"):
+                    const char*caption=campaign_story>=7?vita_text("Trouver Spectre","Find Ghost"):!g_zone?vita_text("Rejoindre la D\xe9" "charge","Reach the Garbage"):
                         g_zone==1?(campaign_story>=3?vita_text("Rejoindre Agroprom","Reach Agroprom"):
                          farm_cleared?vita_text("Parler \xe0 Seriy","Talk to Seriy"):vita_text("D\xe9" "fendre le hangar","Defend the hangar")):
+                        campaign_story>=7?vita_text("Trouver Spectre","Find Ghost"):
+                        campaign_story>=6?vita_text("Trouver les informations de Strelok","Find Strelok's information"):
                         campaign_story>=5?vita_text("Trouver la planque de Strelok","Find Strelok's stash"):
                          farm_cleared?vita_text("Parler \xe0 la Taupe","Talk to Mole"):vita_text("Aider la Taupe","Help Mole");
                     trader_ui.set_campaign_objective(caption);
@@ -7390,7 +7539,9 @@ int main(int argc,char**argv)
 				trader_ui.draw(trader_dialog_open, trader_choice, trader_confirmed, door_prompt);
 			}
 		}
-        if(near_exit&&!save_consumed_input&&!inventory_open&&!pda_open&&!any_dialog&&!exchange_open())
+        if(stash_action>=0&&trader_ui_ready&&!any_dialog&&!inventory_open&&!pda_open&&!save_consumed_input)
+            trader_ui.draw_stash_prompt(unsigned(stash_action));
+        if(near_exit&&!zone_confirmation.active()&&!save_consumed_input&&!inventory_open&&!pda_open&&!any_dialog&&!exchange_open())
             trader_ui.draw_zone_exit(unsigned(near_exit-vita_zone_exits.data()),vita_exit_allowed(*near_exit,campaign_story));
         if(settings.hints&&inventory_ready&&!save_consumed_input&&!inventory_open&&!pda_open&&!exchange_open()&&!any_dialog)
         {
@@ -7402,6 +7553,8 @@ int main(int argc,char**argv)
 			const float strength = player_health ? 1.f - static_cast<float>(now - player_hit_time) / 300000.f : 1.f;
 			inventory_ui.draw_damage(strength, player_health == 0);
 		}
+        if(zone_confirmation.active())
+            trader_ui.draw_zone_confirmation(vita_zone_exits[zone_confirmation.exit()].to);
 		if (save_menu_open && pause_resources_active)
 			pause_menu.draw(graphics, save_choice, true, false, true, player_health == 0, save_message);
 		const SceUInt64 draw_end = sceKernelGetProcessTimeWide();
@@ -7440,7 +7593,7 @@ int main(int argc,char**argv)
 		const SceUInt64 present_end = sceKernelGetProcessTimeWide();
 		if (player_view)
 			g_measured_present_thread.store(-1);
-		const SceUInt64 frame_us = present_end - now;
+		const SceUInt64 frame_us = present_end - now - frame_modal_us;
 		previous_present_end = present_end;
 		const int render_mode = outdoor_player && !menu_consumed_input ? (sky_drawn ? 1 : 0) + (foliage_cutout_enabled ? 2 : 0) : -1;
 		if (render_mode != measured_render_mode)
@@ -7500,7 +7653,7 @@ int main(int argc,char**argv)
 					frame_number, moving_player_eye[0], moving_player_eye[2], view_yaw * 57.2957795f,
 					static_cast<unsigned long long>(frame_us), static_cast<unsigned long long>(frame_selection_us),
 					static_cast<unsigned long long>(frame_load_us), static_cast<unsigned long long>(present_end - present_start),
-					static_cast<unsigned long long>(begin_start - now), static_cast<unsigned long long>(begin_end - begin_start),
+					static_cast<unsigned long long>(begin_start - now - frame_modal_us), static_cast<unsigned long long>(begin_end - begin_start),
 					static_cast<unsigned long long>(draw_start - begin_end), static_cast<unsigned long long>(draw_end - draw_start),
 					static_cast<unsigned long long>(present_start - draw_end), static_cast<unsigned long long>(gap_us),
 					static_cast<unsigned long long>(interval_us), meshes_drawn, static_cast<unsigned>(indices_drawn),
@@ -7532,6 +7685,7 @@ int main(int argc,char**argv)
 	if (mobile_dds.wake >= 0)
 		sceKernelDeleteSema(mobile_dds.wake);
 
+	save_browser.release();
 	pause_music.release();
 	pause_menu.release();
 	postprocess.release();
@@ -7607,6 +7761,7 @@ int main(int argc,char**argv)
 			loaded_lightmap_textures[i]->release();
 	for (VitaGLTexture& detail : terrain_detail_textures)
 		detail.release();
+	for(auto&part:strelok_item){part.texture.release();part.indices.release();part.vertices.release();}
 	for (auto& weapon : npc_weapons)
 		for (auto& part : weapon)
 		{

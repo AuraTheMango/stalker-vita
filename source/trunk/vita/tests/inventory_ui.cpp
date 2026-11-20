@@ -69,7 +69,8 @@ int main(int argc,char**argv){
   }
  };
  VitaInventory inv;inv.grant_starting_equipment();inv.receive_flash();
- for(unsigned i=4;i<vita_item_count;++i)assert(inv.add(static_cast<VitaInventoryItem>(i),2));
+ for(unsigned i=4;i<vita_item_count-1;++i)assert(inv.add(static_cast<VitaInventoryItem>(i),2));
+ assert(inv.receive_strelok_flash());
  inv.toggle_pistol(VitaInventoryItem::Pistol);
  for(unsigned selection=0;selection<vita_item_count;++selection){
   ui.draw(inv,77);bounds();inv.move_selection(1);
@@ -125,5 +126,5 @@ int main(int argc,char**argv){
   assert(frame&&icon&&slash);
   if(slot==0&&mode==0)dump((std::string("ammo-")+std::to_string(percent)+".csv").c_str());
  }
- puts("Inventory / trade / loot: original draw code, all 23 selections, bounds, UVs, grid, and inventory without PM passed");
+ puts("Inventory / trade / loot: original draw code, all 24 selections, bounds, UVs, grid, and inventory without PM passed");
 }

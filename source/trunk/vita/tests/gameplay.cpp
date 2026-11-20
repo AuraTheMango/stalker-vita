@@ -60,7 +60,7 @@ int main(int argc,char**argv){
  VitaSaveState state;state.eye={0,1.7f,0};state.guards.fill(2);
  state.scout_health={71,0,94};state.guard_positions[0]={12,3,8};
  state.inventory=inv.state();state.flags=SaveDoorUnlocked;
- auto bytes=encode(state,1);assert(bytes.size()==18600);
+ auto bytes=encode(state,1);assert(bytes.size()==23232);
  const auto save=std::string(argv[1])+"/save_a.bin";
  auto put=[&](const auto& data){std::ofstream f(save,std::ios::binary);f.write((const char*)data.data(),data.size());};
  put(bytes);VitaSaveState restored;

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(stalker_vita VERSION 0.0.25 LANGUAGES CXX)
+project(stalker_vita VERSION 0.0.28 LANGUAGES CXX)
 
 include("$ENV{VITASDK}/share/vita.cmake" REQUIRED)
 add_subdirectory("../xrCore" xrCore)
@@ -10,7 +10,7 @@ set(STALKER_ASSET_DIR "${CMAKE_SOURCE_DIR}/../../../../assets" CACHE PATH "Priva
 set(VITA_APP_NAME "Stalker Vita")
 set(VITA_TITLEID "STLK00001")
 # The Vita APP_VER field uses NN.NN. The project release version names the VPK.
-set(VITA_APP_VERSION "01.31")
+set(VITA_APP_VERSION "01.34")
 
 add_executable(stalker_vita
 	main.cpp
@@ -28,7 +28,9 @@ target_compile_options(stalker_vita PRIVATE
 	-Os
 )
 
+set_property(TARGET stalker_vita APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/vita_sce_gap.ld")
 target_link_options(stalker_vita PRIVATE
+    "-Wl,-T,${CMAKE_CURRENT_SOURCE_DIR}/vita_sce_gap.ld"
 	# Keep enough space after the executable segment for vita-elf-create metadata.
 	-Wl,-z,separate-code
 	# Observe the SDK calls made by vitaGL during presentation.
