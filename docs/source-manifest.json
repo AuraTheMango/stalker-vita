@@ -1,0 +1,1352 @@
+[
+  {
+    "path": "source/License.txt",
+    "source_sha256": "670431257d2d2cb2c962b04c4f80ff5bd78044f76f2a8b794a5e1a7f0013d49b",
+    "export_sha256": "670431257d2d2cb2c962b04c4f80ff5bd78044f76f2a8b794a5e1a7f0013d49b"
+  },
+  {
+    "path": "source/trunk/vita/tests/README.md",
+    "source_sha256": "dd0fd17719ecce8d0d1816d161ee549ac27cec173953fc2a5f8e750b69221995",
+    "export_sha256": "dd0fd17719ecce8d0d1816d161ee549ac27cec173953fc2a5f8e750b69221995"
+  },
+  {
+    "path": "source/trunk/vita/tests/assault_advance.cpp",
+    "source_sha256": "b161be344aea414fb340c314b69cf642583b5fb3473515e5957b45ccb67d1f11",
+    "export_sha256": "b161be344aea414fb340c314b69cf642583b5fb3473515e5957b45ccb67d1f11"
+  },
+  {
+    "path": "source/trunk/vita/tests/audio.cpp",
+    "source_sha256": "a671d5b8e2540615def637b2f06c30e19b7f28c9f57f04807a46ef34ac749170",
+    "export_sha256": "a671d5b8e2540615def637b2f06c30e19b7f28c9f57f04807a46ef34ac749170"
+  },
+  {
+    "path": "source/trunk/vita/tests/audio_stubs/psp2/audioout.h",
+    "source_sha256": "a1d99ab05af87571f2ba87f2e5e2b16da6294141ff88b0b0a8abea19d2024bff",
+    "export_sha256": "a1d99ab05af87571f2ba87f2e5e2b16da6294141ff88b0b0a8abea19d2024bff"
+  },
+  {
+    "path": "source/trunk/vita/tests/audio_stubs/psp2/io/fcntl.h",
+    "source_sha256": "6af94551b5a50cd6b4e6c2dd94bcf296d8e8820b266367dbe81d0914291c6803",
+    "export_sha256": "6af94551b5a50cd6b4e6c2dd94bcf296d8e8820b266367dbe81d0914291c6803"
+  },
+  {
+    "path": "source/trunk/vita/tests/audio_stubs/psp2/io/stat.h",
+    "source_sha256": "c22463c2057b186a39fb7c52daccd793f40594b862619d97af4719cf46ea9e99",
+    "export_sha256": "c22463c2057b186a39fb7c52daccd793f40594b862619d97af4719cf46ea9e99"
+  },
+  {
+    "path": "source/trunk/vita/tests/audio_stubs/psp2/kernel/threadmgr.h",
+    "source_sha256": "d7406ca188a9d587c32c602f376ae6f283fb45ffa45078ab9db6ee3e48fc0e68",
+    "export_sha256": "d7406ca188a9d587c32c602f376ae6f283fb45ffa45078ab9db6ee3e48fc0e68"
+  },
+  {
+    "path": "source/trunk/vita/tests/audio_stubs/psp2/types.h",
+    "source_sha256": "84d5a726c168d190ffa1ad1dd4526b100094274840c84ddc2a271c6108ffbfe5",
+    "export_sha256": "84d5a726c168d190ffa1ad1dd4526b100094274840c84ddc2a271c6108ffbfe5"
+  },
+  {
+    "path": "source/trunk/vita/tests/campaign.cpp",
+    "source_sha256": "f5212a372ac3e61b461982081dac936a7a6f09fb0b85e25dbac8568b49e71d7c",
+    "export_sha256": "f5212a372ac3e61b461982081dac936a7a6f09fb0b85e25dbac8568b49e71d7c"
+  },
+  {
+    "path": "source/trunk/vita/tests/campaign_assets.py",
+    "source_sha256": "a6fb6cb9338b426f8350afe0b52d90bb3641a03057e68827e462757b71c6c140",
+    "export_sha256": "a6fb6cb9338b426f8350afe0b52d90bb3641a03057e68827e462757b71c6c140"
+  },
+  {
+    "path": "source/trunk/vita/tests/campaign_dialogue.cpp",
+    "source_sha256": "31a0d2354542c48190d6ec6bc814fe12471b4f1fcfadf191df3b88c4cb81a14f",
+    "export_sha256": "31a0d2354542c48190d6ec6bc814fe12471b4f1fcfadf191df3b88c4cb81a14f"
+  },
+  {
+    "path": "source/trunk/vita/tests/campaign_interaction.cpp",
+    "source_sha256": "0ecfe7f0fa9764c1f660873e18b4addb1e95878ba32446f6ac4e19a4adc7ab8a",
+    "export_sha256": "0ecfe7f0fa9764c1f660873e18b4addb1e95878ba32446f6ac4e19a4adc7ab8a"
+  },
+  {
+    "path": "source/trunk/vita/tests/campaign_maps.cpp",
+    "source_sha256": "cb0d9bcd0962987beae2c73497fc122e4d4224322c6fe729d3ecc6ca3a554166",
+    "export_sha256": "cb0d9bcd0962987beae2c73497fc122e4d4224322c6fe729d3ecc6ca3a554166"
+  },
+  {
+    "path": "source/trunk/vita/tests/campaign_models.cpp",
+    "source_sha256": "31d53abc5853d194b474d11e3520918d8ceb5494177992bc72bf2dd0868a35b9",
+    "export_sha256": "31d53abc5853d194b474d11e3520918d8ceb5494177992bc72bf2dd0868a35b9"
+  },
+  {
+    "path": "source/trunk/vita/tests/collision_storage.cpp",
+    "source_sha256": "372d72ff12496090ea86d1ae3340f133288261bc539e13c917f3b92a8ca6368f",
+    "export_sha256": "372d72ff12496090ea86d1ae3340f133288261bc539e13c917f3b92a8ca6368f"
+  },
+  {
+    "path": "source/trunk/vita/tests/convert_original_audio.py",
+    "source_sha256": "a37158473342aeb7e19174f569f61de7b8d9fad90d0ba32e0dabd49685252c2d",
+    "export_sha256": "a37158473342aeb7e19174f569f61de7b8d9fad90d0ba32e0dabd49685252c2d"
+  },
+  {
+    "path": "source/trunk/vita/tests/dialogue_ui.cpp",
+    "source_sha256": "984462ed3af02c57ba4c979908d51f2596395938ba462c90df953c70ec9c9da4",
+    "export_sha256": "984462ed3af02c57ba4c979908d51f2596395938ba462c90df953c70ec9c9da4"
+  },
+  {
+    "path": "source/trunk/vita/tests/economy.cpp",
+    "source_sha256": "1a8a8624aec52ea531483efd9f7cd177d93951c33c7a270e707e81c22d429633",
+    "export_sha256": "1a8a8624aec52ea531483efd9f7cd177d93951c33c7a270e707e81c22d429633"
+  },
+  {
+    "path": "source/trunk/vita/tests/extract_original.py",
+    "source_sha256": "4ae5db9f9458b6ff9019ca02e3653ee4614fc81d8f99f8bae99733a7bb1e910b",
+    "export_sha256": "4ae5db9f9458b6ff9019ca02e3653ee4614fc81d8f99f8bae99733a7bb1e910b"
+  },
+  {
+    "path": "source/trunk/vita/tests/gameplay.cpp",
+    "source_sha256": "c8183cd6cad3bbdd85823fdcb885d9c8d93fdd068654441208645ce100d2cbbc",
+    "export_sha256": "c8183cd6cad3bbdd85823fdcb885d9c8d93fdd068654441208645ce100d2cbbc"
+  },
+  {
+    "path": "source/trunk/vita/tests/garbage_road.cpp",
+    "source_sha256": "edf597d41b1b26a6936431cc30696b9d39cfdc344c0a1b6176684e1aebbace2c",
+    "export_sha256": "edf597d41b1b26a6936431cc30696b9d39cfdc344c0a1b6176684e1aebbace2c"
+  },
+  {
+    "path": "source/trunk/vita/tests/graphics.py",
+    "source_sha256": "3a5065175f59613254b1de38679f09b05984e27f67e1b522ad45086a73ddfc6b",
+    "export_sha256": "3a5065175f59613254b1de38679f09b05984e27f67e1b522ad45086a73ddfc6b"
+  },
+  {
+    "path": "source/trunk/vita/tests/hud_layout.cpp",
+    "source_sha256": "563f21534c5287a5bd75d361997ba47996b7ed8b3732d79c258a11b3548cabff",
+    "export_sha256": "563f21534c5287a5bd75d361997ba47996b7ed8b3732d79c258a11b3548cabff"
+  },
+  {
+    "path": "source/trunk/vita/tests/inventory_ui.cpp",
+    "source_sha256": "da07115d3ab8a00007f06fac754371f15c470e03fa50c3b401a14004c321c204",
+    "export_sha256": "da07115d3ab8a00007f06fac754371f15c470e03fa50c3b401a14004c321c204"
+  },
+  {
+    "path": "source/trunk/vita/tests/item_crops.cpp",
+    "source_sha256": "3ebef79fa45c5428a9fc4ad3904d57cfe9b0146d102a35f0092208b7e0263120",
+    "export_sha256": "3ebef79fa45c5428a9fc4ad3904d57cfe9b0146d102a35f0092208b7e0263120"
+  },
+  {
+    "path": "source/trunk/vita/tests/menus.cpp",
+    "source_sha256": "d7808666e149942ddb42c5a237a5690c906ee8f6d28d1641c4aabbd823045a43",
+    "export_sha256": "d7808666e149942ddb42c5a237a5690c906ee8f6d28d1641c4aabbd823045a43"
+  },
+  {
+    "path": "source/trunk/vita/tests/model_stubs/xrCore.h",
+    "source_sha256": "9e279b12a026e23b7041a6a34b4c1aecd8e643480b2c4d22884b4aaf15d2a5ca",
+    "export_sha256": "9e279b12a026e23b7041a6a34b4c1aecd8e643480b2c4d22884b4aaf15d2a5ca"
+  },
+  {
+    "path": "source/trunk/vita/tests/npc_models.cpp",
+    "source_sha256": "7ad2aae388e19ea334c57ff4ec7e836108734809fa869524baab1055643a78bd",
+    "export_sha256": "7ad2aae388e19ea334c57ff4ec7e836108734809fa869524baab1055643a78bd"
+  },
+  {
+    "path": "source/trunk/vita/tests/player_weapons.cpp",
+    "source_sha256": "8879e309d3193193d3e9f7846645fbf4410347ab1846cd853f210b9620893b30",
+    "export_sha256": "8879e309d3193193d3e9f7846645fbf4410347ab1846cd853f210b9620893b30"
+  },
+  {
+    "path": "source/trunk/vita/tests/prepare_campaign_fixture.py",
+    "source_sha256": "c0d0c6f8d898df4adbbcfe7ca77ac5cbd649a97133f09fc26524487b714b8ed6",
+    "export_sha256": "c0d0c6f8d898df4adbbcfe7ca77ac5cbd649a97133f09fc26524487b714b8ed6"
+  },
+  {
+    "path": "source/trunk/vita/tests/prepare_campaign_interaction.py",
+    "source_sha256": "2dcf5220312597d6b7d78d1ce4627bc9a79e3a7df76dbfcce257a2c90311eed6",
+    "export_sha256": "2dcf5220312597d6b7d78d1ce4627bc9a79e3a7df76dbfcce257a2c90311eed6"
+  },
+  {
+    "path": "source/trunk/vita/tests/prepare_hud_fixture.py",
+    "source_sha256": "343688baf196caa5974ce71be6dfb8bde80d2725c6e684d848342befb75bd568",
+    "export_sha256": "343688baf196caa5974ce71be6dfb8bde80d2725c6e684d848342befb75bd568"
+  },
+  {
+    "path": "source/trunk/vita/tests/prepare_inventory_fixture.py",
+    "source_sha256": "5716d7c394c33be5945a2480ad1135727d37c2799c4dcb879d119392116f1b2e",
+    "export_sha256": "5716d7c394c33be5945a2480ad1135727d37c2799c4dcb879d119392116f1b2e"
+  },
+  {
+    "path": "source/trunk/vita/tests/prepare_menu_fixture.py",
+    "source_sha256": "dc2b9406fde21a0862e684e65875a8e5e5d2258142ffccf6b4b1448120a13d87",
+    "export_sha256": "dc2b9406fde21a0862e684e65875a8e5e5d2258142ffccf6b4b1448120a13d87"
+  },
+  {
+    "path": "source/trunk/vita/tests/prepare_npc_fixtures.py",
+    "source_sha256": "e7b3f8bbb8aaebc178afe00d571438999bd73923d4cd3fc33b6509fc5d339f17",
+    "export_sha256": "e7b3f8bbb8aaebc178afe00d571438999bd73923d4cd3fc33b6509fc5d339f17"
+  },
+  {
+    "path": "source/trunk/vita/tests/prepare_save_fixture.py",
+    "source_sha256": "57ccb5b1144f4b8ba1fbad2020fb435fe53be8dd03761dad0dda45bf809bad0a",
+    "export_sha256": "57ccb5b1144f4b8ba1fbad2020fb435fe53be8dd03761dad0dda45bf809bad0a"
+  },
+  {
+    "path": "source/trunk/vita/tests/save_migration19.cpp",
+    "source_sha256": "550a9281a353e7e78309b101448ffa0058c884d3079f8c338d0576334e6e6b64",
+    "export_sha256": "550a9281a353e7e78309b101448ffa0058c884d3079f8c338d0576334e6e6b64"
+  },
+  {
+    "path": "source/trunk/vita/tests/save_migration24.cpp",
+    "source_sha256": "6e7cc8a54971ff42b2f658b50b450d13229db81acba272a65f028870f64f1abb",
+    "export_sha256": "6e7cc8a54971ff42b2f658b50b450d13229db81acba272a65f028870f64f1abb"
+  },
+  {
+    "path": "source/trunk/vita/tests/save_slots.cpp",
+    "source_sha256": "475ba0554b4c07eb89c3b832282d413f87696d53ee85e76b98689a8f5cf2a50b",
+    "export_sha256": "475ba0554b4c07eb89c3b832282d413f87696d53ee85e76b98689a8f5cf2a50b"
+  },
+  {
+    "path": "source/trunk/vita/tests/save_ui.cpp",
+    "source_sha256": "7cccbcd2ab709cd5f855013d6394cf48e087bf992deb13a1e3347ea276bbae7a",
+    "export_sha256": "7cccbcd2ab709cd5f855013d6394cf48e087bf992deb13a1e3347ea276bbae7a"
+  },
+  {
+    "path": "source/trunk/vita/tests/settings.cpp",
+    "source_sha256": "2d2b9376eda48a7650506a0669a0b0ac5df922e9918a4231fb3d3ae3cebcd31b",
+    "export_sha256": "2d2b9376eda48a7650506a0669a0b0ac5df922e9918a4231fb3d3ae3cebcd31b"
+  },
+  {
+    "path": "source/trunk/vita/tests/settings_hud.cpp",
+    "source_sha256": "182c6689b8f0248a2b8e3f554b12e434719f174650b9414f4ae31705c2b0864f",
+    "export_sha256": "182c6689b8f0248a2b8e3f554b12e434719f174650b9414f4ae31705c2b0864f"
+  },
+  {
+    "path": "source/trunk/vita/tests/stairs.cpp",
+    "source_sha256": "018525275b96b8fec2b791121dfbe7123f177c62d88269150bfd6ce2cd9eba62",
+    "export_sha256": "018525275b96b8fec2b791121dfbe7123f177c62d88269150bfd6ce2cd9eba62"
+  },
+  {
+    "path": "source/trunk/vita/tests/zone_textures.cpp",
+    "source_sha256": "3a6389bd2be25ba21d95b083476aaf3e483cb216f9dab151f8dde3d878dd3d1e",
+    "export_sha256": "3a6389bd2be25ba21d95b083476aaf3e483cb216f9dab151f8dde3d878dd3d1e"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/CMakeLists.txt",
+    "source_sha256": "94934848d8fdc8b313df25a3851aa0ca085325b0b7ad12cbc4e82d5fd1ecc189",
+    "export_sha256": "94934848d8fdc8b313df25a3851aa0ca085325b0b7ad12cbc4e82d5fd1ecc189"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/FileSystem_vita.cpp",
+    "source_sha256": "a41a970b0fe4a20e8b07d4a9d25cd7d8b14cf1dba0f23e107b8d349558e25050",
+    "export_sha256": "a41a970b0fe4a20e8b07d4a9d25cd7d8b14cf1dba0f23e107b8d349558e25050"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/crc32.cpp",
+    "source_sha256": "0cf8abd6ec8d664e69f122df8af3d8dfaebc9be4599b72b7e1b9af3ce3e2b173",
+    "export_sha256": "0cf8abd6ec8d664e69f122df8af3d8dfaebc9be4599b72b7e1b9af3ce3e2b173"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/critical_section.cpp",
+    "source_sha256": "9630e843f0020486c12ae4269cfdb565a915c1552f5bec1064c99eb377ceebbf",
+    "export_sha256": "9630e843f0020486c12ae4269cfdb565a915c1552f5bec1064c99eb377ceebbf"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/critical_section.h",
+    "source_sha256": "77986f5279d00f34f3cd716b6d09ebf02761312106d91626283202becae2c194",
+    "export_sha256": "77986f5279d00f34f3cd716b6d09ebf02761312106d91626283202becae2c194"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/file_reader.cpp",
+    "source_sha256": "3103c995df1d46285221f275eda2a9414b0f7e9bc444b28f3ffb16be7c389dcc",
+    "export_sha256": "3103c995df1d46285221f275eda2a9414b0f7e9bc444b28f3ffb16be7c389dcc"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/file_reader.h",
+    "source_sha256": "8d36c721c65dcf19f12c72425dfb829c3279d0cdea82d7e2c7243d2bdda4afd8",
+    "export_sha256": "8d36c721c65dcf19f12c72425dfb829c3279d0cdea82d7e2c7243d2bdda4afd8"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/native_file_reader.cpp",
+    "source_sha256": "659f42293dccd89dec32d7ed65303e8a090cfccf8c13f2d9137d3210be3327c2",
+    "export_sha256": "659f42293dccd89dec32d7ed65303e8a090cfccf8c13f2d9137d3210be3327c2"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/native_file_reader.h",
+    "source_sha256": "5a79eb7fb1805cd6719edc929a68c6a0e1463be509a348cee4dc94e600f89126",
+    "export_sha256": "5a79eb7fb1805cd6719edc929a68c6a0e1463be509a348cee4dc94e600f89126"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/threading_vita.cpp",
+    "source_sha256": "cf8750f5d17a90f9565b7c8d81ee8f78dece373aa80421cbeefc71377c68a5ce",
+    "export_sha256": "cf8750f5d17a90f9565b7c8d81ee8f78dece373aa80421cbeefc71377c68a5ce"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/threading_vita.h",
+    "source_sha256": "dfaa9cce4b531753fe4873c1d209ef1d4285ae7de6cdf92958ca3bd46dde07dd",
+    "export_sha256": "dfaa9cce4b531753fe4873c1d209ef1d4285ae7de6cdf92958ca3bd46dde07dd"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/vita_find_file.cpp",
+    "source_sha256": "3e85c7ad71610f5c053eaf565ac72399952484af21f53c7489ae9ba784371db9",
+    "export_sha256": "3e85c7ad71610f5c053eaf565ac72399952484af21f53c7489ae9ba784371db9"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/vita_find_file.h",
+    "source_sha256": "1e265515e154bc65bb64ec984359e9bbabde601b8d0edccf77b3aad4eb68c8d5",
+    "export_sha256": "1e265515e154bc65bb64ec984359e9bbabde601b8d0edccf77b3aad4eb68c8d5"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/vita_stream_reader.cpp",
+    "source_sha256": "e684fecc227afdd7ef368e45fc1ee2dff7eee1d167c1bb0fd919ab1dfdd138bc",
+    "export_sha256": "e684fecc227afdd7ef368e45fc1ee2dff7eee1d167c1bb0fd919ab1dfdd138bc"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/vita_stream_reader.h",
+    "source_sha256": "8eea3493a3c48edc9e2bc07f6414fff088efe8035358f77084237ec566a77eb2",
+    "export_sha256": "8eea3493a3c48edc9e2bc07f6414fff088efe8035358f77084237ec566a77eb2"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/xrDebug_vita.cpp",
+    "source_sha256": "680ab1c9f84b4f3000e8db6c4a13b86f3dd932be50ba6574909d6fd8dde22dc0",
+    "export_sha256": "680ab1c9f84b4f3000e8db6c4a13b86f3dd932be50ba6574909d6fd8dde22dc0"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/xrMath_vita.cpp",
+    "source_sha256": "375b5b1e2bcfc45d578293b3661958af88c915a5d69de1a38e97fd2b3b425590",
+    "export_sha256": "375b5b1e2bcfc45d578293b3661958af88c915a5d69de1a38e97fd2b3b425590"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/xrMemory_vita.cpp",
+    "source_sha256": "b5e6d6ea3bec04a1af6d4a9db5801734b73244bd0fbfd655216b3395d2e38d93",
+    "export_sha256": "b5e6d6ea3bec04a1af6d4a9db5801734b73244bd0fbfd655216b3395d2e38d93"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/xrSyncronize_vita.cpp",
+    "source_sha256": "31f1003604e56504edf658c507abf4284d015d8f043d035f577e56f6d06a0ddc",
+    "export_sha256": "31f1003604e56504edf658c507abf4284d015d8f043d035f577e56f6d06a0ddc"
+  },
+  {
+    "path": "source/trunk/vita/xrCore/xrSyncronize_vita.h",
+    "source_sha256": "bae87605057ae9733c112623954062ea5c84a85daf24a39245e2575eceeb5a11",
+    "export_sha256": "bae87605057ae9733c112623954062ea5c84a85daf24a39245e2575eceeb5a11"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/CMakeLists.txt",
+    "source_sha256": "693a63a334994e8539cf8a46f3443d62385e8077167279b9820ae4cb38a387e4",
+    "export_sha256": "097123739002ee4f21229bbf263a1089fd89d7129ea316ffed64ef2c6f391679"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/main.cpp",
+    "source_sha256": "7bbf1bdd165f042f8f1b792fdc935ba09f876f1ca8f6cbe415b4c051ffa42455",
+    "export_sha256": "7bbf1bdd165f042f8f1b792fdc935ba09f876f1ca8f6cbe415b4c051ffa42455"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/sce_sys/livearea/contents/template.xml",
+    "source_sha256": "56a82556d283fd5bd4d4b9e07c4720970cd18e96fc032a4001e38fe21657d62f",
+    "export_sha256": "56a82556d283fd5bd4d4b9e07c4720970cd18e96fc032a4001e38fe21657d62f"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_assault_advance.h",
+    "source_sha256": "53eebe04c17b2a3e14f8ad2a9a32a2261fb817cc94f7aaeeae8887f162b68ba0",
+    "export_sha256": "53eebe04c17b2a3e14f8ad2a9a32a2261fb817cc94f7aaeeae8887f162b68ba0"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_assault_path.h",
+    "source_sha256": "3c4b78087b235b2575a815d9d52655ee71701d9d3600b306d1bae7b2c4575785",
+    "export_sha256": "3c4b78087b235b2575a815d9d52655ee71701d9d3600b306d1bae7b2c4575785"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_button_gesture.h",
+    "source_sha256": "c55ea0ba8420685ee5968029a6d953b63d2f2c7e915ed929067a59194e0fc882",
+    "export_sha256": "c55ea0ba8420685ee5968029a6d953b63d2f2c7e915ed929067a59194e0fc882"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_campaign.h",
+    "source_sha256": "06d64fd4d1eeaa5a0323a34f49e36e0a6677dcb881b9c3068b1f22e9b4a61ae6",
+    "export_sha256": "06d64fd4d1eeaa5a0323a34f49e36e0a6677dcb881b9c3068b1f22e9b4a61ae6"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_campaign_dialogue.h",
+    "source_sha256": "053a6e8ed1b74fb27785ad4388139f089880da5541af74a5744e2888822a302d",
+    "export_sha256": "053a6e8ed1b74fb27785ad4388139f089880da5541af74a5744e2888822a302d"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_cform_ground.cpp",
+    "source_sha256": "6e2502f45f95c1e7ff6d69b6c0180e9d111c3f5172a66a6aa4bb87ba9822859f",
+    "export_sha256": "6e2502f45f95c1e7ff6d69b6c0180e9d111c3f5172a66a6aa4bb87ba9822859f"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_cform_ground.h",
+    "source_sha256": "689b17c42cd5d349a293d68a7745f7902e5afe99026313310b393ff2565e4fab",
+    "export_sha256": "689b17c42cd5d349a293d68a7745f7902e5afe99026313310b393ff2565e4fab"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_game_audio.cpp",
+    "source_sha256": "08fefdf409a4b1d995c6428c31beae604389f1e85c94ad0701722fd5bc4dbf5b",
+    "export_sha256": "08fefdf409a4b1d995c6428c31beae604389f1e85c94ad0701722fd5bc4dbf5b"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_game_audio.h",
+    "source_sha256": "928ed2bb532d4d402c13cb190f2e6abdca0219a2062dc5c200a9fc41f16dadf7",
+    "export_sha256": "928ed2bb532d4d402c13cb190f2e6abdca0219a2062dc5c200a9fc41f16dadf7"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_garbage_road.h",
+    "source_sha256": "4e79032ac33910ed5094c7ba2b29dbfbeabda17a23bbb64ab614ca89479db030",
+    "export_sha256": "4e79032ac33910ed5094c7ba2b29dbfbeabda17a23bbb64ab614ca89479db030"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_grenades.h",
+    "source_sha256": "dc60798d89b1748f7179b0945b8297f9ea127bbd2a8ac03ca36d21ed1b0ea85b",
+    "export_sha256": "dc60798d89b1748f7179b0945b8297f9ea127bbd2a8ac03ca36d21ed1b0ea85b"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_guard_combat.h",
+    "source_sha256": "fadff3134c19a9f56f0cb08d787eebdce7f73eb0fa421e6c52aeb45007cd445e",
+    "export_sha256": "fadff3134c19a9f56f0cb08d787eebdce7f73eb0fa421e6c52aeb45007cd445e"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_hud.cpp",
+    "source_sha256": "3a2409dbf5039a7351b5538d99a104e313f6355d73b847ebfdb06bfaf4f58ea3",
+    "export_sha256": "3a2409dbf5039a7351b5538d99a104e313f6355d73b847ebfdb06bfaf4f58ea3"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_hud.h",
+    "source_sha256": "97c004a6b426d7f3c521ee111b3cc71d53eb214f7b102142fed6c6736c649bab",
+    "export_sha256": "97c004a6b426d7f3c521ee111b3cc71d53eb214f7b102142fed6c6736c649bab"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_hud_layout.h",
+    "source_sha256": "078a96269698767697c0f630bae9eb65d778598ccd2abe0afae69454f9db58fa",
+    "export_sha256": "078a96269698767697c0f630bae9eb65d778598ccd2abe0afae69454f9db58fa"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_inventory.h",
+    "source_sha256": "489bbc37b25ed93ea1f3e1e86c69bf60284a7e099b29f10801831490e6acf688",
+    "export_sha256": "489bbc37b25ed93ea1f3e1e86c69bf60284a7e099b29f10801831490e6acf688"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_inventory_ui.h",
+    "source_sha256": "052ac0a90ddfaa2b6fd0c60d20a450109551f00f75790a7509b07e1cdc2582b9",
+    "export_sha256": "052ac0a90ddfaa2b6fd0c60d20a450109551f00f75790a7509b07e1cdc2582b9"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_item_catalog.h",
+    "source_sha256": "93ef4f2bb353dc21bd7eb5a5fd93d3e11bf579c9debc81786bcc92cb635bbed5",
+    "export_sha256": "93ef4f2bb353dc21bd7eb5a5fd93d3e11bf579c9debc81786bcc92cb635bbed5"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_loading_screen.h",
+    "source_sha256": "cb5ab23ed1752f16346d9797d0efadfd6d893f0eb534bd12aeb66ac861bcbb73",
+    "export_sha256": "cb5ab23ed1752f16346d9797d0efadfd6d893f0eb534bd12aeb66ac861bcbb73"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_locale.h",
+    "source_sha256": "bd2c994aca13b2f7b78eaef94fd434fb337e7c61843a3013b8716931218badae",
+    "export_sha256": "bd2c994aca13b2f7b78eaef94fd434fb337e7c61843a3013b8716931218badae"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_loot_trade.h",
+    "source_sha256": "721b6ac61a9331a39d8d72ec23e14c41c027ef941b66e1e7e8bfa6854d10efca",
+    "export_sha256": "721b6ac61a9331a39d8d72ec23e14c41c027ef941b66e1e7e8bfa6854d10efca"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_main_menu.h",
+    "source_sha256": "7e9503b5833bf30fc90d6c1ecabdf38cfb4b21f17f0d487a32c626ca6ac8965d",
+    "export_sha256": "7e9503b5833bf30fc90d6c1ecabdf38cfb4b21f17f0d487a32c626ca6ac8965d"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_npc_battle.h",
+    "source_sha256": "3d7e6897a4565631f9f68baa0da7866da08b03968eeda8eb3614e04de94e0105",
+    "export_sha256": "3d7e6897a4565631f9f68baa0da7866da08b03968eeda8eb3614e04de94e0105"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_options.h",
+    "source_sha256": "9ffa64907aa9d2b414494d4b971a292b28b88e041a443ffb9718c5702b2722a6",
+    "export_sha256": "9ffa64907aa9d2b414494d4b971a292b28b88e041a443ffb9718c5702b2722a6"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_player_jump.h",
+    "source_sha256": "58d0c732c2d0ec794238fd670c363e7ea8317a1d0f41cad8176055d6dbb43c95",
+    "export_sha256": "58d0c732c2d0ec794238fd670c363e7ea8317a1d0f41cad8176055d6dbb43c95"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_player_movement.h",
+    "source_sha256": "ac4e1526999cb7b7e992b206203d3448136ab8d6ec65b934971caa3d3bece205",
+    "export_sha256": "ac4e1526999cb7b7e992b206203d3448136ab8d6ec65b934971caa3d3bece205"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_postprocess.cpp",
+    "source_sha256": "dd9ddfe46c01c815cd9d6cce6bd4baa2e0e2a193607fd3b1580b799e55b801da",
+    "export_sha256": "dd9ddfe46c01c815cd9d6cce6bd4baa2e0e2a193607fd3b1580b799e55b801da"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_postprocess.h",
+    "source_sha256": "fb41ad2ada8c3a5c240a65908ee46585c16eac6990ca675441ec82c1d9108a6f",
+    "export_sha256": "fb41ad2ada8c3a5c240a65908ee46585c16eac6990ca675441ec82c1d9108a6f"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_save.cpp",
+    "source_sha256": "513c880c18233309b5f993274d76574dee4f5e92301be9968895e570dc8c2072",
+    "export_sha256": "513c880c18233309b5f993274d76574dee4f5e92301be9968895e570dc8c2072"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_save.h",
+    "source_sha256": "55919cb399d025d81f1a54da86a68347f7f8dbddfe3b3580387a976dac1789e6",
+    "export_sha256": "55919cb399d025d81f1a54da86a68347f7f8dbddfe3b3580387a976dac1789e6"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_save_ui.h",
+    "source_sha256": "c1bee9f0e5d09d8a4976206cba9b0780040ad993fdf31b8d27e18a5ad21ea17d",
+    "export_sha256": "c1bee9f0e5d09d8a4976206cba9b0780040ad993fdf31b8d27e18a5ad21ea17d"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_settings.h",
+    "source_sha256": "8b829402485095077e26d681ca30a7d7d1d3ce7bcd67f7b73d62ec372940a917",
+    "export_sha256": "8b829402485095077e26d681ca30a7d7d1d3ce7bcd67f7b73d62ec372940a917"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_texture_policy.h",
+    "source_sha256": "faa901084f5bd2497435d7458215505d10d0e761098c0584f727d5ae4de42a2e",
+    "export_sha256": "faa901084f5bd2497435d7458215505d10d0e761098c0584f727d5ae4de42a2e"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_trader_model.cpp",
+    "source_sha256": "8915a154b1e6bae0adf5d4d3a010b02db1477e390acdab52f2831dc800309e16",
+    "export_sha256": "8915a154b1e6bae0adf5d4d3a010b02db1477e390acdab52f2831dc800309e16"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_trader_model.h",
+    "source_sha256": "ad8aa8042a0238031e8f3eb7f53c4f669cc5f8d1b3ef5b635e1d099318502929",
+    "export_sha256": "ad8aa8042a0238031e8f3eb7f53c4f669cc5f8d1b3ef5b635e1d099318502929"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_trader_ui.cpp",
+    "source_sha256": "35e19062854155b9cd463a10f6e35b9024b5395990de9be843848fc458acc6e6",
+    "export_sha256": "35e19062854155b9cd463a10f6e35b9024b5395990de9be843848fc458acc6e6"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_trader_ui.h",
+    "source_sha256": "f4ebb6230116568051c89f0c8d8cf9e25c5e6f36f02899c6d9cbf3f7f36015b2",
+    "export_sha256": "f4ebb6230116568051c89f0c8d8cf9e25c5e6f36f02899c6d9cbf3f7f36015b2"
+  },
+  {
+    "path": "source/trunk/vita/xrGame/vita_ui_canvas.h",
+    "source_sha256": "908b86e040cce29ea029247b42c8ff6f8e0afa18b33b91a4243dfa60e45d15d7",
+    "export_sha256": "908b86e040cce29ea029247b42c8ff6f8e0afa18b33b91a4243dfa60e45d15d7"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/CMakeLists.txt",
+    "source_sha256": "cabc873ab2c2a5d6ca09cfba3be26dbed942dfc7b91b57948ac4422c731062ab",
+    "export_sha256": "cabc873ab2c2a5d6ca09cfba3be26dbed942dfc7b91b57948ac4422c731062ab"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_debug_renderer.cpp",
+    "source_sha256": "ebcf278fa22e9fe2c632b9ad307d3d3f9b8b76b1247e0bcce44026535b463383",
+    "export_sha256": "ebcf278fa22e9fe2c632b9ad307d3d3f9b8b76b1247e0bcce44026535b463383"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_debug_renderer.h",
+    "source_sha256": "00dee75ca525ca1d3514f46d9392bf437a9f0f856a36d4cf8ced4752fb8699d0",
+    "export_sha256": "00dee75ca525ca1d3514f46d9392bf437a9f0f856a36d4cf8ced4752fb8699d0"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_device.cpp",
+    "source_sha256": "2f686f5b6448bb1c1fdca2df33f0a40d9d94cbf3f854511b7e4eb4e810c1956e",
+    "export_sha256": "2f686f5b6448bb1c1fdca2df33f0a40d9d94cbf3f854511b7e4eb4e810c1956e"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_device.h",
+    "source_sha256": "d10cb2dff79277f0725653691b9188bc18c76bda40ed3d9146971d86494c75ad",
+    "export_sha256": "d10cb2dff79277f0725653691b9188bc18c76bda40ed3d9146971d86494c75ad"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_geometry.cpp",
+    "source_sha256": "895f65f4251b870c59fff798f4a09d94c781a25304b3ba3f3cca02799820421e",
+    "export_sha256": "895f65f4251b870c59fff798f4a09d94c781a25304b3ba3f3cca02799820421e"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_geometry.h",
+    "source_sha256": "83a0b3d0cb45eed4e179049e238e36d7d5513c6f8b86e4ce8e17b42c124390a1",
+    "export_sha256": "83a0b3d0cb45eed4e179049e238e36d7d5513c6f8b86e4ce8e17b42c124390a1"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_program.cpp",
+    "source_sha256": "dd17fb35a190d851849a85bd8d6fc0b9ae70ed89e599e6f78907cc9d8c49c53d",
+    "export_sha256": "dd17fb35a190d851849a85bd8d6fc0b9ae70ed89e599e6f78907cc9d8c49c53d"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_program.h",
+    "source_sha256": "9435f865d44ab6b967420f5857fcd6d2396e500e529fc1f2feeae278d3f12ccd",
+    "export_sha256": "9435f865d44ab6b967420f5857fcd6d2396e500e529fc1f2feeae278d3f12ccd"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_r1_buffers.cpp",
+    "source_sha256": "100c2f86eb73ba47415f0544b6e75e24fe027824e121eab4a5b36228f2a9f7fd",
+    "export_sha256": "100c2f86eb73ba47415f0544b6e75e24fe027824e121eab4a5b36228f2a9f7fd"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_r1_buffers.h",
+    "source_sha256": "ed57b992fdd89f9a6e408faec421d3fb092e66f9fcc95cc372ad2ac1a3f6c426",
+    "export_sha256": "ed57b992fdd89f9a6e408faec421d3fb092e66f9fcc95cc372ad2ac1a3f6c426"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_sky.cpp",
+    "source_sha256": "b8e62574f6cc099c118fe108e1eba9e0a4b1551c4468ae158311b09c7106abde",
+    "export_sha256": "b8e62574f6cc099c118fe108e1eba9e0a4b1551c4468ae158311b09c7106abde"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_sky.h",
+    "source_sha256": "408ffd874a2586a8a48ced1410d2235592f6da95065b843b41c456e79a7fed98",
+    "export_sha256": "408ffd874a2586a8a48ced1410d2235592f6da95065b843b41c456e79a7fed98"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_texture.cpp",
+    "source_sha256": "f17fd543d34221d4064dced6ce79042da0de78dd32f5076c8f44fec30c136e93",
+    "export_sha256": "f17fd543d34221d4064dced6ce79042da0de78dd32f5076c8f44fec30c136e93"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_texture.h",
+    "source_sha256": "14531bd506c0469412094da187598dfb913d385f323fd1c72ab121497858f129",
+    "export_sha256": "14531bd506c0469412094da187598dfb913d385f323fd1c72ab121497858f129"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_vertex_format.cpp",
+    "source_sha256": "7b527f824c1e64b2f468cb3d58210c8e368a73a02e444825661d0ed7416fb60f",
+    "export_sha256": "7b527f824c1e64b2f468cb3d58210c8e368a73a02e444825661d0ed7416fb60f"
+  },
+  {
+    "path": "source/trunk/vita/xrRender/vita_gl_vertex_format.h",
+    "source_sha256": "51a42cc48b2248147f40fc6bf179df768d9bee86fd20d3faf3c9c66b28b96c19",
+    "export_sha256": "51a42cc48b2248147f40fc6bf179df768d9bee86fd20d3faf3c9c66b28b96c19"
+  },
+  {
+    "path": "source/trunk/xrCore/Coder.hpp",
+    "source_sha256": "a4c6baed77ab7c7b1a59ee064856c604acca06687604768b88757935051e71c8",
+    "export_sha256": "a4c6baed77ab7c7b1a59ee064856c604acca06687604768b88757935051e71c8"
+  },
+  {
+    "path": "source/trunk/xrCore/ELocatorAPI.cpp",
+    "source_sha256": "170a53cad6f87ba9ef1367d8b0e23fd1a182c72719a9cb018318d844490794df",
+    "export_sha256": "170a53cad6f87ba9ef1367d8b0e23fd1a182c72719a9cb018318d844490794df"
+  },
+  {
+    "path": "source/trunk/xrCore/ELocatorAPI.h",
+    "source_sha256": "3a945aaaf17ea60ee5ee116c5f8af45a69f4f21f03718db699e69d38149b4cd7",
+    "export_sha256": "3a945aaaf17ea60ee5ee116c5f8af45a69f4f21f03718db699e69d38149b4cd7"
+  },
+  {
+    "path": "source/trunk/xrCore/FS.cpp",
+    "source_sha256": "327931efacf8ea9044442e208aedc8c5dd21ac3829e79e1106ace19dd8815c9f",
+    "export_sha256": "327931efacf8ea9044442e208aedc8c5dd21ac3829e79e1106ace19dd8815c9f"
+  },
+  {
+    "path": "source/trunk/xrCore/FS.h",
+    "source_sha256": "345db071a495aac5d65bd932420fd6c5a8240ddfd3590d20e9b7662ae38b3c0b",
+    "export_sha256": "345db071a495aac5d65bd932420fd6c5a8240ddfd3590d20e9b7662ae38b3c0b"
+  },
+  {
+    "path": "source/trunk/xrCore/FS_internal.h",
+    "source_sha256": "3637d90eeb945ba1fd0c4d13749a3b08bded48a7bf65ffc9b5274e82ffdd7f5a",
+    "export_sha256": "3637d90eeb945ba1fd0c4d13749a3b08bded48a7bf65ffc9b5274e82ffdd7f5a"
+  },
+  {
+    "path": "source/trunk/xrCore/FTimer.cpp",
+    "source_sha256": "9eec5fdbc1eaa448f5cb65109b679dc839cff459bdd77728629cc8ce6a018d0d",
+    "export_sha256": "9eec5fdbc1eaa448f5cb65109b679dc839cff459bdd77728629cc8ce6a018d0d"
+  },
+  {
+    "path": "source/trunk/xrCore/FTimer.h",
+    "source_sha256": "e68190febf3645d6c109f3404d4544e8b2dee6820a039943c98a63cf88e13a60",
+    "export_sha256": "e68190febf3645d6c109f3404d4544e8b2dee6820a039943c98a63cf88e13a60"
+  },
+  {
+    "path": "source/trunk/xrCore/FileSystem.cpp",
+    "source_sha256": "a3f666fc53eae7af9457705eae2093bef724f5785cc42e13bbe39a844fe272fe",
+    "export_sha256": "a3f666fc53eae7af9457705eae2093bef724f5785cc42e13bbe39a844fe272fe"
+  },
+  {
+    "path": "source/trunk/xrCore/FileSystem.h",
+    "source_sha256": "3930f05c0e662c0b9bd98bc2cbfdd362d9089a2f115ca5f8901ca785c652f3b2",
+    "export_sha256": "3930f05c0e662c0b9bd98bc2cbfdd362d9089a2f115ca5f8901ca785c652f3b2"
+  },
+  {
+    "path": "source/trunk/xrCore/FileSystem_borland.cpp",
+    "source_sha256": "4aeca3431e2b9a79e1c99de554587623474fbaa0a74577e3f98562c6dbfcdc03",
+    "export_sha256": "4aeca3431e2b9a79e1c99de554587623474fbaa0a74577e3f98562c6dbfcdc03"
+  },
+  {
+    "path": "source/trunk/xrCore/FixedMap.h",
+    "source_sha256": "863b70323476218a191b7485aec3b77678a84962e46a14733f27ff85283d76c8",
+    "export_sha256": "863b70323476218a191b7485aec3b77678a84962e46a14733f27ff85283d76c8"
+  },
+  {
+    "path": "source/trunk/xrCore/FixedSet.h",
+    "source_sha256": "2b18798a606cce5eba4235bb9e0ee06c3ab68634a5cf5b3406cbb2df5a3844ea",
+    "export_sha256": "2b18798a606cce5eba4235bb9e0ee06c3ab68634a5cf5b3406cbb2df5a3844ea"
+  },
+  {
+    "path": "source/trunk/xrCore/FixedVector.h",
+    "source_sha256": "0e8657d430b05738c30e0787512c9e16a9efb425b575d205c577a925b67d85c2",
+    "export_sha256": "0e8657d430b05738c30e0787512c9e16a9efb425b575d205c577a925b67d85c2"
+  },
+  {
+    "path": "source/trunk/xrCore/LocatorAPI.cpp",
+    "source_sha256": "3e5946456b1648e717d08ac12c82b0899de07a69c431d8dea21f4ee317bef757",
+    "export_sha256": "3e5946456b1648e717d08ac12c82b0899de07a69c431d8dea21f4ee317bef757"
+  },
+  {
+    "path": "source/trunk/xrCore/LocatorAPI.h",
+    "source_sha256": "c639954d35b2fb8afe2d76536b686ba8176f5b1fbc5b3bccf21272708d6a67bd",
+    "export_sha256": "c639954d35b2fb8afe2d76536b686ba8176f5b1fbc5b3bccf21272708d6a67bd"
+  },
+  {
+    "path": "source/trunk/xrCore/LocatorAPI_Notifications.cpp",
+    "source_sha256": "1d450cc0cc09d4562b6cd269f1287d332b6f13e8cd0cf25f010a39e33c01d4fa",
+    "export_sha256": "1d450cc0cc09d4562b6cd269f1287d332b6f13e8cd0cf25f010a39e33c01d4fa"
+  },
+  {
+    "path": "source/trunk/xrCore/LocatorAPI_Notifications.h",
+    "source_sha256": "6b563e436edda5c2c7c3b4b3d6ce8535c7793b27d2fef416f1ab5011cd2354f6",
+    "export_sha256": "6b563e436edda5c2c7c3b4b3d6ce8535c7793b27d2fef416f1ab5011cd2354f6"
+  },
+  {
+    "path": "source/trunk/xrCore/LocatorAPI_auth.cpp",
+    "source_sha256": "ffba6633290c7e609a1b31d53f1a7c9d0c4f667fdb714baa086feb2752b18609",
+    "export_sha256": "ffba6633290c7e609a1b31d53f1a7c9d0c4f667fdb714baa086feb2752b18609"
+  },
+  {
+    "path": "source/trunk/xrCore/LocatorAPI_defs.cpp",
+    "source_sha256": "17913954552bf1f202f10639f4dfa80b6eccc0272ae673725e5faffdabcb4073",
+    "export_sha256": "17913954552bf1f202f10639f4dfa80b6eccc0272ae673725e5faffdabcb4073"
+  },
+  {
+    "path": "source/trunk/xrCore/LocatorAPI_defs.h",
+    "source_sha256": "45e5a3db916065fe5c57a8df9c36bf75fefd46ccb4ab4f6edc94c68b00b24235",
+    "export_sha256": "45e5a3db916065fe5c57a8df9c36bf75fefd46ccb4ab4f6edc94c68b00b24235"
+  },
+  {
+    "path": "source/trunk/xrCore/LzHuf.cpp",
+    "source_sha256": "beb3b7900a0531511ff14f9318beb51e7c2dfda206861828a2efb93961e61324",
+    "export_sha256": "beb3b7900a0531511ff14f9318beb51e7c2dfda206861828a2efb93961e61324"
+  },
+  {
+    "path": "source/trunk/xrCore/Model.cpp",
+    "source_sha256": "0be0b57a78739391619b45dd4e6de059c1c77c9adf8f14b5722780c8c2e046cd",
+    "export_sha256": "0be0b57a78739391619b45dd4e6de059c1c77c9adf8f14b5722780c8c2e046cd"
+  },
+  {
+    "path": "source/trunk/xrCore/PPMd.h",
+    "source_sha256": "e82d1e95b3262d1b3939122d5d7ac97cefe5774c394011d8b34031ef8859956f",
+    "export_sha256": "e82d1e95b3262d1b3939122d5d7ac97cefe5774c394011d8b34031ef8859956f"
+  },
+  {
+    "path": "source/trunk/xrCore/PPMdType.h",
+    "source_sha256": "3dabaea34587bca8a037c62427b429b25b36dab66a0835d86cf6ffacff456c4a",
+    "export_sha256": "3dabaea34587bca8a037c62427b429b25b36dab66a0835d86cf6ffacff456c4a"
+  },
+  {
+    "path": "source/trunk/xrCore/SubAlloc.hpp",
+    "source_sha256": "844e424e01faabe921537e48ec4a0b38c2b703b71ae08ffceb1f87ef1fc80f60",
+    "export_sha256": "844e424e01faabe921537e48ec4a0b38c2b703b71ae08ffceb1f87ef1fc80f60"
+  },
+  {
+    "path": "source/trunk/xrCore/Xr_ini.cpp",
+    "source_sha256": "4e7ef4be1b163207040c7f62a6e32878560c886731698ad34a19bf07dc3d746c",
+    "export_sha256": "4e7ef4be1b163207040c7f62a6e32878560c886731698ad34a19bf07dc3d746c"
+  },
+  {
+    "path": "source/trunk/xrCore/_bitwise.h",
+    "source_sha256": "516e68d31bcf1335ab7891039ead1de8526413541a0a49701059cbb9a989a2a3",
+    "export_sha256": "516e68d31bcf1335ab7891039ead1de8526413541a0a49701059cbb9a989a2a3"
+  },
+  {
+    "path": "source/trunk/xrCore/_color.h",
+    "source_sha256": "725892ba367d2df1020485e994464725d04c90e9c9aa7533edb5d25694ddf40d",
+    "export_sha256": "725892ba367d2df1020485e994464725d04c90e9c9aa7533edb5d25694ddf40d"
+  },
+  {
+    "path": "source/trunk/xrCore/_compressed_normal.cpp",
+    "source_sha256": "f9836ac310569af0f6343af8ac6f0fc945e046e5b9b962597bb644aa8d4f2189",
+    "export_sha256": "f9836ac310569af0f6343af8ac6f0fc945e046e5b9b962597bb644aa8d4f2189"
+  },
+  {
+    "path": "source/trunk/xrCore/_compressed_normal.h",
+    "source_sha256": "9b07bcdb617b6d453d8acaefa74c12a33bbb6df99b365e80265c1c6aacb4c2c6",
+    "export_sha256": "9b07bcdb617b6d453d8acaefa74c12a33bbb6df99b365e80265c1c6aacb4c2c6"
+  },
+  {
+    "path": "source/trunk/xrCore/_cylinder.h",
+    "source_sha256": "0f8fe028fbda72dc9fbfdcf67d2a67e4f0da5a2475410870196df452e7a90bdc",
+    "export_sha256": "0f8fe028fbda72dc9fbfdcf67d2a67e4f0da5a2475410870196df452e7a90bdc"
+  },
+  {
+    "path": "source/trunk/xrCore/_fbox.h",
+    "source_sha256": "7c50a9bec17fe48f90e2db0d4dae73ef0f8cf35752fff5e014feb7a0079012ed",
+    "export_sha256": "7c50a9bec17fe48f90e2db0d4dae73ef0f8cf35752fff5e014feb7a0079012ed"
+  },
+  {
+    "path": "source/trunk/xrCore/_fbox2.h",
+    "source_sha256": "562daf05d7f2fc87ac0d3442d33838785f6382f004a86d496daf378e4dea1c86",
+    "export_sha256": "562daf05d7f2fc87ac0d3442d33838785f6382f004a86d496daf378e4dea1c86"
+  },
+  {
+    "path": "source/trunk/xrCore/_flags.h",
+    "source_sha256": "054ceb8f85649e565c0fed1257aa70d9e392ea8fe49e1b0926f368d133ef3a2d",
+    "export_sha256": "054ceb8f85649e565c0fed1257aa70d9e392ea8fe49e1b0926f368d133ef3a2d"
+  },
+  {
+    "path": "source/trunk/xrCore/_math.cpp",
+    "source_sha256": "e96b94178a725f65983be57dd68f6f9d8698408a855601e70b048900e1cf604c",
+    "export_sha256": "e96b94178a725f65983be57dd68f6f9d8698408a855601e70b048900e1cf604c"
+  },
+  {
+    "path": "source/trunk/xrCore/_math.h",
+    "source_sha256": "06ebfbdc9f705feedee50ab9958983ab6d5a7d728b77ed24d57c995a13c16641",
+    "export_sha256": "06ebfbdc9f705feedee50ab9958983ab6d5a7d728b77ed24d57c995a13c16641"
+  },
+  {
+    "path": "source/trunk/xrCore/_matrix.h",
+    "source_sha256": "7509c9525307f960b2c5d4427de9c44c3d965066434aa1743634a097b7b2a81a",
+    "export_sha256": "7509c9525307f960b2c5d4427de9c44c3d965066434aa1743634a097b7b2a81a"
+  },
+  {
+    "path": "source/trunk/xrCore/_matrix33.h",
+    "source_sha256": "a72510d43311a4e9f6da87bde9302793e781cd7f60c756fc1855cda5ea5dbe45",
+    "export_sha256": "a72510d43311a4e9f6da87bde9302793e781cd7f60c756fc1855cda5ea5dbe45"
+  },
+  {
+    "path": "source/trunk/xrCore/_obb.h",
+    "source_sha256": "d11f6c7fd037da98ea432d94f3749d29b62c3cf577595eeeade90a8e1d552f67",
+    "export_sha256": "d11f6c7fd037da98ea432d94f3749d29b62c3cf577595eeeade90a8e1d552f67"
+  },
+  {
+    "path": "source/trunk/xrCore/_plane.h",
+    "source_sha256": "33e7a14ed6f935527c4638f6bdefd56ae3653ef75d185a16736689f377e54915",
+    "export_sha256": "33e7a14ed6f935527c4638f6bdefd56ae3653ef75d185a16736689f377e54915"
+  },
+  {
+    "path": "source/trunk/xrCore/_plane2.h",
+    "source_sha256": "5cad7c046bfcafa7dda4fe7a23280b3d66eb7d1e4c9090f0414c4a86460f60d7",
+    "export_sha256": "5cad7c046bfcafa7dda4fe7a23280b3d66eb7d1e4c9090f0414c4a86460f60d7"
+  },
+  {
+    "path": "source/trunk/xrCore/_quaternion.h",
+    "source_sha256": "0807bc0a175848b538444fecb0a3fb2b4a52f99c495381981ffe68ec10423d24",
+    "export_sha256": "0807bc0a175848b538444fecb0a3fb2b4a52f99c495381981ffe68ec10423d24"
+  },
+  {
+    "path": "source/trunk/xrCore/_random.h",
+    "source_sha256": "7c1d9c4ccfb4cb2a976d24cf2ccd872361f7934e280b847c5ab21a5e1b229174",
+    "export_sha256": "7c1d9c4ccfb4cb2a976d24cf2ccd872361f7934e280b847c5ab21a5e1b229174"
+  },
+  {
+    "path": "source/trunk/xrCore/_rect.h",
+    "source_sha256": "83f54893ae4f8e4088514170fe8d130dc05cf689846ae5c70ddef0c70ce975c2",
+    "export_sha256": "83f54893ae4f8e4088514170fe8d130dc05cf689846ae5c70ddef0c70ce975c2"
+  },
+  {
+    "path": "source/trunk/xrCore/_sphere.cpp",
+    "source_sha256": "b6a48a82a4b07e857a017910061ef06182651b594f6b784ca7d2e16dcb55121e",
+    "export_sha256": "b6a48a82a4b07e857a017910061ef06182651b594f6b784ca7d2e16dcb55121e"
+  },
+  {
+    "path": "source/trunk/xrCore/_sphere.h",
+    "source_sha256": "aba797787f5b188e6881d644b6f0b921c9d2dba16ba76eee4d28389a347e91c7",
+    "export_sha256": "aba797787f5b188e6881d644b6f0b921c9d2dba16ba76eee4d28389a347e91c7"
+  },
+  {
+    "path": "source/trunk/xrCore/_std_extensions.cpp",
+    "source_sha256": "2e4548d65adab1d3b1aaa1c6e863507ce6ab16827967bf0a769ddee81705fcc7",
+    "export_sha256": "2e4548d65adab1d3b1aaa1c6e863507ce6ab16827967bf0a769ddee81705fcc7"
+  },
+  {
+    "path": "source/trunk/xrCore/_std_extensions.h",
+    "source_sha256": "71faf9cb2127740e0fe8cac9e2687c771bfb11301c4851d898846587dd05ff1b",
+    "export_sha256": "71faf9cb2127740e0fe8cac9e2687c771bfb11301c4851d898846587dd05ff1b"
+  },
+  {
+    "path": "source/trunk/xrCore/_stl_extensions.h",
+    "source_sha256": "a4bea0a17d74ceeb0156895778286205ce57b7a13504efcab2ae896c3550d3ab",
+    "export_sha256": "a4bea0a17d74ceeb0156895778286205ce57b7a13504efcab2ae896c3550d3ab"
+  },
+  {
+    "path": "source/trunk/xrCore/_type_traits.h",
+    "source_sha256": "e763546c7772df830835096c5150562d197e021c71da95b8d26ade6d87df3d66",
+    "export_sha256": "e763546c7772df830835096c5150562d197e021c71da95b8d26ade6d87df3d66"
+  },
+  {
+    "path": "source/trunk/xrCore/_types.h",
+    "source_sha256": "1d8b4bd8a7a7d27566c2b24c3935c9537c21e2bc21ac33726a273e698af84754",
+    "export_sha256": "1d8b4bd8a7a7d27566c2b24c3935c9537c21e2bc21ac33726a273e698af84754"
+  },
+  {
+    "path": "source/trunk/xrCore/_vector2.h",
+    "source_sha256": "ac7a02c3e2ab398610ef218957c3eaf8bfb7683123480e2b1599dfa95b29478d",
+    "export_sha256": "ac7a02c3e2ab398610ef218957c3eaf8bfb7683123480e2b1599dfa95b29478d"
+  },
+  {
+    "path": "source/trunk/xrCore/_vector3d.h",
+    "source_sha256": "0273a37b401ea6bafb2a99fe9cd353c28f6a982f0d914f43945a19c702f8db42",
+    "export_sha256": "0273a37b401ea6bafb2a99fe9cd353c28f6a982f0d914f43945a19c702f8db42"
+  },
+  {
+    "path": "source/trunk/xrCore/_vector4.h",
+    "source_sha256": "22829f49a3f093bd23183e44a9e94aace7423cba6a171f86a44246887695b20f",
+    "export_sha256": "22829f49a3f093bd23183e44a9e94aace7423cba6a171f86a44246887695b20f"
+  },
+  {
+    "path": "source/trunk/xrCore/clsid.cpp",
+    "source_sha256": "975e74dab4a0a5077d715135d64aba93bb02750fc52e404e2da16dc5a5b8ad8c",
+    "export_sha256": "975e74dab4a0a5077d715135d64aba93bb02750fc52e404e2da16dc5a5b8ad8c"
+  },
+  {
+    "path": "source/trunk/xrCore/clsid.h",
+    "source_sha256": "8daa0d12cefc8f30f322bf439222ebdc62830050c1f03021be533724179e3d2a",
+    "export_sha256": "8daa0d12cefc8f30f322bf439222ebdc62830050c1f03021be533724179e3d2a"
+  },
+  {
+    "path": "source/trunk/xrCore/compression_ppmd_stream.h",
+    "source_sha256": "60017ad676f75b330acfe7c7941c987417e7655d65a0feab29f9fa6949d68b5d",
+    "export_sha256": "60017ad676f75b330acfe7c7941c987417e7655d65a0feab29f9fa6949d68b5d"
+  },
+  {
+    "path": "source/trunk/xrCore/compression_ppmd_stream_inline.h",
+    "source_sha256": "3282b30289f122280bfebd429f36d4f4a663fb7c3bc2add17b9368e4cf856529",
+    "export_sha256": "3282b30289f122280bfebd429f36d4f4a663fb7c3bc2add17b9368e4cf856529"
+  },
+  {
+    "path": "source/trunk/xrCore/cpuid.cpp",
+    "source_sha256": "e20c8396987ee4b85f8198085383ab1ac29f01506fa491fd10b3fe8251ebdf1b",
+    "export_sha256": "e20c8396987ee4b85f8198085383ab1ac29f01506fa491fd10b3fe8251ebdf1b"
+  },
+  {
+    "path": "source/trunk/xrCore/cpuid.h",
+    "source_sha256": "3aec835401c90287062c7e55c87188e30cf0a80418338b3269b90b52df7fac54",
+    "export_sha256": "3aec835401c90287062c7e55c87188e30cf0a80418338b3269b90b52df7fac54"
+  },
+  {
+    "path": "source/trunk/xrCore/crc32.cpp",
+    "source_sha256": "5df551f4d5653e7ccadd0a9ac61893384c238d7c68df52ac8b01767443bc34ef",
+    "export_sha256": "5df551f4d5653e7ccadd0a9ac61893384c238d7c68df52ac8b01767443bc34ef"
+  },
+  {
+    "path": "source/trunk/xrCore/fastdelegate.h",
+    "source_sha256": "6056d3e79fb270ae6cfe14e124fbfb4e52934ac69fa54d5cf18c8b7fb3cb1510",
+    "export_sha256": "6056d3e79fb270ae6cfe14e124fbfb4e52934ac69fa54d5cf18c8b7fb3cb1510"
+  },
+  {
+    "path": "source/trunk/xrCore/file_stream_reader.cpp",
+    "source_sha256": "ea6349ed5b91fa7993eb484a81ccc763acd8db5f363cbebeaf11a23ba3ea0a0b",
+    "export_sha256": "ea6349ed5b91fa7993eb484a81ccc763acd8db5f363cbebeaf11a23ba3ea0a0b"
+  },
+  {
+    "path": "source/trunk/xrCore/file_stream_reader.h",
+    "source_sha256": "b1b8acaf560e14c49d3107ec2391890e6099ccfba194be8d87f5e7279cba9e8e",
+    "export_sha256": "b1b8acaf560e14c49d3107ec2391890e6099ccfba194be8d87f5e7279cba9e8e"
+  },
+  {
+    "path": "source/trunk/xrCore/intrusive_ptr.h",
+    "source_sha256": "c8f359933adec24ba0b96026da2f911aee8339fc3983dc2c5fc00bfd2dec2277",
+    "export_sha256": "c8f359933adec24ba0b96026da2f911aee8339fc3983dc2c5fc00bfd2dec2277"
+  },
+  {
+    "path": "source/trunk/xrCore/intrusive_ptr_inline.h",
+    "source_sha256": "98d30e6e6307727f93ae544c5b85b966681002a7920e4a305797c8f7b1603a41",
+    "export_sha256": "98d30e6e6307727f93ae544c5b85b966681002a7920e4a305797c8f7b1603a41"
+  },
+  {
+    "path": "source/trunk/xrCore/log.cpp",
+    "source_sha256": "33a0ab7e092bd913753eed3daf9d5cd43e96209d323bb6021dcb659a69254b79",
+    "export_sha256": "33a0ab7e092bd913753eed3daf9d5cd43e96209d323bb6021dcb659a69254b79"
+  },
+  {
+    "path": "source/trunk/xrCore/log.h",
+    "source_sha256": "3b41b1c8a6ff8bc5c69cc0e0cc86df94d3b0d0f31710173b27c45f3442af3bb3",
+    "export_sha256": "3b41b1c8a6ff8bc5c69cc0e0cc86df94d3b0d0f31710173b27c45f3442af3bb3"
+  },
+  {
+    "path": "source/trunk/xrCore/lzhuf.h",
+    "source_sha256": "ac481551be9bd7ce994b86a20d924796a9cc784c135f991a79b3ce7ddb03994e",
+    "export_sha256": "ac481551be9bd7ce994b86a20d924796a9cc784c135f991a79b3ce7ddb03994e"
+  },
+  {
+    "path": "source/trunk/xrCore/lzo1x_d3.cpp",
+    "source_sha256": "c5d84136611b379d8aae0c3d3d8c9a3c3bfb81e08b534cb370e1e425303550dc",
+    "export_sha256": "c5d84136611b379d8aae0c3d3d8c9a3c3bfb81e08b534cb370e1e425303550dc"
+  },
+  {
+    "path": "source/trunk/xrCore/memory_allocation_stats.cpp",
+    "source_sha256": "b3aec28e20f65593e1e7374c9f2ac0fc10b94355661e97895a6b3d6f414a3e03",
+    "export_sha256": "b3aec28e20f65593e1e7374c9f2ac0fc10b94355661e97895a6b3d6f414a3e03"
+  },
+  {
+    "path": "source/trunk/xrCore/memory_monitor.cpp",
+    "source_sha256": "dc767d9f1b7249ca3a11cb04be785f1599c89c181f7c38b653f5989db10271e6",
+    "export_sha256": "dc767d9f1b7249ca3a11cb04be785f1599c89c181f7c38b653f5989db10271e6"
+  },
+  {
+    "path": "source/trunk/xrCore/memory_monitor.h",
+    "source_sha256": "4e23e3818be7c5e295f47cea6c8cfe36eb57de0201bb0b91c828773e165f88c2",
+    "export_sha256": "4e23e3818be7c5e295f47cea6c8cfe36eb57de0201bb0b91c828773e165f88c2"
+  },
+  {
+    "path": "source/trunk/xrCore/memory_usage.cpp",
+    "source_sha256": "1ae343aeae4369feda48506cc786eb254fbdbda3546060e72b25c9e37e42dd73",
+    "export_sha256": "1ae343aeae4369feda48506cc786eb254fbdbda3546060e72b25c9e37e42dd73"
+  },
+  {
+    "path": "source/trunk/xrCore/ppmd_compressor.cpp",
+    "source_sha256": "22f86aa9ed2b55b4428e7793f8dd523508cd0222dd068b27bd24a1bad55e8637",
+    "export_sha256": "22f86aa9ed2b55b4428e7793f8dd523508cd0222dd068b27bd24a1bad55e8637"
+  },
+  {
+    "path": "source/trunk/xrCore/ppmd_compressor.h",
+    "source_sha256": "5f7f8311a47859e6d88c515cbd1cbdbece5fa333984b19ba84e476e5f1ec03aa",
+    "export_sha256": "5f7f8311a47859e6d88c515cbd1cbdbece5fa333984b19ba84e476e5f1ec03aa"
+  },
+  {
+    "path": "source/trunk/xrCore/resource.h",
+    "source_sha256": "dabda4ac5589eb90b30340c0eeae74e3101a23dbbe39173da722d45806cc26f8",
+    "export_sha256": "dabda4ac5589eb90b30340c0eeae74e3101a23dbbe39173da722d45806cc26f8"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_compressor.cpp",
+    "source_sha256": "84ad33e0f7520e7e90ad57fac834ea26fbe92955c66f8e96bda9e2d574f33e2d",
+    "export_sha256": "84ad33e0f7520e7e90ad57fac834ea26fbe92955c66f8e96bda9e2d574f33e2d"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_compressor.h",
+    "source_sha256": "5689b5f5b10c4a9e5dc14119357257869428327f34c12b2a43031f4c889f5ebf",
+    "export_sha256": "5689b5f5b10c4a9e5dc14119357257869428327f34c12b2a43031f4c889f5ebf"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_compressor9.cpp",
+    "source_sha256": "9f8b1820d6a1346012a8e4e7cb36c57f655753c033b8ea8b361a3f64525f1f83",
+    "export_sha256": "9f8b1820d6a1346012a8e4e7cb36c57f655753c033b8ea8b361a3f64525f1f83"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_config1x.h",
+    "source_sha256": "ece1f6df7b61297c7790c126e0e4cc3496126f24c7f6641eabc58600f10a904c",
+    "export_sha256": "ece1f6df7b61297c7790c126e0e4cc3496126f24c7f6641eabc58600f10a904c"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo.cpp",
+    "source_sha256": "234df3827bb67eee8e12fca7024563d78f03a89bd53fa571555087c7df6a32a5",
+    "export_sha256": "234df3827bb67eee8e12fca7024563d78f03a89bd53fa571555087c7df6a32a5"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo.h",
+    "source_sha256": "e9974c6c2468d4ce7922bf969765c922bdd29dffb79700bed1b4bdd278a9411c",
+    "export_sha256": "e9974c6c2468d4ce7922bf969765c922bdd29dffb79700bed1b4bdd278a9411c"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo1_d.ch",
+    "source_sha256": "8e8233e8a678341159964b840a664d532398cbf62e219233b67d1c8d35760ada",
+    "export_sha256": "8e8233e8a678341159964b840a664d532398cbf62e219233b67d1c8d35760ada"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo1x.h",
+    "source_sha256": "5bef0980f5b9679dc21708438dc4ee95c7d34437b40e028c564e78f0aef3043c",
+    "export_sha256": "5bef0980f5b9679dc21708438dc4ee95c7d34437b40e028c564e78f0aef3043c"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo1x_1.cpp",
+    "source_sha256": "196924b1b71361d25b14050ed562042e3959018cae92c101b5c36c054e1b2647",
+    "export_sha256": "196924b1b71361d25b14050ed562042e3959018cae92c101b5c36c054e1b2647"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo1x_9x.cpp",
+    "source_sha256": "6a75040d1a4d55911ae0be5e5f53329ce547e73df9c78bbaa485b8fb079b3bf2",
+    "export_sha256": "6a75040d1a4d55911ae0be5e5f53329ce547e73df9c78bbaa485b8fb079b3bf2"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo1x_c.ch",
+    "source_sha256": "7f86e7b146781c6b782dbf1e9f27cbdc8de05f3b97f921787d9d70034a4dd9e4",
+    "export_sha256": "7f86e7b146781c6b782dbf1e9f27cbdc8de05f3b97f921787d9d70034a4dd9e4"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo1x_d.ch",
+    "source_sha256": "a4b65bf8bb43820ef26c71558eebbcbdc5a35b53f0746707c79d0685e9544fdc",
+    "export_sha256": "a4b65bf8bb43820ef26c71558eebbcbdc5a35b53f0746707c79d0685e9544fdc"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo1x_d1.cpp",
+    "source_sha256": "e25ba76713c336c1304803c1f905ffdc8b85800f95f54414b3251cc735b746f3",
+    "export_sha256": "e25ba76713c336c1304803c1f905ffdc8b85800f95f54414b3251cc735b746f3"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo1x_d2.cpp",
+    "source_sha256": "3b227d8506162e5e6300a4bff2a5e81e13f38f49434fe044079867724f48d36a",
+    "export_sha256": "3b227d8506162e5e6300a4bff2a5e81e13f38f49434fe044079867724f48d36a"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo1x_d3.cpp",
+    "source_sha256": "0416da9b600e8205180a4b3a20c43cd59a3ff9b456d3cb559115ad443a20f438",
+    "export_sha256": "0416da9b600e8205180a4b3a20c43cd59a3ff9b456d3cb559115ad443a20f438"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo_conf.h",
+    "source_sha256": "c7ddbb882e7924da49d152620198cc363698cc8011a4d22a5298b8c751caaead",
+    "export_sha256": "c7ddbb882e7924da49d152620198cc363698cc8011a4d22a5298b8c751caaead"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo_config.h",
+    "source_sha256": "53efa0e51407286bd7e763f533f7e18c7799f07e4fa02b365c4c71c28b94e629",
+    "export_sha256": "53efa0e51407286bd7e763f533f7e18c7799f07e4fa02b365c4c71c28b94e629"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo_dict.h",
+    "source_sha256": "254688ceb1cb995eca005f9182bf8c4e92c45da6589f3f864be2783e0431084a",
+    "export_sha256": "254688ceb1cb995eca005f9182bf8c4e92c45da6589f3f864be2783e0431084a"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo_dll.ch",
+    "source_sha256": "435bed0fd449ea2df4cd955c032dd1058bf213c1b3c380d5bebfddc3b2f5b3d1",
+    "export_sha256": "435bed0fd449ea2df4cd955c032dd1058bf213c1b3c380d5bebfddc3b2f5b3d1"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo_init.cpp",
+    "source_sha256": "928624d8a67b3a3ed04d5fbd1d759e60339e55407fe26bc0cad4fa2bf8db510f",
+    "export_sha256": "928624d8a67b3a3ed04d5fbd1d759e60339e55407fe26bc0cad4fa2bf8db510f"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo_mchw.ch",
+    "source_sha256": "3ed0458120a32355768a4838bff58cd4097b395284bf61cfd9af39f6f7bf8e6f",
+    "export_sha256": "3ed0458120a32355768a4838bff58cd4097b395284bf61cfd9af39f6f7bf8e6f"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo_ptr.h",
+    "source_sha256": "9f2d19e37907606abb9e544faefb2ace3660d8690f0822cc3ac6858d70129746",
+    "export_sha256": "9f2d19e37907606abb9e544faefb2ace3660d8690f0822cc3ac6858d70129746"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzo_swd.ch",
+    "source_sha256": "e3643a7f3f805ee1628816fc291331301c67db08a9f517982e7da80433980915",
+    "export_sha256": "e3643a7f3f805ee1628816fc291331301c67db08a9f517982e7da80433980915"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzoconf.h",
+    "source_sha256": "c344ab629981fd8b99a84b4823ef2d49782ef09f9daec5964738513104bbff2d",
+    "export_sha256": "c344ab629981fd8b99a84b4823ef2d49782ef09f9daec5964738513104bbff2d"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_lzodefs.h",
+    "source_sha256": "dc21e28f95e38ebcafc7a40d53c61a1b83b704550443ef4f5642076a4e3c756f",
+    "export_sha256": "dc21e28f95e38ebcafc7a40d53c61a1b83b704550443ef4f5642076a4e3c756f"
+  },
+  {
+    "path": "source/trunk/xrCore/rt_miniacc.h",
+    "source_sha256": "7bbfd8164bd1d879ac6df5142f12003bbf90c0f8abcd0c9d26821ec7e79a106d",
+    "export_sha256": "7bbfd8164bd1d879ac6df5142f12003bbf90c0f8abcd0c9d26821ec7e79a106d"
+  },
+  {
+    "path": "source/trunk/xrCore/stdafx.cpp",
+    "source_sha256": "3f148e4533bc80ea25c556e750cb282635d9b9a440420f5072030ca531a8648a",
+    "export_sha256": "3f148e4533bc80ea25c556e750cb282635d9b9a440420f5072030ca531a8648a"
+  },
+  {
+    "path": "source/trunk/xrCore/stdafx.h",
+    "source_sha256": "5a36ae8be89e44aa160b669ea572fc86f5c8a80c2644ffb24018845cb7605137",
+    "export_sha256": "5a36ae8be89e44aa160b669ea572fc86f5c8a80c2644ffb24018845cb7605137"
+  },
+  {
+    "path": "source/trunk/xrCore/stream_reader.cpp",
+    "source_sha256": "e3c31c30dd96d9bff076066c10a4d735e83f30bc9b773e5dd43a4d52663c4655",
+    "export_sha256": "e3c31c30dd96d9bff076066c10a4d735e83f30bc9b773e5dd43a4d52663c4655"
+  },
+  {
+    "path": "source/trunk/xrCore/stream_reader.h",
+    "source_sha256": "87f6b2233fcc45a1fe5bd78eebe13c41b483e7e13f41e605dcd662e1b33cb469",
+    "export_sha256": "87f6b2233fcc45a1fe5bd78eebe13c41b483e7e13f41e605dcd662e1b33cb469"
+  },
+  {
+    "path": "source/trunk/xrCore/stream_reader_inline.h",
+    "source_sha256": "0af1485132c6a6b1c91ad0b17cfbd39ad9631c008f1ced1688ea5f7bd25cbb16",
+    "export_sha256": "0af1485132c6a6b1c91ad0b17cfbd39ad9631c008f1ced1688ea5f7bd25cbb16"
+  },
+  {
+    "path": "source/trunk/xrCore/trivial_encryptor.h",
+    "source_sha256": "79a2aa03e9818cab13e83e4a2563b83afc6e7e85fb5ab170bd2513797ba6f675",
+    "export_sha256": "79a2aa03e9818cab13e83e4a2563b83afc6e7e85fb5ab170bd2513797ba6f675"
+  },
+  {
+    "path": "source/trunk/xrCore/vector.h",
+    "source_sha256": "a60d925eff59758094307fb9f6903c5b5ec01713b8095cd5d1b3f822fb46c130",
+    "export_sha256": "a60d925eff59758094307fb9f6903c5b5ec01713b8095cd5d1b3f822fb46c130"
+  },
+  {
+    "path": "source/trunk/xrCore/xrCore.cpp",
+    "source_sha256": "c5d93e2d845634137c85bd5578c934d12e7151fd3dec18d33c0c620f51bb95dc",
+    "export_sha256": "c5d93e2d845634137c85bd5578c934d12e7151fd3dec18d33c0c620f51bb95dc"
+  },
+  {
+    "path": "source/trunk/xrCore/xrCore.h",
+    "source_sha256": "413467f0ef2803f1e2b044cb67cc35cde08f4238592a54b44d7ba7845db10db5",
+    "export_sha256": "413467f0ef2803f1e2b044cb67cc35cde08f4238592a54b44d7ba7845db10db5"
+  },
+  {
+    "path": "source/trunk/xrCore/xrCore_platform.h",
+    "source_sha256": "77ce5deb89ad99f86ed2b7c3f795fcb32721b79ed2a58e1ad12ed6908f8fb362",
+    "export_sha256": "77ce5deb89ad99f86ed2b7c3f795fcb32721b79ed2a58e1ad12ed6908f8fb362"
+  },
+  {
+    "path": "source/trunk/xrCore/xrDebug.cpp",
+    "source_sha256": "55577467a983a6738ab0894c0a28b44d3314b4e890b77d66caeaeedc6745e258",
+    "export_sha256": "55577467a983a6738ab0894c0a28b44d3314b4e890b77d66caeaeedc6745e258"
+  },
+  {
+    "path": "source/trunk/xrCore/xrDebug.h",
+    "source_sha256": "d85a9a754f3d1958052fd5f3939ca419ba58c1a41152ac468c1c62ca3812d801",
+    "export_sha256": "d85a9a754f3d1958052fd5f3939ca419ba58c1a41152ac468c1c62ca3812d801"
+  },
+  {
+    "path": "source/trunk/xrCore/xrDebugNew.cpp",
+    "source_sha256": "171d7404e429a22c044ab6fa970c30d88c550b9443ee6e5e5e5290441b205c35",
+    "export_sha256": "171d7404e429a22c044ab6fa970c30d88c550b9443ee6e5e5e5290441b205c35"
+  },
+  {
+    "path": "source/trunk/xrCore/xrDebug_macros.h",
+    "source_sha256": "4aa9e528eb253cca2120cab7e30b7cac7dfd155f0859203f4dc017cdd818191d",
+    "export_sha256": "4aa9e528eb253cca2120cab7e30b7cac7dfd155f0859203f4dc017cdd818191d"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMEMORY_POOL.h",
+    "source_sha256": "8d1339c3c124c3446c22518b7fe412cc20d6c24f631dfa2d3fc9c277b2295fa3",
+    "export_sha256": "8d1339c3c124c3446c22518b7fe412cc20d6c24f631dfa2d3fc9c277b2295fa3"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory.cpp",
+    "source_sha256": "a94ec2ae2a196e4b5948f47256a0caf6227af0c596d5b44d3c8ce77e81fef908",
+    "export_sha256": "a94ec2ae2a196e4b5948f47256a0caf6227af0c596d5b44d3c8ce77e81fef908"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory.h",
+    "source_sha256": "388e816ac861efcd55ab6214a8392118303cd81e4d03335870000af5a0daac18",
+    "export_sha256": "388e816ac861efcd55ab6214a8392118303cd81e4d03335870000af5a0daac18"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_POOL.cpp",
+    "source_sha256": "4fccef3961b09d3a6c6294dd6baa95b1db8bc7e2c203449886aeb84ba868f605",
+    "export_sha256": "4fccef3961b09d3a6c6294dd6baa95b1db8bc7e2c203449886aeb84ba868f605"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_align.cpp",
+    "source_sha256": "9f9402592b6484982c1cd0cb091d503deb67ba9f3496beb5676f13dc9421a0a2",
+    "export_sha256": "9f9402592b6484982c1cd0cb091d503deb67ba9f3496beb5676f13dc9421a0a2"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_align.h",
+    "source_sha256": "68fe12ebbfe5ef661e4fcb2aa1e6254c084571a75f2fbd8b4d9d833ad3f54679",
+    "export_sha256": "68fe12ebbfe5ef661e4fcb2aa1e6254c084571a75f2fbd8b4d9d833ad3f54679"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_debug.cpp",
+    "source_sha256": "592ced8c97434122c461878d924def98b0aef784f9513bc0ce6103f90a13dd38",
+    "export_sha256": "592ced8c97434122c461878d924def98b0aef784f9513bc0ce6103f90a13dd38"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_pso.h",
+    "source_sha256": "036a3d40d6e02d2b7ffc9561bc4ec01d398146c96c3afbf0258ad2a331807f2d",
+    "export_sha256": "036a3d40d6e02d2b7ffc9561bc4ec01d398146c96c3afbf0258ad2a331807f2d"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_pso_Copy.cpp",
+    "source_sha256": "b5021d24f18be55b78abf974928719b331c2096a5c62bb407cc2b9708c3a479c",
+    "export_sha256": "b5021d24f18be55b78abf974928719b331c2096a5c62bb407cc2b9708c3a479c"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_pso_Fill.cpp",
+    "source_sha256": "d3ff4942f9f3cbd76c726820f94ba9a1d406012afaa7541280a12e9709b10171",
+    "export_sha256": "d3ff4942f9f3cbd76c726820f94ba9a1d406012afaa7541280a12e9709b10171"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_pso_Fill32.cpp",
+    "source_sha256": "aea354ee8cf0da997f2d3fbc493d0eefb324d2e1799d63ed2de9b915410c6139",
+    "export_sha256": "aea354ee8cf0da997f2d3fbc493d0eefb324d2e1799d63ed2de9b915410c6139"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_pure.h",
+    "source_sha256": "873dd5393a97748a1aadd6ff66b4edd4e35b319154008c3d5113f06fbd8b3a65",
+    "export_sha256": "873dd5393a97748a1aadd6ff66b4edd4e35b319154008c3d5113f06fbd8b3a65"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_subst_borland.cpp",
+    "source_sha256": "d93537db4516ffa94043151eb82b1c0d3fc0ed29cd12bdb1e9791af02d000ab2",
+    "export_sha256": "d93537db4516ffa94043151eb82b1c0d3fc0ed29cd12bdb1e9791af02d000ab2"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_subst_borland.h",
+    "source_sha256": "3169f9bb8a7a84379cd72180da86a1893c861b438fa16fbba28c1156f8319f43",
+    "export_sha256": "3169f9bb8a7a84379cd72180da86a1893c861b438fa16fbba28c1156f8319f43"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_subst_msvc.cpp",
+    "source_sha256": "fac45e96221100f3c2f3cfe9121aac69b4487b62c5e093cd688a1d42ce4a51bf",
+    "export_sha256": "fac45e96221100f3c2f3cfe9121aac69b4487b62c5e093cd688a1d42ce4a51bf"
+  },
+  {
+    "path": "source/trunk/xrCore/xrMemory_subst_msvc.h",
+    "source_sha256": "8f402000f04df67f64fdedf69a863a109afad309badee1e1a156eef59aac275e",
+    "export_sha256": "8f402000f04df67f64fdedf69a863a109afad309badee1e1a156eef59aac275e"
+  },
+  {
+    "path": "source/trunk/xrCore/xrPool.h",
+    "source_sha256": "c24248aa00dc48e5ced3762dfead3e76ee8282ac0451c9807cc3c7a36733be9a",
+    "export_sha256": "c24248aa00dc48e5ced3762dfead3e76ee8282ac0451c9807cc3c7a36733be9a"
+  },
+  {
+    "path": "source/trunk/xrCore/xrSyncronize.cpp",
+    "source_sha256": "6109510134aa757fe85d149bb9d7270b63de6dfeedf81ff5197dad031ea8c7a4",
+    "export_sha256": "6109510134aa757fe85d149bb9d7270b63de6dfeedf81ff5197dad031ea8c7a4"
+  },
+  {
+    "path": "source/trunk/xrCore/xrSyncronize.h",
+    "source_sha256": "5a7e40410e59afda3b5472a040f580d6fbcaa9184ae985619e1ee6b457dbc0e3",
+    "export_sha256": "5a7e40410e59afda3b5472a040f580d6fbcaa9184ae985619e1ee6b457dbc0e3"
+  },
+  {
+    "path": "source/trunk/xrCore/xr_ini.h",
+    "source_sha256": "b729ca9447247c349c943bb4165cc8ce9128908d4ace43078c06ebbe1b506dd5",
+    "export_sha256": "b729ca9447247c349c943bb4165cc8ce9128908d4ace43078c06ebbe1b506dd5"
+  },
+  {
+    "path": "source/trunk/xrCore/xr_resource.h",
+    "source_sha256": "db3a5814ea08f9c90dcf9770ccdcea23fefdec6ee66356b67f022dddcd6b0d90",
+    "export_sha256": "db3a5814ea08f9c90dcf9770ccdcea23fefdec6ee66356b67f022dddcd6b0d90"
+  },
+  {
+    "path": "source/trunk/xrCore/xr_shared.cpp",
+    "source_sha256": "9cf98d6173197d1a231a5ee008ae6ce56c39c8c31e9e81e687403458bce90441",
+    "export_sha256": "9cf98d6173197d1a231a5ee008ae6ce56c39c8c31e9e81e687403458bce90441"
+  },
+  {
+    "path": "source/trunk/xrCore/xr_shared.h",
+    "source_sha256": "493307797669f7fa91d95a1bf3971af7bf50257e8a333ee5c592b17a0c7d88cb",
+    "export_sha256": "493307797669f7fa91d95a1bf3971af7bf50257e8a333ee5c592b17a0c7d88cb"
+  },
+  {
+    "path": "source/trunk/xrCore/xr_trims.cpp",
+    "source_sha256": "270b56dd6465791638dd9766cf774b9594a17b370b807c2ba7e676eae0a868e9",
+    "export_sha256": "270b56dd6465791638dd9766cf774b9594a17b370b807c2ba7e676eae0a868e9"
+  },
+  {
+    "path": "source/trunk/xrCore/xr_trims.h",
+    "source_sha256": "7434ddff16786f5ddebfd89e7054947a671a78c1a42c220d81c3a3de8b56da32",
+    "export_sha256": "7434ddff16786f5ddebfd89e7054947a671a78c1a42c220d81c3a3de8b56da32"
+  },
+  {
+    "path": "source/trunk/xrCore/xrsharedmem.cpp",
+    "source_sha256": "19ff07c9c84110e735f34ee6b2376b5e9505500b69b835e8014f63e88e2b8cc1",
+    "export_sha256": "19ff07c9c84110e735f34ee6b2376b5e9505500b69b835e8014f63e88e2b8cc1"
+  },
+  {
+    "path": "source/trunk/xrCore/xrsharedmem.h",
+    "source_sha256": "3c82cb344383c45b863191c29679c3aa75b89a5a7075daafd69dd2e147dcffd4",
+    "export_sha256": "3c82cb344383c45b863191c29679c3aa75b89a5a7075daafd69dd2e147dcffd4"
+  },
+  {
+    "path": "source/trunk/xrCore/xrstring.cpp",
+    "source_sha256": "7de3b520f70e2ee97aa669ade91bb1ee1b4c94de36b800746a7b05521541de34",
+    "export_sha256": "7de3b520f70e2ee97aa669ade91bb1ee1b4c94de36b800746a7b05521541de34"
+  },
+  {
+    "path": "source/trunk/xrCore/xrstring.h",
+    "source_sha256": "ab2ccca9a8f82c762f27a07c96db7d808313e8b8e05cffa0126d174d2a5af7ca",
+    "export_sha256": "ab2ccca9a8f82c762f27a07c96db7d808313e8b8e05cffa0126d174d2a5af7ca"
+  }
+]

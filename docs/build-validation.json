@@ -1,0 +1,12 @@
+{
+  "source_snapshot": "0.0.25",
+  "compiler": "VitaSDK GCC 15.2.0",
+  "clean_vita_build": "passed",
+  "asset_free_host_tests": "passed",
+  "placeholder_audio_files": 76,
+  "retail_audio_in_verification_package": false,
+  "verification_vpk_bytes": 1086308,
+  "verification_vpk_sha256": "3aae28c7f8617b965bb0b872f503e9b6d57639d29fd10846a389fda03e16186f",
+  "hardware_confirmation": false,
+  "continuous_integration": "workflow example only; not activated"
+}

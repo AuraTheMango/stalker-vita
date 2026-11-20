@@ -1,0 +1,39 @@
+# Build
+
+Use Linux or WSL2. Tested with VitaSDK/GCC 15.2.0 and CMake 3.28.
+
+## Dependencies
+Python 3, CMake 3.16+, VitaSDK and its installed vitaGL, vitashark, SceShaccCgExt, taihen_stub and mathneon libraries. See the exact library list in source/trunk/vita/xrRender/CMakeLists.txt. A host C++17 compiler is needed for host tests. Install external dependencies from their own projects.
+
+## Asset-free verification build
+
+    python3 tools/prepare_assets.py --silent --output assets
+    export VITASDK=/usr/local/vitasdk
+    cmake -S source/trunk/vita/xrGame -B build/vita -DCMAKE_TOOLCHAIN_FILE="$VITASDK/share/vita.toolchain.cmake" -DSTALKER_ASSET_DIR="$PWD/assets"
+    cmake --build build/vita -j4
+
+Output: build/vita/stalker_vita-0.0.25.vpk.
+Title ID STLK00001; Vita APP_VER 01.31.
+
+The generated sounds are silent mono signed 16-bit little-endian PCM at 24000 Hz. Artwork is a generated placeholder, different from the private development build. No original media is required to compile.
+
+To import private preconverted audio instead:
+
+    python3 tools/prepare_assets.py --audio-dir /path/to/private/pcm --output assets
+
+Filenames must match the audio FILE entries in CMakeLists.txt; missing samples cause an error. assets/ is ignored by Git. Local artwork can also be replaced in assets/sce_sys/ without adding it to Git.
+
+## Runtime
+The Vita program expects ux0:data/stalker/fsgame.ltx and the user's own original PC game data at ux0:data/stalker/. Save slots, settings, transition checkpoints and boot.log also live there. They are not included in this repository. Preserve existing saves when updating a working installation.
+
+## Tests
+
+    bash tools/test_host.sh
+
+These checks need no retail data. The stairs/map/campaign/model/texture/dialogue-asset tests require private CFORM/OGF/DDS/XML files. See individual test arguments and the tests README. Do not upload those fixtures, dumps or private logs.
+
+## Public releases
+Keep source in Git and build products local. Inspect packaged contents before attaching binaries to a public release: the private development VPK contains original audio/artwork; the silent placeholder build does not.
+
+## Optional continuous integration
+A host-test workflow example is provided in ci-host-tests.yml. It is not activated automatically in this initial import. The repository can be built and tested with the commands above without enabling a workflow.

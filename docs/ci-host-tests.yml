@@ -1,0 +1,11 @@
+name: Asset-free host tests
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  host:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test source without retail assets
+        run: bash tools/test_host.sh
